@@ -1,0 +1,14 @@
+{
+  "name": "virtual-org-graph",
+  "private": true,
+  "version": "0.1.0",
+  "description": "notes/decisions/tasks/outputs/references/secretary/departments を走査して、つながりの地図(グラフ)を作るツール",
+  "type": "module",
+  "scripts": {
+    "graph": "node scripts/build-graph.mjs",
+    "test": "node --test scripts/**/*.test.mjs"
+  },
+  "dependencies": {
+    "js-yaml": "^4.1.0"
+  }
+}

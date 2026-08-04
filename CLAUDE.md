@@ -38,7 +38,23 @@
 - research: (役割を書く)
 - finance: (役割を書く)
 
+## つながりの地図(グラフ)
+
+思いつき・決定・作業・成果物・根拠が、それぞれどうつながっているかを
+自動でまとめる仕組みがある。詳しくは `graph/README.md` を参照。
+
+- `notes/` 思いつき・アイデア
+- `decisions/` 決めたこと(根拠は `basedOn` に書く)
+- `tasks/` 実際の作業(元になった決定は `partOf` に書く)
+- `outputs/` できあがったもの(作り直したら `supersedes` で前のものを指す)
+- `references/` 判断の根拠にした資料
+
+`npm run graph` を実行すると、これらと `secretary/` `departments/` を
+まとめて読み込み、`graph/graph.json`(つながりのデータ)と
+`graph/index.html`(見て確認できるページ)を作り直す。
+
 ## 関連ドキュメント
 
 - 運用テンプレート（土台構築・フィードバック反映用プロンプト）: `docs/prompts.md`
 - スマホから閲覧・追記するためのWebアプリ（GitHub API連携、Vercelにデプロイ）: `webapp/`
+- つながりの地図を作る仕組み: `graph/README.md`
