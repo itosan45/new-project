@@ -96,6 +96,19 @@ export async function putFile(
   });
 }
 
+export async function getLatestFile(
+  dir: string
+): Promise<{ name: string; content: string } | null> {
+  const entries = await listDir(dir);
+  const files = entries
+    .filter((e) => e.type === "file" && e.name !== "README.md")
+    .sort((a, b) => (a.name < b.name ? 1 : -1));
+  if (files.length === 0) return null;
+  const file = await getFile(files[0].path);
+  if (!file) return null;
+  return { name: files[0].name, content: file.content };
+}
+
 export async function appendToFile(
   path: string,
   textToAppend: string,
