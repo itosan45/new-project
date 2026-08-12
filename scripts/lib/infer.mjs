@@ -22,11 +22,10 @@ export function buildStructuralEdges(nodes) {
     if (node.department && byId.has(node.department)) {
       edges.push(edge(node.id, node.department, "BELONGS_TO", "structural", 1.0));
     }
-    if (node.type === "note" && node.subtype === "inbox") {
-      edges.push(edge(node.id, "secretary/inbox", "BELONGS_TO", "structural", 1.0));
-    }
-    if (node.type === "log") {
-      edges.push(edge(node.id, "secretary/logs", "BELONGS_TO", "structural", 1.0));
+    if ((node.type === "note" && node.subtype === "inbox") || node.type === "log") {
+      if (byId.has("secretary")) {
+        edges.push(edge(node.id, "secretary", "BELONGS_TO", "structural", 1.0));
+      }
     }
 
     for (const [field, edgeType] of Object.entries(RELATION_EDGE_TYPES)) {

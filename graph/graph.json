@@ -96,10 +96,10 @@
       "relations": {}
     },
     {
-      "id": "departments/finance",
-      "type": "department",
-      "path": "departments/finance/README.md",
-      "title": "finance",
+      "id": "secretary",
+      "type": "secretary",
+      "path": "secretary/README.md",
+      "title": "secretary",
       "createdAt": null,
       "tags": [],
       "status": null,
@@ -109,10 +109,10 @@
       "relations": {}
     },
     {
-      "id": "departments/finance/rules.md",
-      "type": "decision",
-      "path": "departments/finance/rules.md",
-      "title": "rules",
+      "id": "secretary/inbox/2026-08-12T20-52-54-277Z.md",
+      "type": "note",
+      "path": "secretary/inbox/2026-08-12T20-52-54-277Z.md",
+      "title": "日本語のUIにしてほしい　おれは日本人でエンジニアじゃないから難しい言葉は理解できない",
       "createdAt": null,
       "tags": [],
       "status": null,
@@ -120,14 +120,13 @@
       "version": null,
       "supersedes": null,
       "relations": {},
-      "subtype": "rule",
-      "department": "departments/finance"
+      "subtype": "inbox"
     },
     {
-      "id": "departments/marketing",
+      "id": "departments/creator",
       "type": "department",
-      "path": "departments/marketing/README.md",
-      "title": "marketing",
+      "path": "departments/creator/README.md",
+      "title": "creator",
       "createdAt": null,
       "tags": [],
       "status": null,
@@ -137,9 +136,9 @@
       "relations": {}
     },
     {
-      "id": "departments/marketing/rules.md",
+      "id": "departments/creator/rules.md",
       "type": "decision",
-      "path": "departments/marketing/rules.md",
+      "path": "departments/creator/rules.md",
       "title": "rules",
       "createdAt": null,
       "tags": [],
@@ -149,13 +148,13 @@
       "supersedes": null,
       "relations": {},
       "subtype": "rule",
-      "department": "departments/marketing"
+      "department": "departments/creator"
     },
     {
-      "id": "departments/research",
+      "id": "departments/engineer",
       "type": "department",
-      "path": "departments/research/README.md",
-      "title": "research",
+      "path": "departments/engineer/README.md",
+      "title": "engineer",
       "createdAt": null,
       "tags": [],
       "status": null,
@@ -165,9 +164,9 @@
       "relations": {}
     },
     {
-      "id": "departments/research/rules.md",
+      "id": "departments/engineer/rules.md",
       "type": "decision",
-      "path": "departments/research/rules.md",
+      "path": "departments/engineer/rules.md",
       "title": "rules",
       "createdAt": null,
       "tags": [],
@@ -177,7 +176,35 @@
       "supersedes": null,
       "relations": {},
       "subtype": "rule",
-      "department": "departments/research"
+      "department": "departments/engineer"
+    },
+    {
+      "id": "departments/web-designer",
+      "type": "department",
+      "path": "departments/web-designer/README.md",
+      "title": "web-designer",
+      "createdAt": null,
+      "tags": [],
+      "status": null,
+      "artifactId": null,
+      "version": null,
+      "supersedes": null,
+      "relations": {}
+    },
+    {
+      "id": "departments/web-designer/rules.md",
+      "type": "decision",
+      "path": "departments/web-designer/rules.md",
+      "title": "rules",
+      "createdAt": null,
+      "tags": [],
+      "status": null,
+      "artifactId": null,
+      "version": null,
+      "supersedes": null,
+      "relations": {},
+      "subtype": "rule",
+      "department": "departments/web-designer"
     }
   ],
   "edges": [
@@ -214,28 +241,52 @@
       "evidence": null
     },
     {
-      "from": "departments/finance/rules.md",
-      "to": "departments/finance",
+      "from": "secretary/inbox/2026-08-12T20-52-54-277Z.md",
+      "to": "secretary",
       "type": "BELONGS_TO",
       "source": "structural",
       "confidence": 1,
       "evidence": null
     },
     {
-      "from": "departments/marketing/rules.md",
-      "to": "departments/marketing",
+      "from": "departments/creator/rules.md",
+      "to": "departments/creator",
       "type": "BELONGS_TO",
       "source": "structural",
       "confidence": 1,
       "evidence": null
     },
     {
-      "from": "departments/research/rules.md",
-      "to": "departments/research",
+      "from": "departments/engineer/rules.md",
+      "to": "departments/engineer",
       "type": "BELONGS_TO",
       "source": "structural",
       "confidence": 1,
       "evidence": null
+    },
+    {
+      "from": "departments/web-designer/rules.md",
+      "to": "departments/web-designer",
+      "type": "BELONGS_TO",
+      "source": "structural",
+      "confidence": 1,
+      "evidence": null
+    },
+    {
+      "from": "notes/2026-08-03-idea-virtual-org.md",
+      "to": "secretary",
+      "type": "REFERENCES",
+      "source": "inferred",
+      "confidence": 0.7,
+      "evidence": "本文中に「secretary」への言及"
+    },
+    {
+      "from": "decisions/2026-08-03-adopt-secretary-structure.md",
+      "to": "secretary",
+      "type": "REFERENCES",
+      "source": "inferred",
+      "confidence": 0.7,
+      "evidence": "本文中に「secretary」への言及"
     },
     {
       "from": "tasks/2026-08-03-build-mobile-webapp.md",
@@ -244,6 +295,14 @@
       "source": "inferred",
       "confidence": 0.5,
       "evidence": "共通タグ: 仮想組織, webapp"
+    },
+    {
+      "from": "tasks/2026-08-03-build-mobile-webapp.md",
+      "to": "secretary",
+      "type": "REFERENCES",
+      "source": "inferred",
+      "confidence": 0.7,
+      "evidence": "本文中に「secretary」への言及"
     },
     {
       "from": "outputs/2026-08-03-mobile-webapp-v1.md",
@@ -255,11 +314,11 @@
     }
   ],
   "manifest": {
-    "generatedAt": "2026-08-04T03:00:20.086Z",
-    "nodeCount": 11,
-    "edgeCount": 9,
-    "structuralEdgeCount": 7,
-    "inferredEdgeCount": 2,
+    "generatedAt": "2026-08-12T20:58:12.390Z",
+    "nodeCount": 13,
+    "edgeCount": 13,
+    "structuralEdgeCount": 8,
+    "inferredEdgeCount": 5,
     "errors": [],
     "warnings": []
   }

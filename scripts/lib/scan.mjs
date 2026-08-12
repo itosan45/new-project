@@ -80,6 +80,12 @@ export async function scanProject(root) {
     }
   }
 
+  // secretary/README.md -> secretary node (the container inbox/logs items belong to)
+  const secretaryReadme = path.join(root, "secretary", "README.md");
+  if (await exists(secretaryReadme)) {
+    nodes.push(await buildNodeFromFile(root, secretaryReadme, "secretary", { id: "secretary" }));
+  }
+
   // secretary/inbox -> note (subtype: inbox), secretary/logs -> log
   const inboxFiles = await listMarkdownFiles(path.join(root, "secretary", "inbox"));
   for (const file of inboxFiles) {

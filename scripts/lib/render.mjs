@@ -5,6 +5,7 @@ const TYPE_COLORS = {
   output: "#e07be0",
   reference: "#b0b7c3",
   department: "#5b6bd0",
+  secretary: "#d99a2b",
   log: "#c9c9c9",
 };
 
