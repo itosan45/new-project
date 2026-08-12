@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>つながりの地図</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root { color-scheme: light dark; }
+  body { margin: 0; font-family: system-ui, sans-serif; background: #0e0f13; color: #eee; }
+  @media (prefers-color-scheme: light) { body { background: #f7f7f9; color: #222; } }
+  header { padding: 12px 16px; border-bottom: 1px solid rgba(128,128,128,.3); }
+  h1 { font-size: 15px; margin: 0 0 6px; }
+  #legend { display: flex; flex-wrap: wrap; gap: 10px; font-size: 12px; }
+  .legend-item { display: flex; align-items: center; gap: 4px; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+  #meta { font-size: 11px; opacity: .6; margin-top: 4px; }
+  svg { width: 100%; height: calc(100vh - 90px); display: block; }
+  .edge { stroke: #888; }
+  .edge.inferred { stroke-dasharray: 4 3; }
+  .node circle { stroke: rgba(0,0,0,.3); stroke-width: 1px; cursor: pointer; }
+  .node text { font-size: 10px; fill: currentColor; pointer-events: none; }
+  #tooltip {
+    position: fixed; pointer-events: none; background: rgba(20,20,24,.95); color: #fff;
+    border-radius: 6px; padding: 8px 10px; font-size: 12px; max-width: 280px; display: none; z-index: 10;
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>つながりの地図 (notes / decisions / tasks / outputs / references / secretary / departments)</h1>
+  <div id="legend"><span class="legend-item"><span class="dot" style="background:#8ab4f8"></span>note</span><span class="legend-item"><span class="dot" style="background:#f6a94a"></span>decision</span><span class="legend-item"><span class="dot" style="background:#63c19f"></span>task</span><span class="legend-item"><span class="dot" style="background:#e07be0"></span>output</span><span class="legend-item"><span class="dot" style="background:#b0b7c3"></span>reference</span><span class="legend-item"><span class="dot" style="background:#5b6bd0"></span>department</span><span class="legend-item"><span class="dot" style="background:#c9c9c9"></span>log</span></div>
+  <div id="meta"></div>
+</header>
+<svg></svg>
+<div id="tooltip"></div>
+<script id="graph-data" type="application/json">{"nodes":[{"id":"notes/2026-08-03-idea-virtual-org.md","type":"note","path":"notes/2026-08-03-idea-virtual-org.md","title":"秘書だけを窓口にした仮想組織を作れないか","createdAt":null,"tags":["仮想組織","アイデア"],"status":null,"artifactId":null,"version":null,"supersedes":null,"relations":{"basedOn":["references/2026-08-03-sns-post-virtual-org.md"]}},{"id":"decisions/2026-08-03-adopt-secretary-structure.md","type":"decision","path":"decisions/2026-08-03-adopt-secretary-structure.md","title":"secretary/departments 構造を採用する","createdAt":null,"tags":["仮想組織"],"status":null,"artifactId":null,"version":null,"supersedes":null,"relations":{"basedOn":["notes/2026-08-03-idea-virtual-org.md"]}},{"id":"tasks/2026-08-03-build-mobile-webapp.md","type":"task","path":"tasks/2026-08-03-build-mobile-webapp.md","title":"スマホから見て操作できるWebアプリを作る","createdAt":null,"tags":["仮想組織","webapp"],"status":"done","artifactId":null,"version":null,"supersedes":null,"relations":{"partOf":["decisions/2026-08-03-adopt-secretary-structure.md"]}},{"id":"outputs/2026-08-03-mobile-webapp-v1.md","type":"output","path":"outputs/2026-08-03-mobile-webapp-v1.md","title":"スマホ用Webアプリ v1","createdAt":null,"tags":["仮想組織","webapp"],"status":null,"artifactId":"mobile-webapp","version":1,"supersedes":null,"relations":{"partOf":["tasks/2026-08-03-build-mobile-webapp.md"]}},{"id":"references/2026-08-03-sns-post-virtual-org.md","type":"reference","path":"references/2026-08-03-sns-post-virtual-org.md","title":"Claude Codeで会社を作る方法(SNS投稿)","createdAt":null,"tags":["仮想組織","参考資料"],"status":null,"artifactId":null,"version":null,"supersedes":null,"relations":{}},{"id":"departments/finance","type":"department","path":"departments/finance/README.md","title":"finance","createdAt":null,"tags":[],"status":null,"artifactId":null,"version":null,"supersedes":null,"relations":{}},{"id":"departments/finance/rules.md","type":"decision","path":"departments/finance/rules.md","title":"rules","createdAt":null,"tags":[],"status":null,"artifactId":null,"version":null,"supersedes":null,"relations":{},"subtype":"rule","department":"departments/finance"},{"id":"departments/marketing","type":"department","path":"departments/marketing/README.md","title":"marketing","createdAt":null,"tags":[],"status":null,"artifactId":null,"version":null,"supersedes":null,"relations":{}},{"id":"departments/marketing/rules.md","type":"decision","path":"departments/marketing/rules.md","title":"rules","createdAt":null,"tags":[],"status":null,"artifactId":null,"version":null,"supersedes":null,"relations":{},"subtype":"rule","department":"departments/marketing"},{"id":"departments/research","type":"department","path":"departments/research/README.md","title":"research","createdAt":null,"tags":[],"status":null,"artifactId":null,"version":null,"supersedes":null,"relations":{}},{"id":"departments/research/rules.md","type":"decision","path":"departments/research/rules.md","title":"rules","createdAt":null,"tags":[],"status":null,"artifactId":null,"version":null,"supersedes":null,"relations":{},"subtype":"rule","department":"departments/research"}],"edges":[{"from":"notes/2026-08-03-idea-virtual-org.md","to":"references/2026-08-03-sns-post-virtual-org.md","type":"SUPPORTED_BY","source":"frontmatter","confidence":1,"evidence":null},{"from":"decisions/2026-08-03-adopt-secretary-structure.md","to":"notes/2026-08-03-idea-virtual-org.md","type":"SUPPORTED_BY","source":"frontmatter","confidence":1,"evidence":null},{"from":"tasks/2026-08-03-build-mobile-webapp.md","to":"decisions/2026-08-03-adopt-secretary-structure.md","type":"PART_OF","source":"frontmatter","confidence":1,"evidence":null},{"from":"outputs/2026-08-03-mobile-webapp-v1.md","to":"tasks/2026-08-03-build-mobile-webapp.md","type":"PART_OF","source":"frontmatter","confidence":1,"evidence":null},{"from":"departments/finance/rules.md","to":"departments/finance","type":"BELONGS_TO","source":"structural","confidence":1,"evidence":null},{"from":"departments/marketing/rules.md","to":"departments/marketing","type":"BELONGS_TO","source":"structural","confidence":1,"evidence":null},{"from":"departments/research/rules.md","to":"departments/research","type":"BELONGS_TO","source":"structural","confidence":1,"evidence":null},{"from":"tasks/2026-08-03-build-mobile-webapp.md","to":"outputs/2026-08-03-mobile-webapp-v1.md","type":"RELATED_TO","source":"inferred","confidence":0.5,"evidence":"共通タグ: 仮想組織, webapp"},{"from":"outputs/2026-08-03-mobile-webapp-v1.md","to":"tasks/2026-08-03-build-mobile-webapp.md","type":"RELATED_TO","source":"inferred","confidence":0.5,"evidence":"共通タグ: 仮想組織, webapp"}],"manifest":{"generatedAt":"2026-08-04T03:00:20.086Z","nodeCount":11,"edgeCount":9,"structuralEdgeCount":7,"inferredEdgeCount":2,"errors":[],"warnings":[]}}</script>
+<script>
+(function () {
+  const data = JSON.parse(document.getElementById("graph-data").textContent);
+  const { nodes, edges, manifest } = data;
+  const colors = {"note":"#8ab4f8","decision":"#f6a94a","task":"#63c19f","output":"#e07be0","reference":"#b0b7c3","department":"#5b6bd0","log":"#c9c9c9"};
+
+  document.getElementById("meta").textContent =
+    "生成日時: " + manifest.generatedAt + " / ノード: " + nodes.length + " / エッジ: " + edges.length;
+
+  const svg = document.querySelector("svg");
+  const ns = "http://www.w3.org/2000/svg";
+  const width = svg.clientWidth || 900;
+  const height = svg.clientHeight || 600;
+
+  const sim = nodes.map((n, i) => ({
+    ...n,
+    x: width / 2 + Math.cos(i) * 200 + (Math.random() - 0.5) * 40,
+    y: height / 2 + Math.sin(i) * 200 + (Math.random() - 0.5) * 40,
+    vx: 0,
+    vy: 0,
+  }));
+  const byId = new Map(sim.map((n) => [n.id, n]));
+
+  function step() {
+    for (const n of sim) {
+      n.vx += (width / 2 - n.x) * 0.001;
+      n.vy += (height / 2 - n.y) * 0.001;
+    }
+    for (let i = 0; i < sim.length; i++) {
+      for (let j = i + 1; j < sim.length; j++) {
+        const a = sim[i], b = sim[j];
+        let dx = a.x - b.x, dy = a.y - b.y;
+        let dist = Math.sqrt(dx * dx + dy * dy) || 1;
+        const min = 60;
+        if (dist < min) {
+          const f = ((min - dist) / dist) * 0.5;
+          a.vx += dx * f; a.vy += dy * f;
+          b.vx -= dx * f; b.vy -= dy * f;
+        }
+      }
+    }
+    for (const e of edges) {
+      const a = byId.get(e.from), b = byId.get(e.to);
+      if (!a || !b) continue;
+      const dx = b.x - a.x, dy = b.y - a.y;
+      const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+      const target = 140;
+      const f = (dist - target) * 0.002;
+      a.vx += dx * f; a.vy += dy * f;
+      b.vx -= dx * f; b.vy -= dy * f;
+    }
+    for (const n of sim) {
+      n.x += n.vx; n.y += n.vy;
+      n.vx *= 0.75; n.vy *= 0.75;
+      n.x = Math.max(20, Math.min(width - 20, n.x));
+      n.y = Math.max(20, Math.min(height - 20, n.y));
+    }
+  }
+  for (let i = 0; i < 300; i++) step();
+
+  function el(tag, attrs) {
+    const e = document.createElementNS(ns, tag);
+    for (const [k, v] of Object.entries(attrs || {})) e.setAttribute(k, v);
+    return e;
+  }
+
+  for (const e of edges) {
+    const a = byId.get(e.from), b = byId.get(e.to);
+    if (!a || !b) continue;
+    const line = el("line", {
+      class: "edge" + (e.source === "inferred" ? " inferred" : ""),
+      x1: a.x, y1: a.y, x2: b.x, y2: b.y,
+      "stroke-opacity": Math.max(0.15, e.confidence),
+    });
+    svg.appendChild(line);
+  }
+
+  const tooltip = document.getElementById("tooltip");
+  for (const n of sim) {
+    const g = el("g", { class: "node", transform: "translate(" + n.x + "," + n.y + ")" });
+    const circle = el("circle", { r: 7, fill: colors[n.type] || "#999" });
+    const label = el("text", { x: 10, y: 4 });
+    label.textContent = n.title || n.id;
+    g.appendChild(circle);
+    g.appendChild(label);
+    g.addEventListener("mouseenter", (ev) => {
+      tooltip.style.display = "block";
+      tooltip.innerHTML =
+        "<strong>" + (n.title || n.id) + "</strong><br>type: " + n.type +
+        "<br>path: " + n.path +
+        (n.tags && n.tags.length ? "<br>tags: " + n.tags.join(", ") : "");
+    });
+    g.addEventListener("mousemove", (ev) => {
+      tooltip.style.left = ev.clientX + 12 + "px";
+      tooltip.style.top = ev.clientY + 12 + "px";
+    });
+    g.addEventListener("mouseleave", () => { tooltip.style.display = "none"; });
+    svg.appendChild(g);
+  }
+})();
+</script>
+</body>
+</html>
