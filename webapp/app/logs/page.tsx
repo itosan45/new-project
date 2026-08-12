@@ -9,7 +9,7 @@ export default async function LogsPage() {
 
   return (
     <div className="flex flex-col gap-4">
-      <h1 className="text-lg font-semibold">logs / {today}</h1>
+      <h1 className="text-lg font-semibold">記録 / {today}</h1>
       <EntryForm
         action="/api/logs"
         placeholder="記録しておきたいことを書く"

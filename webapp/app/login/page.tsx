@@ -33,7 +33,7 @@ export default function LoginPage() {
 
   return (
     <div className="mx-auto flex max-w-sm flex-col gap-4 pt-16">
-      <h1 className="text-center text-lg font-semibold">🗂️ secretary</h1>
+      <h1 className="text-center text-lg font-semibold">🗂️ 秘書</h1>
       <form onSubmit={submit} className="flex flex-col gap-3">
         <input
           type="password"

@@ -47,7 +47,7 @@ export default async function Home() {
     <div className="flex flex-col gap-4">
       <section className="rounded-lg border border-neutral-200 p-4 dark:border-neutral-800">
         <div className="flex items-center justify-between">
-          <h2 className="font-medium">inbox</h2>
+          <h2 className="font-medium">受信箱</h2>
           <span className="text-2xl font-semibold">{inboxCount}</span>
         </div>
         <Link href="/inbox" className="mt-2 inline-block text-sm underline">
@@ -66,7 +66,7 @@ export default async function Home() {
       </section>
 
       <section className="flex flex-col gap-3">
-        <h2 className="font-medium">departments の動き</h2>
+        <h2 className="font-medium">部署の動き</h2>
         {departments.map((dept) => (
           <Link
             key={dept.name}

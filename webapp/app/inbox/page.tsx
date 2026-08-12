@@ -18,15 +18,15 @@ export default async function InboxPage() {
 
   return (
     <div className="flex flex-col gap-4">
-      <h1 className="text-lg font-semibold">inbox</h1>
+      <h1 className="text-lg font-semibold">受信箱</h1>
       <EntryForm
         action="/api/inbox"
         placeholder="判断に迷うことをメモする"
-        label="inboxに追加"
+        label="受信箱に追加"
       />
       <ul className="flex flex-col gap-2">
         {items.length === 0 && (
-          <p className="text-sm text-neutral-500">inboxは空です</p>
+          <p className="text-sm text-neutral-500">受信箱は空です</p>
         )}
         {items.map((item) => (
           <li

@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "仮想組織 secretary",
+  title: "秘書",
   description: "秘書窓口の仮想組織ダッシュボード",
 };
 
@@ -38,7 +38,7 @@ export default function RootLayout({
         <header className="sticky top-0 z-10 border-b border-neutral-200 bg-white/90 backdrop-blur dark:border-neutral-800 dark:bg-neutral-950/90">
           <div className="mx-auto flex max-w-2xl items-center justify-between px-4 py-3">
             <Link href="/" className="font-semibold">
-              🗂️ secretary
+              🗂️ 秘書
             </Link>
             <NavActions />
           </div>
@@ -47,16 +47,16 @@ export default function RootLayout({
               ホーム
             </Link>
             <Link href="/inbox" className="whitespace-nowrap hover:underline">
-              inbox
+              受信箱
             </Link>
             <Link href="/logs" className="whitespace-nowrap hover:underline">
-              logs
+              記録
             </Link>
             <Link
               href="/departments"
               className="whitespace-nowrap hover:underline"
             >
-              departments
+              部署
             </Link>
           </nav>
         </header>

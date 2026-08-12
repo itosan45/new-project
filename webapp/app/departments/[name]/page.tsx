@@ -38,12 +38,12 @@ export default async function DepartmentPage({
       <EntryForm
         action={`/api/departments/${name}`}
         placeholder={`${name} 宛のメモを書く`}
-        label="notesに追記"
+        label="メモを追記"
       />
 
       <section className="rounded-lg border border-neutral-200 p-3 dark:border-neutral-800">
         <h2 className="text-sm font-medium text-neutral-500">
-          今日のnotes ({today})
+          今日の記録 ({today})
         </h2>
         <pre className="mt-1 whitespace-pre-wrap break-words text-sm">
           {note?.content || "まだ記録がありません"}

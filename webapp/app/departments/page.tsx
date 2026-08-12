@@ -12,7 +12,7 @@ export default async function DepartmentsPage() {
 
   return (
     <div className="flex flex-col gap-4">
-      <h1 className="text-lg font-semibold">departments</h1>
+      <h1 className="text-lg font-semibold">部署</h1>
       <ul className="flex flex-col gap-2">
         {departments.map((name) => (
           <li
