@@ -45,6 +45,10 @@ class 抽出のテスト(unittest.TestCase):
             抽出.キーワードで探す("宛名: 山田太郎", ["宛名"]), "山田太郎"
         )
 
+    def test_宛名の敬称を落とす(self):
+        self.assertEqual(抽出.キーワードで探す("宛名: 山田太郎 様", ["宛名"]), "山田太郎")
+        self.assertEqual(抽出.キーワードで探す("宛名\n株式会社ABC 御中", ["宛名"]), "株式会社ABC")
+
     def test_キーワードの次の行を拾える(self):
         self.assertEqual(
             抽出.キーワードで探す("お名前\n鈴木花子\n住所", ["お名前"]), "鈴木花子"

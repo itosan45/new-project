@@ -63,11 +63,19 @@ def キーワードで探す(文字列: str, 手がかり一覧: list[str]) -> s
             # 同じ行の、手がかりより右側
             右側 = 行.split(手がかり, 1)[1].strip(" :：　|｜")
             if 右側:
-                return 右側
+                return _敬称を落とす(右側)
             # 空なら次の行
             if i + 1 < len(行一覧) and 行一覧[i + 1]:
-                return 行一覧[i + 1]
+                return _敬称を落とす(行一覧[i + 1])
     return ""
+
+
+def _敬称を落とす(値: str) -> str:
+    """末尾の「様」「さん」「御中」などを取り除く。宛名として使いやすくするため。"""
+    for 敬称 in ("様", "さま", "サマ", "さん", "御中", "殿"):
+        if 値.endswith(敬称):
+            return 値[: -len(敬称)].strip()
+    return 値
 
 
 def 一件ぶんを抽出する(全文: str, ファイル名: str, 項目設定: list[dict]) -> dict:
