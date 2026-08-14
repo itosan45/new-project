@@ -1,0 +1,7 @@
+入力画像/*
+処理済み/*
+!入力画像/.gitkeep
+!処理済み/.gitkeep
+*.xlsx
+*.json
+__pycache__/
