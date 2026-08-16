@@ -57,5 +57,5 @@
 
 - 運用テンプレート（土台構築・フィードバック反映用プロンプト）: `docs/prompts.md`
 - スマホから閲覧・追記するためのWebアプリ（GitHub API連携、Vercelにデプロイ）: `webapp/`
-- 手書き書類をスマホで撮って読み取るOCRアプリ（Claude API連携、Vercelにデプロイ）: `ocr-app/`
+- 手書き書類をスマホで撮って読み取るOCRアプリ（Gemini API連携、Vercelにデプロイ）: `ocr-app/`
 - つながりの地図を作る仕組み: `graph/README.md`

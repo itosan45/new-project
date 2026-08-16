@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
-import Anthropic from "@anthropic-ai/sdk";
+import { GoogleGenAI, ApiError, FinishReason } from "@google/genai";
 import type { OcrResult } from "@/lib/ocr";
 
 // 手書き読み取りは時間がかかることがあるため、関数の実行時間を延ばす
 export const maxDuration = 300;
 
-const MODEL = "claude-opus-5";
+const MODEL = "gemini-2.5-pro";
 
 // リクエストボディ(base64)のサイズ上限。Vercelの関数ボディ上限(約4.5MB)対策
 const MAX_BASE64_LENGTH = 5_500_000;
@@ -58,9 +58,9 @@ function isImageMediaType(value: string): value is ImageMediaType {
 }
 
 export async function POST(req: NextRequest) {
-  if (!process.env.ANTHROPIC_API_KEY) {
+  if (!process.env.GEMINI_API_KEY) {
     return NextResponse.json(
-      { error: "サーバーに ANTHROPIC_API_KEY が設定されていません" },
+      { error: "サーバーに GEMINI_API_KEY が設定されていません" },
       { status: 500 }
     );
   }
@@ -78,93 +78,74 @@ export async function POST(req: NextRequest) {
       { status: 413 }
     );
   }
-
-  let fileBlock: Anthropic.ContentBlockParam;
-  if (mediaType === "application/pdf") {
-    fileBlock = {
-      type: "document",
-      source: { type: "base64", media_type: "application/pdf", data },
-    };
-  } else if (isImageMediaType(mediaType)) {
-    fileBlock = {
-      type: "image",
-      source: { type: "base64", media_type: mediaType, data },
-    };
-  } else {
+  if (mediaType !== "application/pdf" && !isImageMediaType(mediaType)) {
     return NextResponse.json(
       { error: `対応していないファイル形式です: ${mediaType}` },
       { status: 400 }
     );
   }
 
-  const client = new Anthropic();
+  const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
   try {
-    const response = await client.messages.create({
+    const response = await ai.models.generateContent({
       model: MODEL,
-      max_tokens: 16000,
-      system: SYSTEM_PROMPT,
-      output_config: {
-        format: {
-          type: "json_schema",
-          schema: OUTPUT_SCHEMA as unknown as Record<string, unknown>,
-        },
-      },
-      messages: [
-        {
-          role: "user",
-          content: [
-            fileBlock,
-            {
-              type: "text",
-              text: "この書類を読み取り、指定の形式で項目を抽出してください。",
-            },
-          ],
-        },
+      contents: [
+        { inlineData: { mimeType: mediaType, data } },
+        { text: "この書類を読み取り、指定の形式で項目を抽出してください。" },
       ],
+      config: {
+        systemInstruction: SYSTEM_PROMPT,
+        responseMimeType: "application/json",
+        responseJsonSchema: OUTPUT_SCHEMA,
+      },
     });
 
-    if (response.stop_reason === "refusal") {
+    const finishReason = response.candidates?.[0]?.finishReason;
+    if (
+      finishReason === FinishReason.SAFETY ||
+      finishReason === FinishReason.PROHIBITED_CONTENT ||
+      finishReason === FinishReason.BLOCKLIST ||
+      finishReason === FinishReason.SPII
+    ) {
       return NextResponse.json(
         { error: "この内容は読み取りできませんでした(安全上の理由)" },
         { status: 422 }
       );
     }
-    if (response.stop_reason === "max_tokens") {
+    if (finishReason === FinishReason.MAX_TOKENS) {
       return NextResponse.json(
         { error: "書類が長すぎて読み取りが途中で切れました。分割して撮影してください" },
         { status: 422 }
       );
     }
 
-    const textBlock = response.content.find(
-      (b): b is Anthropic.TextBlock => b.type === "text"
-    );
-    if (!textBlock) {
+    const text = response.text;
+    if (!text) {
       return NextResponse.json(
         { error: "読み取り結果を取得できませんでした" },
         { status: 502 }
       );
     }
 
-    const result = JSON.parse(textBlock.text) as OcrResult;
+    const result = JSON.parse(text) as OcrResult;
     return NextResponse.json({ result });
   } catch (error) {
-    if (error instanceof Anthropic.AuthenticationError) {
+    if (error instanceof ApiError) {
+      if (error.status === 401 || error.status === 403) {
+        return NextResponse.json(
+          { error: "APIキーが無効です。Vercelの環境変数 GEMINI_API_KEY を確認してください" },
+          { status: 500 }
+        );
+      }
+      if (error.status === 429) {
+        return NextResponse.json(
+          { error: "アクセスが集中しています。少し待ってからやり直してください" },
+          { status: 429 }
+        );
+      }
       return NextResponse.json(
-        { error: "APIキーが無効です。Vercelの環境変数 ANTHROPIC_API_KEY を確認してください" },
-        { status: 500 }
-      );
-    }
-    if (error instanceof Anthropic.RateLimitError) {
-      return NextResponse.json(
-        { error: "アクセスが集中しています。少し待ってからやり直してください" },
-        { status: 429 }
-      );
-    }
-    if (error instanceof Anthropic.APIError) {
-      return NextResponse.json(
-        { error: `読み取りに失敗しました (${error.status ?? "API"}): ${error.message}` },
+        { error: `読み取りに失敗しました (${error.status}): ${error.message}` },
         { status: 502 }
       );
     }
