@@ -21,6 +21,40 @@
       }
     },
     {
+      "id": "notes/2026-08-14-ocr-excel-idea.md",
+      "type": "note",
+      "path": "notes/2026-08-14-ocr-excel-idea.md",
+      "title": "手書き画像やPDFを読み取ってExcelの指定セルに自動入力したい",
+      "createdAt": null,
+      "tags": [
+        "OCR",
+        "アイデア",
+        "engineer"
+      ],
+      "status": null,
+      "artifactId": null,
+      "version": null,
+      "supersedes": null,
+      "relations": {}
+    },
+    {
+      "id": "notes/2026-08-16-handwriting-ocr-app-idea.md",
+      "type": "note",
+      "path": "notes/2026-08-16-handwriting-ocr-app-idea.md",
+      "title": "下手な手書き文字でも読めるOCRを内製アプリ化したい",
+      "createdAt": null,
+      "tags": [
+        "OCR",
+        "アイデア",
+        "engineer"
+      ],
+      "status": null,
+      "artifactId": null,
+      "version": null,
+      "supersedes": null,
+      "relations": {}
+    },
+    {
       "id": "decisions/2026-08-03-adopt-secretary-structure.md",
       "type": "decision",
       "path": "decisions/2026-08-03-adopt-secretary-structure.md",
@@ -36,6 +70,70 @@
       "relations": {
         "basedOn": [
           "notes/2026-08-03-idea-virtual-org.md"
+        ]
+      }
+    },
+    {
+      "id": "decisions/2026-08-14-ocr-drive-not-vision-api.md",
+      "type": "decision",
+      "path": "decisions/2026-08-14-ocr-drive-not-vision-api.md",
+      "title": "OCRはVision APIではなくGoogle Driveの読み取り機能を使う",
+      "createdAt": null,
+      "tags": [
+        "OCR",
+        "判断",
+        "engineer"
+      ],
+      "status": null,
+      "artifactId": null,
+      "version": null,
+      "supersedes": null,
+      "relations": {
+        "basedOn": [
+          "notes/2026-08-14-ocr-excel-idea.md"
+        ]
+      }
+    },
+    {
+      "id": "decisions/2026-08-16-ocr-use-claude-api-vision.md",
+      "type": "decision",
+      "path": "decisions/2026-08-16-ocr-use-claude-api-vision.md",
+      "title": "手書きOCRアプリはClaude APIのvision機能で内製する",
+      "createdAt": null,
+      "tags": [
+        "OCR",
+        "判断",
+        "engineer"
+      ],
+      "status": null,
+      "artifactId": null,
+      "version": null,
+      "supersedes": null,
+      "relations": {
+        "basedOn": [
+          "notes/2026-08-16-handwriting-ocr-app-idea.md",
+          "references/2026-08-16-documentforce-benchmark.md"
+        ]
+      }
+    },
+    {
+      "id": "decisions/2026-08-16-ocr-use-gemini-api.md",
+      "type": "decision",
+      "path": "decisions/2026-08-16-ocr-use-gemini-api.md",
+      "title": "手書きOCRアプリのAPIをClaude APIからGemini APIに切り替える",
+      "createdAt": null,
+      "tags": [
+        "OCR",
+        "判断",
+        "engineer"
+      ],
+      "status": null,
+      "artifactId": null,
+      "version": null,
+      "supersedes": "decisions/2026-08-16-ocr-use-claude-api-vision.md",
+      "relations": {
+        "basedOn": [
+          "decisions/2026-08-16-ocr-use-claude-api-vision.md"
         ]
       }
     },
@@ -60,6 +158,66 @@
       }
     },
     {
+      "id": "tasks/2026-08-14-build-ocr-excel.md",
+      "type": "task",
+      "path": "tasks/2026-08-14-build-ocr-excel.md",
+      "title": "画像・PDF → Excel 自動入力の仕組みを作る",
+      "createdAt": null,
+      "tags": [
+        "OCR",
+        "engineer"
+      ],
+      "status": "done",
+      "artifactId": null,
+      "version": null,
+      "supersedes": null,
+      "relations": {
+        "partOf": [
+          "decisions/2026-08-14-ocr-drive-not-vision-api.md"
+        ]
+      }
+    },
+    {
+      "id": "tasks/2026-08-16-build-handwriting-ocr-app.md",
+      "type": "task",
+      "path": "tasks/2026-08-16-build-handwriting-ocr-app.md",
+      "title": "手書きOCRアプリ(ocr-app)を構築する",
+      "createdAt": null,
+      "tags": [
+        "OCR",
+        "engineer"
+      ],
+      "status": "done",
+      "artifactId": null,
+      "version": null,
+      "supersedes": null,
+      "relations": {
+        "partOf": [
+          "decisions/2026-08-16-ocr-use-claude-api-vision.md"
+        ]
+      }
+    },
+    {
+      "id": "tasks/2026-08-16-switch-ocr-app-to-gemini.md",
+      "type": "task",
+      "path": "tasks/2026-08-16-switch-ocr-app-to-gemini.md",
+      "title": "ocr-appの読み取りエンジンをGemini APIに切り替える",
+      "createdAt": null,
+      "tags": [
+        "OCR",
+        "engineer"
+      ],
+      "status": "done",
+      "artifactId": null,
+      "version": null,
+      "supersedes": null,
+      "relations": {
+        "partOf": [
+          "decisions/2026-08-16-ocr-use-gemini-api.md"
+        ]
+      }
+    },
+    {
       "id": "outputs/2026-08-03-mobile-webapp-v1.md",
       "type": "output",
       "path": "outputs/2026-08-03-mobile-webapp-v1.md",
@@ -80,6 +238,87 @@
       }
     },
     {
+      "id": "outputs/2026-08-14-ocr-excel-friend-kit.md",
+      "type": "output",
+      "path": "outputs/2026-08-14-ocr-excel-friend-kit.md",
+      "title": "書類→Excel転記ツール 友人配布版",
+      "createdAt": null,
+      "tags": [
+        "OCR",
+        "engineer",
+        "配布"
+      ],
+      "status": null,
+      "artifactId": "ocr-excel-friend-kit",
+      "version": 1,
+      "supersedes": null,
+      "relations": {
+        "partOf": [
+          "tasks/2026-08-14-build-ocr-excel.md"
+        ]
+      }
+    },
+    {
+      "id": "outputs/2026-08-14-ocr-excel-v1.md",
+      "type": "output",
+      "path": "outputs/2026-08-14-ocr-excel-v1.md",
+      "title": "画像・PDF → Excel 自動入力ツール v1",
+      "createdAt": null,
+      "tags": [
+        "OCR",
+        "engineer"
+      ],
+      "status": null,
+      "artifactId": "ocr-excel",
+      "version": 1,
+      "supersedes": null,
+      "relations": {
+        "partOf": [
+          "tasks/2026-08-14-build-ocr-excel.md"
+        ]
+      }
+    },
+    {
+      "id": "outputs/2026-08-16-ocr-app-v1.md",
+      "type": "output",
+      "path": "outputs/2026-08-16-ocr-app-v1.md",
+      "title": "手書きOCRアプリ(ocr-app)v1",
+      "createdAt": null,
+      "tags": [
+        "OCR",
+        "engineer"
+      ],
+      "status": null,
+      "artifactId": "ocr-app",
+      "version": 1,
+      "supersedes": null,
+      "relations": {
+        "partOf": [
+          "tasks/2026-08-16-build-handwriting-ocr-app.md"
+        ]
+      }
+    },
+    {
+      "id": "outputs/2026-08-16-ocr-app-v2.md",
+      "type": "output",
+      "path": "outputs/2026-08-16-ocr-app-v2.md",
+      "title": "手書きOCRアプリ(ocr-app)v2 — Gemini API版",
+      "createdAt": null,
+      "tags": [
+        "OCR",
+        "engineer"
+      ],
+      "status": null,
+      "artifactId": "ocr-app",
+      "version": 2,
+      "supersedes": "outputs/2026-08-16-ocr-app-v1.md",
+      "relations": {
+        "partOf": [
+          "tasks/2026-08-16-switch-ocr-app-to-gemini.md"
+        ]
+      }
+    },
+    {
       "id": "references/2026-08-03-sns-post-virtual-org.md",
       "type": "reference",
       "path": "references/2026-08-03-sns-post-virtual-org.md",
@@ -88,6 +327,23 @@
       "tags": [
         "仮想組織",
         "参考資料"
+      ],
+      "status": null,
+      "artifactId": null,
+      "version": null,
+      "supersedes": null,
+      "relations": {}
+    },
+    {
+      "id": "references/2026-08-16-documentforce-benchmark.md",
+      "type": "reference",
+      "path": "references/2026-08-16-documentforce-benchmark.md",
+      "title": "DocumentForce(AI-OCRサービス)のLP — 手書きOCRアプリのベンチマーク",
+      "createdAt": null,
+      "tags": [
+        "OCR",
+        "参考資料",
+        "engineer"
       ],
       "status": null,
       "artifactId": null,
@@ -121,6 +377,32 @@
       "supersedes": null,
       "relations": {},
       "subtype": "inbox"
+    },
+    {
+      "id": "secretary/logs/2026-08-14.md",
+      "type": "log",
+      "path": "secretary/logs/2026-08-14.md",
+      "title": "2026-08-14",
+      "createdAt": null,
+      "tags": [],
+      "status": null,
+      "artifactId": null,
+      "version": null,
+      "supersedes": null,
+      "relations": {}
+    },
+    {
+      "id": "secretary/logs/2026-08-16.md",
+      "type": "log",
+      "path": "secretary/logs/2026-08-16.md",
+      "title": "2026-08-16",
+      "createdAt": null,
+      "tags": [],
+      "status": null,
+      "artifactId": null,
+      "version": null,
+      "supersedes": null,
+      "relations": {}
     },
     {
       "id": "departments/creator",
@@ -179,6 +461,36 @@
       "department": "departments/engineer"
     },
     {
+      "id": "departments/engineer/notes/2026-08-14.md",
+      "type": "note",
+      "path": "departments/engineer/notes/2026-08-14.md",
+      "title": "2026-08-14",
+      "createdAt": null,
+      "tags": [],
+      "status": null,
+      "artifactId": null,
+      "version": null,
+      "supersedes": null,
+      "relations": {},
+      "subtype": "department-note",
+      "department": "departments/engineer"
+    },
+    {
+      "id": "departments/engineer/notes/2026-08-16.md",
+      "type": "note",
+      "path": "departments/engineer/notes/2026-08-16.md",
+      "title": "2026-08-16",
+      "createdAt": null,
+      "tags": [],
+      "status": null,
+      "artifactId": null,
+      "version": null,
+      "supersedes": null,
+      "relations": {},
+      "subtype": "department-note",
+      "department": "departments/engineer"
+    },
+    {
       "id": "departments/web-designer",
       "type": "department",
       "path": "departments/web-designer/README.md",
@@ -225,8 +537,72 @@
       "evidence": null
     },
     {
+      "from": "decisions/2026-08-14-ocr-drive-not-vision-api.md",
+      "to": "notes/2026-08-14-ocr-excel-idea.md",
+      "type": "SUPPORTED_BY",
+      "source": "frontmatter",
+      "confidence": 1,
+      "evidence": null
+    },
+    {
+      "from": "decisions/2026-08-16-ocr-use-claude-api-vision.md",
+      "to": "notes/2026-08-16-handwriting-ocr-app-idea.md",
+      "type": "SUPPORTED_BY",
+      "source": "frontmatter",
+      "confidence": 1,
+      "evidence": null
+    },
+    {
+      "from": "decisions/2026-08-16-ocr-use-claude-api-vision.md",
+      "to": "references/2026-08-16-documentforce-benchmark.md",
+      "type": "SUPPORTED_BY",
+      "source": "frontmatter",
+      "confidence": 1,
+      "evidence": null
+    },
+    {
+      "from": "decisions/2026-08-16-ocr-use-gemini-api.md",
+      "to": "decisions/2026-08-16-ocr-use-claude-api-vision.md",
+      "type": "SUPPORTED_BY",
+      "source": "frontmatter",
+      "confidence": 1,
+      "evidence": null
+    },
+    {
+      "from": "decisions/2026-08-16-ocr-use-gemini-api.md",
+      "to": "decisions/2026-08-16-ocr-use-claude-api-vision.md",
+      "type": "SUPERSEDES",
+      "source": "frontmatter",
+      "confidence": 1,
+      "evidence": null
+    },
+    {
       "from": "tasks/2026-08-03-build-mobile-webapp.md",
       "to": "decisions/2026-08-03-adopt-secretary-structure.md",
+      "type": "PART_OF",
+      "source": "frontmatter",
+      "confidence": 1,
+      "evidence": null
+    },
+    {
+      "from": "tasks/2026-08-14-build-ocr-excel.md",
+      "to": "decisions/2026-08-14-ocr-drive-not-vision-api.md",
+      "type": "PART_OF",
+      "source": "frontmatter",
+      "confidence": 1,
+      "evidence": null
+    },
+    {
+      "from": "tasks/2026-08-16-build-handwriting-ocr-app.md",
+      "to": "decisions/2026-08-16-ocr-use-claude-api-vision.md",
+      "type": "PART_OF",
+      "source": "frontmatter",
+      "confidence": 1,
+      "evidence": null
+    },
+    {
+      "from": "tasks/2026-08-16-switch-ocr-app-to-gemini.md",
+      "to": "decisions/2026-08-16-ocr-use-gemini-api.md",
       "type": "PART_OF",
       "source": "frontmatter",
       "confidence": 1,
@@ -241,7 +617,63 @@
       "evidence": null
     },
     {
+      "from": "outputs/2026-08-14-ocr-excel-friend-kit.md",
+      "to": "tasks/2026-08-14-build-ocr-excel.md",
+      "type": "PART_OF",
+      "source": "frontmatter",
+      "confidence": 1,
+      "evidence": null
+    },
+    {
+      "from": "outputs/2026-08-14-ocr-excel-v1.md",
+      "to": "tasks/2026-08-14-build-ocr-excel.md",
+      "type": "PART_OF",
+      "source": "frontmatter",
+      "confidence": 1,
+      "evidence": null
+    },
+    {
+      "from": "outputs/2026-08-16-ocr-app-v1.md",
+      "to": "tasks/2026-08-16-build-handwriting-ocr-app.md",
+      "type": "PART_OF",
+      "source": "frontmatter",
+      "confidence": 1,
+      "evidence": null
+    },
+    {
+      "from": "outputs/2026-08-16-ocr-app-v2.md",
+      "to": "tasks/2026-08-16-switch-ocr-app-to-gemini.md",
+      "type": "PART_OF",
+      "source": "frontmatter",
+      "confidence": 1,
+      "evidence": null
+    },
+    {
+      "from": "outputs/2026-08-16-ocr-app-v2.md",
+      "to": "outputs/2026-08-16-ocr-app-v1.md",
+      "type": "SUPERSEDES",
+      "source": "frontmatter",
+      "confidence": 1,
+      "evidence": null
+    },
+    {
       "from": "secretary/inbox/2026-08-12T20-52-54-277Z.md",
+      "to": "secretary",
+      "type": "BELONGS_TO",
+      "source": "structural",
+      "confidence": 1,
+      "evidence": null
+    },
+    {
+      "from": "secretary/logs/2026-08-14.md",
+      "to": "secretary",
+      "type": "BELONGS_TO",
+      "source": "structural",
+      "confidence": 1,
+      "evidence": null
+    },
+    {
+      "from": "secretary/logs/2026-08-16.md",
       "to": "secretary",
       "type": "BELONGS_TO",
       "source": "structural",
@@ -265,6 +697,22 @@
       "evidence": null
     },
     {
+      "from": "departments/engineer/notes/2026-08-14.md",
+      "to": "departments/engineer",
+      "type": "BELONGS_TO",
+      "source": "structural",
+      "confidence": 1,
+      "evidence": null
+    },
+    {
+      "from": "departments/engineer/notes/2026-08-16.md",
+      "to": "departments/engineer",
+      "type": "BELONGS_TO",
+      "source": "structural",
+      "confidence": 1,
+      "evidence": null
+    },
+    {
       "from": "departments/web-designer/rules.md",
       "to": "departments/web-designer",
       "type": "BELONGS_TO",
@@ -281,12 +729,540 @@
       "evidence": "本文中に「secretary」への言及"
     },
     {
+      "from": "notes/2026-08-14-ocr-excel-idea.md",
+      "to": "notes/2026-08-16-handwriting-ocr-app-idea.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, アイデア, engineer"
+    },
+    {
+      "from": "notes/2026-08-14-ocr-excel-idea.md",
+      "to": "decisions/2026-08-14-ocr-drive-not-vision-api.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "notes/2026-08-14-ocr-excel-idea.md",
+      "to": "decisions/2026-08-16-ocr-use-claude-api-vision.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "notes/2026-08-14-ocr-excel-idea.md",
+      "to": "decisions/2026-08-16-ocr-use-gemini-api.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "notes/2026-08-14-ocr-excel-idea.md",
+      "to": "tasks/2026-08-14-build-ocr-excel.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "notes/2026-08-14-ocr-excel-idea.md",
+      "to": "tasks/2026-08-16-build-handwriting-ocr-app.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "notes/2026-08-14-ocr-excel-idea.md",
+      "to": "tasks/2026-08-16-switch-ocr-app-to-gemini.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "notes/2026-08-14-ocr-excel-idea.md",
+      "to": "outputs/2026-08-14-ocr-excel-friend-kit.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "notes/2026-08-14-ocr-excel-idea.md",
+      "to": "outputs/2026-08-14-ocr-excel-v1.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "notes/2026-08-14-ocr-excel-idea.md",
+      "to": "outputs/2026-08-16-ocr-app-v1.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "notes/2026-08-14-ocr-excel-idea.md",
+      "to": "outputs/2026-08-16-ocr-app-v2.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "notes/2026-08-14-ocr-excel-idea.md",
+      "to": "references/2026-08-16-documentforce-benchmark.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "notes/2026-08-16-handwriting-ocr-app-idea.md",
+      "to": "notes/2026-08-14-ocr-excel-idea.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, アイデア, engineer"
+    },
+    {
+      "from": "notes/2026-08-16-handwriting-ocr-app-idea.md",
+      "to": "decisions/2026-08-14-ocr-drive-not-vision-api.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "notes/2026-08-16-handwriting-ocr-app-idea.md",
+      "to": "decisions/2026-08-16-ocr-use-claude-api-vision.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "notes/2026-08-16-handwriting-ocr-app-idea.md",
+      "to": "decisions/2026-08-16-ocr-use-gemini-api.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "notes/2026-08-16-handwriting-ocr-app-idea.md",
+      "to": "tasks/2026-08-14-build-ocr-excel.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "notes/2026-08-16-handwriting-ocr-app-idea.md",
+      "to": "tasks/2026-08-16-build-handwriting-ocr-app.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "notes/2026-08-16-handwriting-ocr-app-idea.md",
+      "to": "tasks/2026-08-16-switch-ocr-app-to-gemini.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "notes/2026-08-16-handwriting-ocr-app-idea.md",
+      "to": "outputs/2026-08-14-ocr-excel-friend-kit.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "notes/2026-08-16-handwriting-ocr-app-idea.md",
+      "to": "outputs/2026-08-14-ocr-excel-v1.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "notes/2026-08-16-handwriting-ocr-app-idea.md",
+      "to": "outputs/2026-08-16-ocr-app-v1.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "notes/2026-08-16-handwriting-ocr-app-idea.md",
+      "to": "outputs/2026-08-16-ocr-app-v2.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "notes/2026-08-16-handwriting-ocr-app-idea.md",
+      "to": "references/2026-08-16-documentforce-benchmark.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "notes/2026-08-16-handwriting-ocr-app-idea.md",
+      "to": "secretary/logs/2026-08-16.md",
+      "type": "REFERENCES",
+      "source": "inferred",
+      "confidence": 0.7,
+      "evidence": "本文中に「2026-08-16」への言及"
+    },
+    {
+      "from": "notes/2026-08-16-handwriting-ocr-app-idea.md",
+      "to": "departments/engineer/notes/2026-08-16.md",
+      "type": "REFERENCES",
+      "source": "inferred",
+      "confidence": 0.7,
+      "evidence": "本文中に「2026-08-16」への言及"
+    },
+    {
       "from": "decisions/2026-08-03-adopt-secretary-structure.md",
       "to": "secretary",
       "type": "REFERENCES",
       "source": "inferred",
       "confidence": 0.7,
       "evidence": "本文中に「secretary」への言及"
+    },
+    {
+      "from": "decisions/2026-08-14-ocr-drive-not-vision-api.md",
+      "to": "notes/2026-08-14-ocr-excel-idea.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "decisions/2026-08-14-ocr-drive-not-vision-api.md",
+      "to": "notes/2026-08-16-handwriting-ocr-app-idea.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "decisions/2026-08-14-ocr-drive-not-vision-api.md",
+      "to": "decisions/2026-08-16-ocr-use-claude-api-vision.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, 判断, engineer"
+    },
+    {
+      "from": "decisions/2026-08-14-ocr-drive-not-vision-api.md",
+      "to": "decisions/2026-08-16-ocr-use-gemini-api.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, 判断, engineer"
+    },
+    {
+      "from": "decisions/2026-08-14-ocr-drive-not-vision-api.md",
+      "to": "tasks/2026-08-14-build-ocr-excel.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "decisions/2026-08-14-ocr-drive-not-vision-api.md",
+      "to": "tasks/2026-08-16-build-handwriting-ocr-app.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "decisions/2026-08-14-ocr-drive-not-vision-api.md",
+      "to": "tasks/2026-08-16-switch-ocr-app-to-gemini.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "decisions/2026-08-14-ocr-drive-not-vision-api.md",
+      "to": "outputs/2026-08-14-ocr-excel-friend-kit.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "decisions/2026-08-14-ocr-drive-not-vision-api.md",
+      "to": "outputs/2026-08-14-ocr-excel-v1.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "decisions/2026-08-14-ocr-drive-not-vision-api.md",
+      "to": "outputs/2026-08-16-ocr-app-v1.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "decisions/2026-08-14-ocr-drive-not-vision-api.md",
+      "to": "outputs/2026-08-16-ocr-app-v2.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "decisions/2026-08-14-ocr-drive-not-vision-api.md",
+      "to": "references/2026-08-16-documentforce-benchmark.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "decisions/2026-08-16-ocr-use-claude-api-vision.md",
+      "to": "notes/2026-08-14-ocr-excel-idea.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "decisions/2026-08-16-ocr-use-claude-api-vision.md",
+      "to": "notes/2026-08-16-handwriting-ocr-app-idea.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "decisions/2026-08-16-ocr-use-claude-api-vision.md",
+      "to": "decisions/2026-08-14-ocr-drive-not-vision-api.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, 判断, engineer"
+    },
+    {
+      "from": "decisions/2026-08-16-ocr-use-claude-api-vision.md",
+      "to": "decisions/2026-08-16-ocr-use-gemini-api.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, 判断, engineer"
+    },
+    {
+      "from": "decisions/2026-08-16-ocr-use-claude-api-vision.md",
+      "to": "tasks/2026-08-14-build-ocr-excel.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "decisions/2026-08-16-ocr-use-claude-api-vision.md",
+      "to": "tasks/2026-08-16-build-handwriting-ocr-app.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "decisions/2026-08-16-ocr-use-claude-api-vision.md",
+      "to": "tasks/2026-08-16-switch-ocr-app-to-gemini.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "decisions/2026-08-16-ocr-use-claude-api-vision.md",
+      "to": "outputs/2026-08-14-ocr-excel-friend-kit.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "decisions/2026-08-16-ocr-use-claude-api-vision.md",
+      "to": "outputs/2026-08-14-ocr-excel-v1.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "decisions/2026-08-16-ocr-use-claude-api-vision.md",
+      "to": "outputs/2026-08-16-ocr-app-v1.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "decisions/2026-08-16-ocr-use-claude-api-vision.md",
+      "to": "outputs/2026-08-16-ocr-app-v2.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "decisions/2026-08-16-ocr-use-claude-api-vision.md",
+      "to": "references/2026-08-16-documentforce-benchmark.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "decisions/2026-08-16-ocr-use-claude-api-vision.md",
+      "to": "secretary/logs/2026-08-14.md",
+      "type": "REFERENCES",
+      "source": "inferred",
+      "confidence": 0.7,
+      "evidence": "本文中に「2026-08-14」への言及"
+    },
+    {
+      "from": "decisions/2026-08-16-ocr-use-claude-api-vision.md",
+      "to": "secretary/logs/2026-08-16.md",
+      "type": "REFERENCES",
+      "source": "inferred",
+      "confidence": 0.7,
+      "evidence": "本文中に「2026-08-16」への言及"
+    },
+    {
+      "from": "decisions/2026-08-16-ocr-use-claude-api-vision.md",
+      "to": "departments/engineer/notes/2026-08-14.md",
+      "type": "REFERENCES",
+      "source": "inferred",
+      "confidence": 0.7,
+      "evidence": "本文中に「2026-08-14」への言及"
+    },
+    {
+      "from": "decisions/2026-08-16-ocr-use-claude-api-vision.md",
+      "to": "departments/engineer/notes/2026-08-16.md",
+      "type": "REFERENCES",
+      "source": "inferred",
+      "confidence": 0.7,
+      "evidence": "本文中に「2026-08-16」への言及"
+    },
+    {
+      "from": "decisions/2026-08-16-ocr-use-gemini-api.md",
+      "to": "notes/2026-08-14-ocr-excel-idea.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "decisions/2026-08-16-ocr-use-gemini-api.md",
+      "to": "notes/2026-08-16-handwriting-ocr-app-idea.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "decisions/2026-08-16-ocr-use-gemini-api.md",
+      "to": "decisions/2026-08-14-ocr-drive-not-vision-api.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, 判断, engineer"
+    },
+    {
+      "from": "decisions/2026-08-16-ocr-use-gemini-api.md",
+      "to": "decisions/2026-08-16-ocr-use-claude-api-vision.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, 判断, engineer"
+    },
+    {
+      "from": "decisions/2026-08-16-ocr-use-gemini-api.md",
+      "to": "tasks/2026-08-14-build-ocr-excel.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "decisions/2026-08-16-ocr-use-gemini-api.md",
+      "to": "tasks/2026-08-16-build-handwriting-ocr-app.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "decisions/2026-08-16-ocr-use-gemini-api.md",
+      "to": "tasks/2026-08-16-switch-ocr-app-to-gemini.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "decisions/2026-08-16-ocr-use-gemini-api.md",
+      "to": "outputs/2026-08-14-ocr-excel-friend-kit.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "decisions/2026-08-16-ocr-use-gemini-api.md",
+      "to": "outputs/2026-08-14-ocr-excel-v1.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "decisions/2026-08-16-ocr-use-gemini-api.md",
+      "to": "outputs/2026-08-16-ocr-app-v1.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "decisions/2026-08-16-ocr-use-gemini-api.md",
+      "to": "outputs/2026-08-16-ocr-app-v2.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "decisions/2026-08-16-ocr-use-gemini-api.md",
+      "to": "references/2026-08-16-documentforce-benchmark.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
     },
     {
       "from": "tasks/2026-08-03-build-mobile-webapp.md",
@@ -305,20 +1281,836 @@
       "evidence": "本文中に「secretary」への言及"
     },
     {
+      "from": "tasks/2026-08-14-build-ocr-excel.md",
+      "to": "notes/2026-08-14-ocr-excel-idea.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "tasks/2026-08-14-build-ocr-excel.md",
+      "to": "notes/2026-08-16-handwriting-ocr-app-idea.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "tasks/2026-08-14-build-ocr-excel.md",
+      "to": "decisions/2026-08-14-ocr-drive-not-vision-api.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "tasks/2026-08-14-build-ocr-excel.md",
+      "to": "decisions/2026-08-16-ocr-use-claude-api-vision.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "tasks/2026-08-14-build-ocr-excel.md",
+      "to": "decisions/2026-08-16-ocr-use-gemini-api.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "tasks/2026-08-14-build-ocr-excel.md",
+      "to": "tasks/2026-08-16-build-handwriting-ocr-app.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "tasks/2026-08-14-build-ocr-excel.md",
+      "to": "tasks/2026-08-16-switch-ocr-app-to-gemini.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "tasks/2026-08-14-build-ocr-excel.md",
+      "to": "outputs/2026-08-14-ocr-excel-friend-kit.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "tasks/2026-08-14-build-ocr-excel.md",
+      "to": "outputs/2026-08-14-ocr-excel-v1.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "tasks/2026-08-14-build-ocr-excel.md",
+      "to": "outputs/2026-08-16-ocr-app-v1.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "tasks/2026-08-14-build-ocr-excel.md",
+      "to": "outputs/2026-08-16-ocr-app-v2.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "tasks/2026-08-14-build-ocr-excel.md",
+      "to": "references/2026-08-16-documentforce-benchmark.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "tasks/2026-08-16-build-handwriting-ocr-app.md",
+      "to": "notes/2026-08-14-ocr-excel-idea.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "tasks/2026-08-16-build-handwriting-ocr-app.md",
+      "to": "notes/2026-08-16-handwriting-ocr-app-idea.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "tasks/2026-08-16-build-handwriting-ocr-app.md",
+      "to": "decisions/2026-08-14-ocr-drive-not-vision-api.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "tasks/2026-08-16-build-handwriting-ocr-app.md",
+      "to": "decisions/2026-08-16-ocr-use-claude-api-vision.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "tasks/2026-08-16-build-handwriting-ocr-app.md",
+      "to": "decisions/2026-08-16-ocr-use-gemini-api.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "tasks/2026-08-16-build-handwriting-ocr-app.md",
+      "to": "tasks/2026-08-14-build-ocr-excel.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "tasks/2026-08-16-build-handwriting-ocr-app.md",
+      "to": "tasks/2026-08-16-switch-ocr-app-to-gemini.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "tasks/2026-08-16-build-handwriting-ocr-app.md",
+      "to": "outputs/2026-08-14-ocr-excel-friend-kit.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "tasks/2026-08-16-build-handwriting-ocr-app.md",
+      "to": "outputs/2026-08-14-ocr-excel-v1.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "tasks/2026-08-16-build-handwriting-ocr-app.md",
+      "to": "outputs/2026-08-16-ocr-app-v1.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "tasks/2026-08-16-build-handwriting-ocr-app.md",
+      "to": "outputs/2026-08-16-ocr-app-v2.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "tasks/2026-08-16-build-handwriting-ocr-app.md",
+      "to": "references/2026-08-16-documentforce-benchmark.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "tasks/2026-08-16-switch-ocr-app-to-gemini.md",
+      "to": "notes/2026-08-14-ocr-excel-idea.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "tasks/2026-08-16-switch-ocr-app-to-gemini.md",
+      "to": "notes/2026-08-16-handwriting-ocr-app-idea.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "tasks/2026-08-16-switch-ocr-app-to-gemini.md",
+      "to": "decisions/2026-08-14-ocr-drive-not-vision-api.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "tasks/2026-08-16-switch-ocr-app-to-gemini.md",
+      "to": "decisions/2026-08-16-ocr-use-claude-api-vision.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "tasks/2026-08-16-switch-ocr-app-to-gemini.md",
+      "to": "decisions/2026-08-16-ocr-use-gemini-api.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "tasks/2026-08-16-switch-ocr-app-to-gemini.md",
+      "to": "tasks/2026-08-14-build-ocr-excel.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "tasks/2026-08-16-switch-ocr-app-to-gemini.md",
+      "to": "tasks/2026-08-16-build-handwriting-ocr-app.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "tasks/2026-08-16-switch-ocr-app-to-gemini.md",
+      "to": "outputs/2026-08-14-ocr-excel-friend-kit.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "tasks/2026-08-16-switch-ocr-app-to-gemini.md",
+      "to": "outputs/2026-08-14-ocr-excel-v1.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "tasks/2026-08-16-switch-ocr-app-to-gemini.md",
+      "to": "outputs/2026-08-16-ocr-app-v1.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "tasks/2026-08-16-switch-ocr-app-to-gemini.md",
+      "to": "outputs/2026-08-16-ocr-app-v2.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "tasks/2026-08-16-switch-ocr-app-to-gemini.md",
+      "to": "references/2026-08-16-documentforce-benchmark.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
       "from": "outputs/2026-08-03-mobile-webapp-v1.md",
       "to": "tasks/2026-08-03-build-mobile-webapp.md",
       "type": "RELATED_TO",
       "source": "inferred",
       "confidence": 0.5,
       "evidence": "共通タグ: 仮想組織, webapp"
+    },
+    {
+      "from": "outputs/2026-08-14-ocr-excel-friend-kit.md",
+      "to": "notes/2026-08-14-ocr-excel-idea.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "outputs/2026-08-14-ocr-excel-friend-kit.md",
+      "to": "notes/2026-08-16-handwriting-ocr-app-idea.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "outputs/2026-08-14-ocr-excel-friend-kit.md",
+      "to": "decisions/2026-08-14-ocr-drive-not-vision-api.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "outputs/2026-08-14-ocr-excel-friend-kit.md",
+      "to": "decisions/2026-08-16-ocr-use-claude-api-vision.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "outputs/2026-08-14-ocr-excel-friend-kit.md",
+      "to": "decisions/2026-08-16-ocr-use-gemini-api.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "outputs/2026-08-14-ocr-excel-friend-kit.md",
+      "to": "tasks/2026-08-14-build-ocr-excel.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "outputs/2026-08-14-ocr-excel-friend-kit.md",
+      "to": "tasks/2026-08-16-build-handwriting-ocr-app.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "outputs/2026-08-14-ocr-excel-friend-kit.md",
+      "to": "tasks/2026-08-16-switch-ocr-app-to-gemini.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "outputs/2026-08-14-ocr-excel-friend-kit.md",
+      "to": "outputs/2026-08-14-ocr-excel-v1.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "outputs/2026-08-14-ocr-excel-friend-kit.md",
+      "to": "outputs/2026-08-16-ocr-app-v1.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "outputs/2026-08-14-ocr-excel-friend-kit.md",
+      "to": "outputs/2026-08-16-ocr-app-v2.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "outputs/2026-08-14-ocr-excel-friend-kit.md",
+      "to": "references/2026-08-16-documentforce-benchmark.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "outputs/2026-08-14-ocr-excel-v1.md",
+      "to": "notes/2026-08-14-ocr-excel-idea.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "outputs/2026-08-14-ocr-excel-v1.md",
+      "to": "notes/2026-08-16-handwriting-ocr-app-idea.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "outputs/2026-08-14-ocr-excel-v1.md",
+      "to": "decisions/2026-08-14-ocr-drive-not-vision-api.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "outputs/2026-08-14-ocr-excel-v1.md",
+      "to": "decisions/2026-08-16-ocr-use-claude-api-vision.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "outputs/2026-08-14-ocr-excel-v1.md",
+      "to": "decisions/2026-08-16-ocr-use-gemini-api.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "outputs/2026-08-14-ocr-excel-v1.md",
+      "to": "tasks/2026-08-14-build-ocr-excel.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "outputs/2026-08-14-ocr-excel-v1.md",
+      "to": "tasks/2026-08-16-build-handwriting-ocr-app.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "outputs/2026-08-14-ocr-excel-v1.md",
+      "to": "tasks/2026-08-16-switch-ocr-app-to-gemini.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "outputs/2026-08-14-ocr-excel-v1.md",
+      "to": "outputs/2026-08-14-ocr-excel-friend-kit.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "outputs/2026-08-14-ocr-excel-v1.md",
+      "to": "outputs/2026-08-16-ocr-app-v1.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "outputs/2026-08-14-ocr-excel-v1.md",
+      "to": "outputs/2026-08-16-ocr-app-v2.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "outputs/2026-08-14-ocr-excel-v1.md",
+      "to": "references/2026-08-16-documentforce-benchmark.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "outputs/2026-08-16-ocr-app-v1.md",
+      "to": "notes/2026-08-14-ocr-excel-idea.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "outputs/2026-08-16-ocr-app-v1.md",
+      "to": "notes/2026-08-16-handwriting-ocr-app-idea.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "outputs/2026-08-16-ocr-app-v1.md",
+      "to": "decisions/2026-08-14-ocr-drive-not-vision-api.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "outputs/2026-08-16-ocr-app-v1.md",
+      "to": "decisions/2026-08-16-ocr-use-claude-api-vision.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "outputs/2026-08-16-ocr-app-v1.md",
+      "to": "decisions/2026-08-16-ocr-use-gemini-api.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "outputs/2026-08-16-ocr-app-v1.md",
+      "to": "tasks/2026-08-14-build-ocr-excel.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "outputs/2026-08-16-ocr-app-v1.md",
+      "to": "tasks/2026-08-16-build-handwriting-ocr-app.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "outputs/2026-08-16-ocr-app-v1.md",
+      "to": "tasks/2026-08-16-switch-ocr-app-to-gemini.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "outputs/2026-08-16-ocr-app-v1.md",
+      "to": "outputs/2026-08-14-ocr-excel-friend-kit.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "outputs/2026-08-16-ocr-app-v1.md",
+      "to": "outputs/2026-08-14-ocr-excel-v1.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "outputs/2026-08-16-ocr-app-v1.md",
+      "to": "outputs/2026-08-16-ocr-app-v2.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "outputs/2026-08-16-ocr-app-v1.md",
+      "to": "references/2026-08-16-documentforce-benchmark.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "outputs/2026-08-16-ocr-app-v2.md",
+      "to": "notes/2026-08-14-ocr-excel-idea.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "outputs/2026-08-16-ocr-app-v2.md",
+      "to": "notes/2026-08-16-handwriting-ocr-app-idea.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "outputs/2026-08-16-ocr-app-v2.md",
+      "to": "decisions/2026-08-14-ocr-drive-not-vision-api.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "outputs/2026-08-16-ocr-app-v2.md",
+      "to": "decisions/2026-08-16-ocr-use-claude-api-vision.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "outputs/2026-08-16-ocr-app-v2.md",
+      "to": "decisions/2026-08-16-ocr-use-gemini-api.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "outputs/2026-08-16-ocr-app-v2.md",
+      "to": "tasks/2026-08-14-build-ocr-excel.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "outputs/2026-08-16-ocr-app-v2.md",
+      "to": "tasks/2026-08-16-build-handwriting-ocr-app.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "outputs/2026-08-16-ocr-app-v2.md",
+      "to": "tasks/2026-08-16-switch-ocr-app-to-gemini.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "outputs/2026-08-16-ocr-app-v2.md",
+      "to": "outputs/2026-08-14-ocr-excel-friend-kit.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "outputs/2026-08-16-ocr-app-v2.md",
+      "to": "outputs/2026-08-14-ocr-excel-v1.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "outputs/2026-08-16-ocr-app-v2.md",
+      "to": "outputs/2026-08-16-ocr-app-v1.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "outputs/2026-08-16-ocr-app-v2.md",
+      "to": "references/2026-08-16-documentforce-benchmark.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "references/2026-08-16-documentforce-benchmark.md",
+      "to": "notes/2026-08-14-ocr-excel-idea.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "references/2026-08-16-documentforce-benchmark.md",
+      "to": "notes/2026-08-16-handwriting-ocr-app-idea.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "references/2026-08-16-documentforce-benchmark.md",
+      "to": "decisions/2026-08-14-ocr-drive-not-vision-api.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "references/2026-08-16-documentforce-benchmark.md",
+      "to": "decisions/2026-08-16-ocr-use-claude-api-vision.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "references/2026-08-16-documentforce-benchmark.md",
+      "to": "decisions/2026-08-16-ocr-use-gemini-api.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "references/2026-08-16-documentforce-benchmark.md",
+      "to": "tasks/2026-08-14-build-ocr-excel.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "references/2026-08-16-documentforce-benchmark.md",
+      "to": "tasks/2026-08-16-build-handwriting-ocr-app.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "references/2026-08-16-documentforce-benchmark.md",
+      "to": "tasks/2026-08-16-switch-ocr-app-to-gemini.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "references/2026-08-16-documentforce-benchmark.md",
+      "to": "outputs/2026-08-14-ocr-excel-friend-kit.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "references/2026-08-16-documentforce-benchmark.md",
+      "to": "outputs/2026-08-14-ocr-excel-v1.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "references/2026-08-16-documentforce-benchmark.md",
+      "to": "outputs/2026-08-16-ocr-app-v1.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "references/2026-08-16-documentforce-benchmark.md",
+      "to": "outputs/2026-08-16-ocr-app-v2.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "secretary/logs/2026-08-14.md",
+      "to": "departments/engineer",
+      "type": "REFERENCES",
+      "source": "inferred",
+      "confidence": 0.7,
+      "evidence": "本文中に「engineer」への言及"
+    },
+    {
+      "from": "secretary/logs/2026-08-14.md",
+      "to": "departments/engineer/notes/2026-08-14.md",
+      "type": "REFERENCES",
+      "source": "inferred",
+      "confidence": 0.7,
+      "evidence": "本文中に「2026-08-14」への言及"
+    },
+    {
+      "from": "secretary/logs/2026-08-16.md",
+      "to": "departments/engineer",
+      "type": "REFERENCES",
+      "source": "inferred",
+      "confidence": 0.7,
+      "evidence": "本文中に「engineer」への言及"
+    },
+    {
+      "from": "secretary/logs/2026-08-16.md",
+      "to": "departments/engineer/notes/2026-08-16.md",
+      "type": "REFERENCES",
+      "source": "inferred",
+      "confidence": 0.7,
+      "evidence": "本文中に「2026-08-16」への言及"
+    },
+    {
+      "from": "departments/engineer/notes/2026-08-14.md",
+      "to": "secretary/logs/2026-08-14.md",
+      "type": "REFERENCES",
+      "source": "inferred",
+      "confidence": 0.7,
+      "evidence": "本文中に「2026-08-14」への言及"
+    },
+    {
+      "from": "departments/engineer/notes/2026-08-16.md",
+      "to": "secretary/logs/2026-08-16.md",
+      "type": "REFERENCES",
+      "source": "inferred",
+      "confidence": 0.7,
+      "evidence": "本文中に「2026-08-16」への言及"
     }
   ],
   "manifest": {
-    "generatedAt": "2026-08-12T20:58:12.390Z",
-    "nodeCount": 13,
-    "edgeCount": 13,
-    "structuralEdgeCount": 8,
-    "inferredEdgeCount": 5,
+    "generatedAt": "2026-08-16T11:14:43.873Z",
+    "nodeCount": 30,
+    "edgeCount": 198,
+    "structuralEdgeCount": 25,
+    "inferredEdgeCount": 173,
     "errors": [],
     "warnings": []
   }
