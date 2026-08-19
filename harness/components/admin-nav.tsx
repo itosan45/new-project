@@ -3,6 +3,7 @@ import type { NavItem } from "@/components/shell";
 /** 管理者側の共通ナビ。運用センターとライブ実行トレースで同じものを使う。 */
 export const ADMIN_NAV: NavItem[] = [
   { label: "ダッシュボード", href: "/admin", icon: "grid" },
+  { label: "案件", href: "/cases", icon: "inbox" },
   { label: "エージェント管理", href: "/admin/agents", icon: "robot" },
   { label: "ワークフロー", href: "/admin/workflows", icon: "flow" },
   { label: "ライブ実行", href: "/admin/live", icon: "play" },

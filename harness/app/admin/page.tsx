@@ -1,6 +1,7 @@
 import { Fragment } from "react";
 import Link from "next/link";
 import { ADMIN_NAV } from "@/components/admin-nav";
+import { LogoutButton } from "@/components/logout-button";
 import { Shell, UserChip } from "@/components/shell";
 import {
   Badge,
@@ -172,6 +173,7 @@ export default function AdminOpsCenter() {
         </Link>
         <Icon name="bell" className="size-4 text-ink-muted" />
         <UserChip name="Admin User" sub="システム管理者" dark={false} />
+        <LogoutButton />
       </div>
 
       <div className="flex flex-col gap-4 px-7 py-5">

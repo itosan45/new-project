@@ -18,6 +18,14 @@ const SCREENS: {
   tone: Tone;
 }[] = [
   {
+    href: "/cases",
+    title: "案件",
+    role: "職場",
+    desc: "仮想顧客の案件を受け付け、Agentが処理し、承認を経て記録が積み上がる。",
+    icon: "inbox",
+    tone: "warn",
+  },
+  {
     href: "/employee",
     title: "お仕事コックピット",
     role: "社員",
