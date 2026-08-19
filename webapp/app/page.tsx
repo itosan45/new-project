@@ -29,6 +29,13 @@ type Screen = {
 /** いま自分が使うもの */
 const IN_USE: Screen[] = [
   {
+    href: "/request",
+    title: "依頼を出す",
+    desc: "仕事の話が来たら、まずここ。ここから出すとAgentが動く。口頭で頼むと秘書が全部やってしまう。",
+    icon: "send",
+    tone: "primary",
+  },
+  {
     href: "/can",
     title: "できること・できないこと",
     desc: "仕事の話が来たとき、その場で答えるためのもの。ホームページなら何週間でどこまで作れるか。",
