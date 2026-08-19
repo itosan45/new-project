@@ -1,4 +1,11 @@
 import type { AgentContract } from "@/lib/domain/types";
+import {
+  COPY_PER_PAGE_DAYS,
+  PER_PAGE_DAYS,
+  baseDaysLabel,
+  chatDaysLabel,
+  motionDaysLabel,
+} from "@/lib/data/web-rates";
 
 /**
  * Web制作の役割分担Agent。
@@ -52,7 +59,7 @@ export const WEB_AGENTS: AgentContract[] = [
     maxRetries: 1,
     confidenceThreshold: 0.9,
     owner: "自分",
-    maturity: "中身あり・未接続",
+    maturity: "動く",
     experience: {
       level: "ベテラン",
       judgment: [
@@ -137,7 +144,7 @@ export const WEB_AGENTS: AgentContract[] = [
     maxRetries: 1,
     confidenceThreshold: 0.8,
     owner: "自分",
-    maturity: "中身あり・未接続",
+    maturity: "動く",
     experience: {
       level: "ベテラン",
       judgment: [
@@ -215,7 +222,7 @@ export const WEB_AGENTS: AgentContract[] = [
     maxRetries: 1,
     confidenceThreshold: 0.8,
     owner: "自分",
-    maturity: "中身あり・未接続",
+    maturity: "動く",
     experience: {
       level: "ベテラン",
       judgment: [
@@ -241,11 +248,17 @@ export const WEB_AGENTS: AgentContract[] = [
         "相手の既存サーバーは、触ってみるまで工数が読めない",
       ],
       benchmarks: [
-        { 項目: "土台の作業", 値: "雛形そのまま 1人日 / 雛形調整 3人日 / デザインから 8人日", 根拠: "設計・実装・確認までを含む" },
-        { 項目: "1ページ追加", 値: "0.5人日", 根拠: "文章が用意されている場合" },
-        { 項目: "文章をこちらで書く", 値: "1ページあたり 0.5人日", 根拠: "取材と事実確認を含む" },
-        { 項目: "動きを付ける", 値: "軽く +1人日 / しっかり +3人日 / 動画主役 +2人日", 根拠: "表示速度の調整を含む" },
-        { 項目: "チャット設置", 値: "よくある質問 +1人日 / AIチャット +4人日", 根拠: "AIは答えさせない範囲の設計を含む" },
+        // 数字は lib/data/web-rates.ts が唯一の出どころ。
+        // 見積Agentの計算も同じものを見るので、ここを書き換えると出力が変わる
+        { 項目: "土台の作業", 値: baseDaysLabel(), 根拠: "設計・実装・確認までを含む" },
+        { 項目: "1ページ追加", 値: `${PER_PAGE_DAYS}人日`, 根拠: "文章が用意されている場合" },
+        {
+          項目: "文章をこちらで書く",
+          値: `1ページあたり ${COPY_PER_PAGE_DAYS}人日`,
+          根拠: "取材と事実確認を含む",
+        },
+        { 項目: "動きを付ける", 値: motionDaysLabel(), 根拠: "表示速度の調整を含む" },
+        { 項目: "チャット設置", 値: chatDaysLabel(), 根拠: "AIは答えさせない範囲の設計を含む" },
       ],
       currentPractice: [
         {
@@ -282,7 +295,7 @@ export const WEB_AGENTS: AgentContract[] = [
     maxRetries: 1,
     confidenceThreshold: 0.85,
     owner: "自分",
-    maturity: "中身あり・未接続",
+    maturity: "動く",
     experience: {
       level: "ベテラン",
       judgment: [
@@ -344,7 +357,7 @@ export const WEB_AGENTS: AgentContract[] = [
     maxRetries: 1,
     confidenceThreshold: 0.95,
     owner: "自分",
-    maturity: "中身あり・未接続",
+    maturity: "動く",
     experience: {
       level: "ベテラン",
       judgment: [

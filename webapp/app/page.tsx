@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Badge, Card, Icon, IconTile, type Tone } from "@/components/ui";
-import { AGENT_CONTRACTS } from "@/lib/data/agents";
+import { ALL_AGENTS } from "@/lib/data/agents";
 import { TENANTS } from "@/lib/data/tenants";
 import { listAllCases, type CaseRecord } from "@/lib/store/cases";
 import { SOLO_LIMITS, checkCapacity } from "@/lib/domain/operator";
@@ -41,6 +41,13 @@ const IN_USE: Screen[] = [
     desc: "相談から運用までの6段階。誰が何をするか、次へ進める条件は何か。",
     icon: "flow",
     tone: "info",
+  },
+  {
+    href: "/web",
+    title: "Web制作",
+    desc: "「ホームページ作って」で決めることが18項目。役割分担Agentと、その判断基準・地雷・相場。",
+    icon: "doc",
+    tone: "primary",
   },
 ];
 
@@ -205,7 +212,7 @@ export default async function Home() {
       <section className="mb-8">
         <h2 className="mb-1 text-sm font-semibold text-ink">いま使うもの</h2>
         <p className="mb-3 text-[11px] text-ink-muted">
-          仕事はこの2つで回ります。
+          仕事はここで回ります。
         </p>
         <ScreenGrid screens={IN_USE} />
       </section>
@@ -276,13 +283,13 @@ export default async function Home() {
       </section>
 
       <p className="text-[11px] text-ink-subtle">
-        Agent {AGENT_CONTRACTS.length}体。ただし中身の処理が入っているのは{" "}
-        {
-          AGENT_CONTRACTS.filter((a) => a.maturity === "中身あり・未接続")
-            .length
-        }
-        体だけで、残りは契約（何をしてよいか）を決めた段階です。
-        いま実際に手を動かしているのは秘書とあなたで、Agentはまだ器です。
+        Agent {ALL_AGENTS.length}体。うち実際に動くのは{" "}
+        <b className="text-ink">
+          {ALL_AGENTS.filter((a) => a.maturity === "動く").length}体
+        </b>{" "}
+        で、残りは契約（何をしてよいか）を決めた段階です。
+        「動く」と表示できるのは、実体が登録されているものだけ。
+        テストで固定してあるので、表示だけ書き換えることはできません。
         責任者はすべて自分。架空の担当者は置いていません。
       </p>
     </main>

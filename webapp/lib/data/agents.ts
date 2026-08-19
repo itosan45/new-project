@@ -1,4 +1,5 @@
 import type { AgentContract, AgentRuntimeState } from "@/lib/domain/types";
+import { WEB_AGENTS } from "@/lib/data/web-agents";
 
 /**
  * Agent契約。
@@ -732,8 +733,16 @@ export const AGENT_RUNTIME: AgentRuntimeState[] = [
   },
 ];
 
+/**
+ * 全Agent。共通のものと、Web制作の職種Agentを合わせたもの。
+ *
+ * 業種パック（相手の分野の知識）と職種Agent（うちの作業の役割分担）は別の軸。
+ * 建設会社のHP案件 = 職種Agent群 × 建設パック。
+ */
+export const ALL_AGENTS: AgentContract[] = [...AGENT_CONTRACTS, ...WEB_AGENTS];
+
 export function findAgent(agentId: string): AgentContract | undefined {
-  return AGENT_CONTRACTS.find((a) => a.agentId === agentId);
+  return ALL_AGENTS.find((a) => a.agentId === agentId);
 }
 
 export function agentName(agentId: string): string {

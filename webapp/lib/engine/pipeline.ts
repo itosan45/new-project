@@ -7,20 +7,25 @@ import type {
 import type { TenantProfile } from "@/lib/domain/tenant";
 import { findAgent } from "@/lib/data/agents";
 import { findPack } from "@/lib/data/domain-packs";
+import { findImpl } from "@/lib/agents/registry";
+import type { AgentContext } from "@/lib/agents/types";
 import type { CaseRecord } from "@/lib/store/cases";
 
 /**
  * 案件の実行エンジン。
  *
- * 現時点で、Agentの中身の処理そのものは行っていない。
- * 実行しているのは「順序」「停止条件」「記録」の3つ。
+ * 実行しているのは「順序」「停止条件」「記録」、そして
+ * 実体のあるAgentの呼び出し。
  *
- * これは手抜きではなく、順序が正しい。中身の精度は後から差し替えられるが、
- * 承認せずに送ってしまった、記録が無いから説明できない、は後から直せない。
- * 先に器を正しくしておく。
+ * ここで一番大事なのは、**やっていないことを完了にしない**こと。
  *
- * 中身を本物にするときは runStep() の中だけを差し替える。
- * 画面もこのファイルの外側も触らずに済む。
+ * - 実体が無い          → NOT_IMPLEMENTED（中身なし）
+ * - 実体はあるが入力不足 → NEEDS_INPUT（入力待ち）で、そこから先を止める
+ * - 実体があって動いた   → COMPLETED。要約も根拠も、実行結果から取る
+ *
+ * 以前はここで、契約に書いた「得意なこと」の1行目を実績として
+ * 監査ログに書いていた。処理をしていないのに、した記録が残っていた。
+ * 蓋を開けたら何も定義されていないのに動いて見える、の正体がこれ。
  */
 
 function nowIso(): string {
@@ -93,6 +98,13 @@ export function startCase(input: StartCaseInput): CaseRecord {
   });
 
   let stopped = false;
+  /** 入力不足で止まったか。承認待ちとは別の理由なので分けて数える */
+  let needsInputStop = false;
+  /** 中身の無いAgentがあったか。あったら「成功」とは呼べない */
+  let notImplemented = false;
+
+  // Agentに渡す材料。いまは依頼文だけで、分野ごとの設計内容は未接続
+  const ctx: AgentContext = { request: description };
 
   for (const agentId of tenant.requiredAgents) {
     const agent = findAgent(agentId);
@@ -155,24 +167,104 @@ export function startCase(input: StartCaseInput): CaseRecord {
       continue;
     }
 
-    // 承認の要らない工程。読み取り・検証・下書きなど
-    const completedAt = nowIso();
+    // 承認の要らない工程。ここで実体を呼ぶ
+    const impl = findImpl(agentId);
+    const at = nowIso();
+
+    if (!impl) {
+      // 契約だけで中身が無い。完了にはしない
+      steps.push({
+        stepId: shortId("s"),
+        agentId,
+        status: "NOT_IMPLEMENTED",
+        summary: `${agent.name} はまだ中身がありません（契約のみ）。`,
+      });
+      record({
+        kind: "Agent",
+        agentId,
+        timestamp: timeLabel(at),
+        actor: agent.name,
+        actorType: "agent",
+        action: `${agent.name} は中身が無いため実行していません。`,
+        status: "未実行",
+        detail: "契約は定義済み。実体は lib/agents/registry.ts に未登録",
+      });
+      notImplemented = true;
+      continue;
+    }
+
+    const result = impl.run(ctx);
+
+    if (result.status === "入力が足りない") {
+      // 推測で埋めずに止める。ここから先も動かさない
+      steps.push({
+        stepId: shortId("s"),
+        agentId,
+        status: "NEEDS_INPUT",
+        summary: `未回答: ${result.missing.join(" / ")}`,
+        waitingFor: `${result.askWho}への確認`,
+      });
+      record({
+        kind: "Agent",
+        agentId,
+        timestamp: timeLabel(at),
+        actor: agent.name,
+        actorType: "agent",
+        action: `入力が足りないため実行していません（${result.missing.length}件）。`,
+        status: "未実行",
+        detail: result.missing.join(" / "),
+      });
+      needsInputStop = true;
+      stopped = true;
+      continue;
+    }
+
+    if (result.status === "未実装") {
+      steps.push({
+        stepId: shortId("s"),
+        agentId,
+        status: "NOT_IMPLEMENTED",
+        summary: result.summary,
+      });
+      notImplemented = true;
+      continue;
+    }
+
+    // ここまで来て初めて完了。要約も根拠も実行結果から取る
     steps.push({
       stepId: shortId("s"),
       agentId,
       status: "COMPLETED",
-      completedAt: timeLabel(completedAt),
-      summary: agent.expertise[0] ?? agent.purpose,
+      completedAt: timeLabel(at),
+      summary: result.summary,
     });
     record({
       kind: "Agent",
       agentId,
-      timestamp: timeLabel(completedAt),
+      timestamp: timeLabel(at),
       actor: agent.name,
       actorType: "agent",
-      action: `${agent.expertise[0] ?? agent.purpose} を実施しました。`,
+      action: result.summary,
       status: "成功",
-      detail: pack ? `適用パック：${pack.name}` : undefined,
+      detail: [
+        ...result.evidence,
+        pack ? `適用パック：${pack.name}` : "",
+      ]
+        .filter(Boolean)
+        .join(" / "),
+    });
+  }
+
+  if (needsInputStop) {
+    // 承認待ちと入力待ちは、人がやることが違う。記録で区別する
+    record({
+      kind: "Execution",
+      timestamp: timeLabel(nowIso()),
+      actor: "実行エンジン",
+      actorType: "system",
+      action: "入力が足りないため、この先の工程を実行していません。",
+      status: "停止",
+      detail: "承認待ちではありません。足りない項目を確認してください",
     });
   }
 
@@ -189,8 +281,17 @@ export function startCase(input: StartCaseInput): CaseRecord {
     workflowId: tenant.domainPack,
     workflowVersion: "1.0.0",
     title,
-    // 止まっている案件を「実行中」と表示しない
-    status: stopped ? "HUMAN_REVIEW" : "SUCCEEDED",
+    /*
+     * 止まっている案件を「実行中」と表示しない。
+     * 中身の無いAgentが混ざっていた場合も成功とは呼ばない。
+     * ここを SUCCEEDED にすると、何も処理していない案件が
+     * 実績として数えられてしまう。
+     */
+    status: stopped
+      ? "HUMAN_REVIEW"
+      : notImplemented
+        ? "PARTIAL_SUCCESS"
+        : "SUCCEEDED",
     startedAt,
     trigger: "手動実行",
     priority,
@@ -254,12 +355,23 @@ export function decideApproval(
     return record;
   }
 
+  /*
+   * 承認が下りても、実体の無いAgentは動かない。
+   * 承認＝実行ではない。ここを COMPLETED にすると、
+   * 「承認したので実行されたはず」という記録だけが残る。
+   */
+  let notImplemented = false;
+  const ctx: AgentContext = { request: record.run.description };
+
   for (const s of record.run.steps) {
-    if (s.status === "WAITING_APPROVAL" || s.status === "PENDING") {
-      const agent = findAgent(s.agentId);
-      s.status = "COMPLETED";
-      s.completedAt = at;
-      s.summary = `承認後に実行しました。${agent?.expertise[0] ?? ""}`;
+    if (s.status !== "WAITING_APPROVAL" && s.status !== "PENDING") continue;
+
+    const agent = findAgent(s.agentId);
+    const impl = findImpl(s.agentId);
+
+    if (!impl) {
+      s.status = "NOT_IMPLEMENTED";
+      s.summary = `承認は下りましたが、${agent?.name ?? s.agentId} はまだ中身がありません。`;
       record.audit.push({
         tenantId: record.run.tenantId,
         workspaceId: "default",
@@ -270,12 +382,53 @@ export function decideApproval(
         timestamp: at,
         actor: agent?.name ?? s.agentId,
         actorType: "agent",
-        action: `承認済みの操作を実行しました。`,
-        status: "成功",
+        action: "承認済みですが、中身が無いため実行していません。",
+        status: "未実行",
       });
+      notImplemented = true;
+      continue;
     }
+
+    const result = impl.run(ctx);
+    if (result.status !== "完了") {
+      s.status = result.status === "入力が足りない" ? "NEEDS_INPUT" : "NOT_IMPLEMENTED";
+      s.summary = result.summary;
+      record.audit.push({
+        tenantId: record.run.tenantId,
+        workspaceId: "default",
+        eventId: shortId("ev"),
+        runId: record.run.runId,
+        kind: "Execution",
+        agentId: s.agentId,
+        timestamp: at,
+        actor: agent?.name ?? s.agentId,
+        actorType: "agent",
+        action: result.summary,
+        status: "未実行",
+      });
+      notImplemented = true;
+      continue;
+    }
+
+    s.status = "COMPLETED";
+    s.completedAt = at;
+    s.summary = result.summary;
+    record.audit.push({
+      tenantId: record.run.tenantId,
+      workspaceId: "default",
+      eventId: shortId("ev"),
+      runId: record.run.runId,
+      kind: "Execution",
+      agentId: s.agentId,
+      timestamp: at,
+      actor: agent?.name ?? s.agentId,
+      actorType: "agent",
+      action: result.summary,
+      status: "成功",
+      detail: result.evidence.join(" / "),
+    });
   }
 
-  record.run.status = "SUCCEEDED";
+  record.run.status = notImplemented ? "PARTIAL_SUCCESS" : "SUCCEEDED";
   return record;
 }

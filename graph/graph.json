@@ -141,6 +141,27 @@
       }
     },
     {
+      "id": "decisions/2026-08-19-agents-must-refuse-undefined-input.md",
+      "type": "decision",
+      "path": "decisions/2026-08-19-agents-must-refuse-undefined-input.md",
+      "title": "入力が定義されていないAgentは動かさない。やっていないことを完了にしない",
+      "createdAt": null,
+      "tags": [
+        "ハーネス",
+        "設計",
+        "engineer"
+      ],
+      "status": null,
+      "artifactId": null,
+      "version": null,
+      "supersedes": null,
+      "relations": {
+        "basedOn": [
+          "decisions/2026-08-19-solo-operator-premise.md"
+        ]
+      }
+    },
+    {
       "id": "decisions/2026-08-19-engagement-six-stages.md",
       "type": "decision",
       "path": "decisions/2026-08-19-engagement-six-stages.md",
@@ -242,6 +263,28 @@
       "relations": {
         "basedOn": [
           "decisions/2026-08-19-engagement-six-stages.md"
+        ]
+      }
+    },
+    {
+      "id": "decisions/2026-08-19-web-production-agents.md",
+      "type": "decision",
+      "path": "decisions/2026-08-19-web-production-agents.md",
+      "title": "Web制作の役割分担Agentと、18の決めごと",
+      "createdAt": null,
+      "tags": [
+        "ハーネス",
+        "Web制作",
+        "web-designer",
+        "engineer"
+      ],
+      "status": null,
+      "artifactId": null,
+      "version": null,
+      "supersedes": null,
+      "relations": {
+        "basedOn": [
+          "decisions/2026-08-19-agents-must-refuse-undefined-input.md"
         ]
       }
     },
@@ -645,6 +688,14 @@
       "evidence": null
     },
     {
+      "from": "decisions/2026-08-19-agents-must-refuse-undefined-input.md",
+      "to": "decisions/2026-08-19-solo-operator-premise.md",
+      "type": "SUPPORTED_BY",
+      "source": "frontmatter",
+      "confidence": 1,
+      "evidence": null
+    },
+    {
       "from": "decisions/2026-08-19-hearing-and-proposal-repeat.md",
       "to": "decisions/2026-08-19-engagement-six-stages.md",
       "type": "SUPPORTED_BY",
@@ -671,6 +722,14 @@
     {
       "from": "decisions/2026-08-19-solo-operator-premise.md",
       "to": "decisions/2026-08-19-engagement-six-stages.md",
+      "type": "SUPPORTED_BY",
+      "source": "frontmatter",
+      "confidence": 1,
+      "evidence": null
+    },
+    {
+      "from": "decisions/2026-08-19-web-production-agents.md",
+      "to": "decisions/2026-08-19-agents-must-refuse-undefined-input.md",
       "type": "SUPPORTED_BY",
       "source": "frontmatter",
       "confidence": 1,
@@ -878,6 +937,14 @@
     },
     {
       "from": "decisions/2026-08-14-expertise-via-domain-packs.md",
+      "to": "decisions/2026-08-19-agents-must-refuse-undefined-input.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, 設計, engineer"
+    },
+    {
+      "from": "decisions/2026-08-14-expertise-via-domain-packs.md",
       "to": "decisions/2026-08-19-engagement-six-stages.md",
       "type": "RELATED_TO",
       "source": "inferred",
@@ -903,6 +970,14 @@
     {
       "from": "decisions/2026-08-14-expertise-via-domain-packs.md",
       "to": "decisions/2026-08-19-solo-operator-premise.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, engineer"
+    },
+    {
+      "from": "decisions/2026-08-14-expertise-via-domain-packs.md",
+      "to": "decisions/2026-08-19-web-production-agents.md",
       "type": "RELATED_TO",
       "source": "inferred",
       "confidence": 0.5,
@@ -974,6 +1049,14 @@
     },
     {
       "from": "decisions/2026-08-14-personas-drive-the-design.md",
+      "to": "decisions/2026-08-19-agents-must-refuse-undefined-input.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, 設計, engineer"
+    },
+    {
+      "from": "decisions/2026-08-14-personas-drive-the-design.md",
       "to": "decisions/2026-08-19-engagement-six-stages.md",
       "type": "RELATED_TO",
       "source": "inferred",
@@ -1006,6 +1089,14 @@
     },
     {
       "from": "decisions/2026-08-14-personas-drive-the-design.md",
+      "to": "decisions/2026-08-19-web-production-agents.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, engineer"
+    },
+    {
+      "from": "decisions/2026-08-14-personas-drive-the-design.md",
       "to": "decisions/2026-08-19-webapp-replaced-by-harness.md",
       "type": "RELATED_TO",
       "source": "inferred",
@@ -1029,6 +1120,86 @@
       "evidence": "共通タグ: ハーネス, engineer"
     },
     {
+      "from": "decisions/2026-08-19-agents-must-refuse-undefined-input.md",
+      "to": "decisions/2026-08-14-expertise-via-domain-packs.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, 設計, engineer"
+    },
+    {
+      "from": "decisions/2026-08-19-agents-must-refuse-undefined-input.md",
+      "to": "decisions/2026-08-14-personas-drive-the-design.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, 設計, engineer"
+    },
+    {
+      "from": "decisions/2026-08-19-agents-must-refuse-undefined-input.md",
+      "to": "decisions/2026-08-19-engagement-six-stages.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, engineer"
+    },
+    {
+      "from": "decisions/2026-08-19-agents-must-refuse-undefined-input.md",
+      "to": "decisions/2026-08-19-hearing-and-proposal-repeat.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, engineer"
+    },
+    {
+      "from": "decisions/2026-08-19-agents-must-refuse-undefined-input.md",
+      "to": "decisions/2026-08-19-proposal-architect-agent.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, engineer"
+    },
+    {
+      "from": "decisions/2026-08-19-agents-must-refuse-undefined-input.md",
+      "to": "decisions/2026-08-19-solo-operator-premise.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, engineer"
+    },
+    {
+      "from": "decisions/2026-08-19-agents-must-refuse-undefined-input.md",
+      "to": "decisions/2026-08-19-web-production-agents.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, engineer"
+    },
+    {
+      "from": "decisions/2026-08-19-agents-must-refuse-undefined-input.md",
+      "to": "decisions/2026-08-19-webapp-replaced-by-harness.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, engineer"
+    },
+    {
+      "from": "decisions/2026-08-19-agents-must-refuse-undefined-input.md",
+      "to": "tasks/2026-08-19-build-engagement-flow.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, engineer"
+    },
+    {
+      "from": "decisions/2026-08-19-agents-must-refuse-undefined-input.md",
+      "to": "outputs/2026-08-14-harness-dev-env.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, engineer"
+    },
+    {
       "from": "decisions/2026-08-19-engagement-six-stages.md",
       "to": "decisions/2026-08-14-expertise-via-domain-packs.md",
       "type": "RELATED_TO",
@@ -1039,6 +1210,14 @@
     {
       "from": "decisions/2026-08-19-engagement-six-stages.md",
       "to": "decisions/2026-08-14-personas-drive-the-design.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, engineer"
+    },
+    {
+      "from": "decisions/2026-08-19-engagement-six-stages.md",
+      "to": "decisions/2026-08-19-agents-must-refuse-undefined-input.md",
       "type": "RELATED_TO",
       "source": "inferred",
       "confidence": 0.5,
@@ -1067,6 +1246,14 @@
       "source": "inferred",
       "confidence": 0.5,
       "evidence": "共通タグ: ハーネス, 組織設計, engineer"
+    },
+    {
+      "from": "decisions/2026-08-19-engagement-six-stages.md",
+      "to": "decisions/2026-08-19-web-production-agents.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, engineer"
     },
     {
       "from": "decisions/2026-08-19-engagement-six-stages.md",
@@ -1110,6 +1297,14 @@
     },
     {
       "from": "decisions/2026-08-19-hearing-and-proposal-repeat.md",
+      "to": "decisions/2026-08-19-agents-must-refuse-undefined-input.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, engineer"
+    },
+    {
+      "from": "decisions/2026-08-19-hearing-and-proposal-repeat.md",
       "to": "decisions/2026-08-19-engagement-six-stages.md",
       "type": "RELATED_TO",
       "source": "inferred",
@@ -1131,6 +1326,14 @@
       "source": "inferred",
       "confidence": 0.5,
       "evidence": "共通タグ: ハーネス, 組織設計, engineer"
+    },
+    {
+      "from": "decisions/2026-08-19-hearing-and-proposal-repeat.md",
+      "to": "decisions/2026-08-19-web-production-agents.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, engineer"
     },
     {
       "from": "decisions/2026-08-19-hearing-and-proposal-repeat.md",
@@ -1174,6 +1377,14 @@
     },
     {
       "from": "decisions/2026-08-19-proposal-architect-agent.md",
+      "to": "decisions/2026-08-19-agents-must-refuse-undefined-input.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, engineer"
+    },
+    {
+      "from": "decisions/2026-08-19-proposal-architect-agent.md",
       "to": "decisions/2026-08-19-engagement-six-stages.md",
       "type": "RELATED_TO",
       "source": "inferred",
@@ -1195,6 +1406,14 @@
       "source": "inferred",
       "confidence": 0.5,
       "evidence": "共通タグ: ハーネス, 組織設計, engineer"
+    },
+    {
+      "from": "decisions/2026-08-19-proposal-architect-agent.md",
+      "to": "decisions/2026-08-19-web-production-agents.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, engineer"
     },
     {
       "from": "decisions/2026-08-19-proposal-architect-agent.md",
@@ -1221,6 +1440,14 @@
       "evidence": "共通タグ: ハーネス, engineer"
     },
     {
+      "from": "decisions/2026-08-19-responsive-not-two-uis.md",
+      "to": "decisions/2026-08-19-web-production-agents.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, web-designer"
+    },
+    {
       "from": "decisions/2026-08-19-solo-operator-premise.md",
       "to": "decisions/2026-08-14-expertise-via-domain-packs.md",
       "type": "RELATED_TO",
@@ -1231,6 +1458,14 @@
     {
       "from": "decisions/2026-08-19-solo-operator-premise.md",
       "to": "decisions/2026-08-14-personas-drive-the-design.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, engineer"
+    },
+    {
+      "from": "decisions/2026-08-19-solo-operator-premise.md",
+      "to": "decisions/2026-08-19-agents-must-refuse-undefined-input.md",
       "type": "RELATED_TO",
       "source": "inferred",
       "confidence": 0.5,
@@ -1262,6 +1497,14 @@
     },
     {
       "from": "decisions/2026-08-19-solo-operator-premise.md",
+      "to": "decisions/2026-08-19-web-production-agents.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, engineer"
+    },
+    {
+      "from": "decisions/2026-08-19-solo-operator-premise.md",
       "to": "decisions/2026-08-19-webapp-replaced-by-harness.md",
       "type": "RELATED_TO",
       "source": "inferred",
@@ -1285,6 +1528,94 @@
       "evidence": "共通タグ: ハーネス, engineer"
     },
     {
+      "from": "decisions/2026-08-19-web-production-agents.md",
+      "to": "decisions/2026-08-14-expertise-via-domain-packs.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, engineer"
+    },
+    {
+      "from": "decisions/2026-08-19-web-production-agents.md",
+      "to": "decisions/2026-08-14-personas-drive-the-design.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, engineer"
+    },
+    {
+      "from": "decisions/2026-08-19-web-production-agents.md",
+      "to": "decisions/2026-08-19-agents-must-refuse-undefined-input.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, engineer"
+    },
+    {
+      "from": "decisions/2026-08-19-web-production-agents.md",
+      "to": "decisions/2026-08-19-engagement-six-stages.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, engineer"
+    },
+    {
+      "from": "decisions/2026-08-19-web-production-agents.md",
+      "to": "decisions/2026-08-19-hearing-and-proposal-repeat.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, engineer"
+    },
+    {
+      "from": "decisions/2026-08-19-web-production-agents.md",
+      "to": "decisions/2026-08-19-proposal-architect-agent.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, engineer"
+    },
+    {
+      "from": "decisions/2026-08-19-web-production-agents.md",
+      "to": "decisions/2026-08-19-responsive-not-two-uis.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, web-designer"
+    },
+    {
+      "from": "decisions/2026-08-19-web-production-agents.md",
+      "to": "decisions/2026-08-19-solo-operator-premise.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, engineer"
+    },
+    {
+      "from": "decisions/2026-08-19-web-production-agents.md",
+      "to": "decisions/2026-08-19-webapp-replaced-by-harness.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, engineer"
+    },
+    {
+      "from": "decisions/2026-08-19-web-production-agents.md",
+      "to": "tasks/2026-08-19-build-engagement-flow.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, engineer"
+    },
+    {
+      "from": "decisions/2026-08-19-web-production-agents.md",
+      "to": "outputs/2026-08-14-harness-dev-env.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, engineer"
+    },
+    {
       "from": "decisions/2026-08-19-webapp-replaced-by-harness.md",
       "to": "decisions/2026-08-14-expertise-via-domain-packs.md",
       "type": "RELATED_TO",
@@ -1295,6 +1626,14 @@
     {
       "from": "decisions/2026-08-19-webapp-replaced-by-harness.md",
       "to": "decisions/2026-08-14-personas-drive-the-design.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, engineer"
+    },
+    {
+      "from": "decisions/2026-08-19-webapp-replaced-by-harness.md",
+      "to": "decisions/2026-08-19-agents-must-refuse-undefined-input.md",
       "type": "RELATED_TO",
       "source": "inferred",
       "confidence": 0.5,
@@ -1327,6 +1666,14 @@
     {
       "from": "decisions/2026-08-19-webapp-replaced-by-harness.md",
       "to": "decisions/2026-08-19-solo-operator-premise.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, engineer"
+    },
+    {
+      "from": "decisions/2026-08-19-webapp-replaced-by-harness.md",
+      "to": "decisions/2026-08-19-web-production-agents.md",
       "type": "RELATED_TO",
       "source": "inferred",
       "confidence": 0.5,
@@ -1414,6 +1761,14 @@
     },
     {
       "from": "tasks/2026-08-19-build-engagement-flow.md",
+      "to": "decisions/2026-08-19-agents-must-refuse-undefined-input.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, engineer"
+    },
+    {
+      "from": "tasks/2026-08-19-build-engagement-flow.md",
       "to": "decisions/2026-08-19-engagement-six-stages.md",
       "type": "RELATED_TO",
       "source": "inferred",
@@ -1439,6 +1794,14 @@
     {
       "from": "tasks/2026-08-19-build-engagement-flow.md",
       "to": "decisions/2026-08-19-solo-operator-premise.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, engineer"
+    },
+    {
+      "from": "tasks/2026-08-19-build-engagement-flow.md",
+      "to": "decisions/2026-08-19-web-production-agents.md",
       "type": "RELATED_TO",
       "source": "inferred",
       "confidence": 0.5,
@@ -1486,6 +1849,14 @@
     },
     {
       "from": "outputs/2026-08-14-harness-dev-env.md",
+      "to": "decisions/2026-08-19-agents-must-refuse-undefined-input.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, engineer"
+    },
+    {
+      "from": "outputs/2026-08-14-harness-dev-env.md",
       "to": "decisions/2026-08-19-engagement-six-stages.md",
       "type": "RELATED_TO",
       "source": "inferred",
@@ -1511,6 +1882,14 @@
     {
       "from": "outputs/2026-08-14-harness-dev-env.md",
       "to": "decisions/2026-08-19-solo-operator-premise.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, engineer"
+    },
+    {
+      "from": "outputs/2026-08-14-harness-dev-env.md",
+      "to": "decisions/2026-08-19-web-production-agents.md",
       "type": "RELATED_TO",
       "source": "inferred",
       "confidence": 0.5,
@@ -1630,11 +2009,11 @@
     }
   ],
   "manifest": {
-    "generatedAt": "2026-08-19T06:33:36.343Z",
-    "nodeCount": 33,
-    "edgeCount": 129,
-    "structuralEdgeCount": 27,
-    "inferredEdgeCount": 102,
+    "generatedAt": "2026-08-19T07:50:13.554Z",
+    "nodeCount": 35,
+    "edgeCount": 171,
+    "structuralEdgeCount": 29,
+    "inferredEdgeCount": 142,
     "errors": [],
     "warnings": []
   }

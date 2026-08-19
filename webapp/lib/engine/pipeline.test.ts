@@ -1,7 +1,8 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { MIKAWA_HOUSE, LUMIERE, MIRAI_KAIKEI } from "@/lib/data/tenants";
-import { findAgent } from "@/lib/data/agents";
+import { ALL_AGENTS, findAgent } from "@/lib/data/agents";
+import { findImpl } from "@/lib/agents/registry";
 import { decideApproval, startCase } from "@/lib/engine/pipeline";
 
 /**
@@ -68,16 +69,20 @@ test("承認要求には必ず理由が入る", () => {
   }
 });
 
-test("承認すると、止まっていた工程が完了して成功になる", () => {
+test("承認しても、中身の無いAgentは実行されない", () => {
+  // 承認＝実行ではない。ここを COMPLETED にすると
+  // 「承認したので実行されたはず」という記録だけが残る
   const record = newCase(LUMIERE);
   const approvalId = record.approvals[0].approvalId;
 
   const after = decideApproval(record, approvalId, "APPROVED", "承認者");
 
-  assert.equal(after.run.status, "SUCCEEDED");
+  assert.equal(after.approvals[0].status, "APPROVED");
+  assert.notEqual(after.run.status, "SUCCEEDED", "中身が無いのに成功になった");
+  assert.equal(after.run.status, "PARTIAL_SUCCESS");
   assert.ok(
-    after.run.steps.every((s) => s.status === "COMPLETED"),
-    "承認後に未完了の工程が残っている",
+    after.run.steps.some((s) => s.status === "NOT_IMPLEMENTED"),
+    "中身の無い工程が中身なしとして残っていない",
   );
 });
 
@@ -101,22 +106,87 @@ test("同じ承認を二度処理しても状態が動かない", () => {
   const approvalId = record.approvals[0].approvalId;
 
   const once = decideApproval(record, approvalId, "APPROVED", "承認者");
+  const statusAfterFirst = once.run.status;
   const auditCount = once.audit.length;
   const twice = decideApproval(once, approvalId, "REJECTED", "別の人");
 
-  assert.equal(twice.run.status, "SUCCEEDED", "承認後に差し戻せてしまった");
+  assert.equal(twice.run.status, statusAfterFirst, "承認後に差し戻せてしまった");
+  assert.notEqual(twice.run.status, "BLOCKED", "処理済みの承認が覆った");
   assert.equal(twice.audit.length, auditCount, "監査ログが二重に増えた");
 });
 
-test("承認が要らない案件は、止まらずに完了する", () => {
+test("承認が要らない案件でも、中身が無ければ成功にはならない", () => {
   // みらい会計は executor を持たない（実行系がない）
   assert.ok(
     !MIRAI_KAIKEI.requiredAgents.includes("executor"),
     "前提が変わっている：みらい会計に executor が入った",
   );
   const record = newCase(MIRAI_KAIKEI);
-  assert.equal(record.run.status, "SUCCEEDED");
-  assert.equal(record.approvals.length, 0);
+  assert.equal(record.approvals.length, 0, "止まる理由が無いはず");
+  // 止まらないことと、仕事をしたことは別
+  assert.equal(record.run.status, "PARTIAL_SUCCESS");
+});
+
+// ---------------------------------------------------------------------------
+// 再発防止。
+//
+// 以前ここで、契約に書いた「得意なこと」を実績として記録していた。
+// 処理をしていないのに、した記録が残る状態だった。
+// ---------------------------------------------------------------------------
+
+test("実体の無いAgentは、完了にならない", () => {
+  const record = newCase(MIKAWA_HOUSE);
+  for (const s of record.run.steps) {
+    if (findImpl(s.agentId)) continue;
+    assert.notEqual(
+      s.status,
+      "COMPLETED",
+      `${s.agentId}: 中身が無いのに完了になっている`,
+    );
+  }
+});
+
+test("契約の「得意なこと」を、やった記録として書かない", () => {
+  for (const tenant of [MIKAWA_HOUSE, MIRAI_KAIKEI, LUMIERE]) {
+    const record = newCase(tenant);
+    for (const e of record.audit) {
+      if (!e.agentId) continue;
+      const agent = findAgent(e.agentId);
+      if (!agent || e.status !== "成功") continue;
+      for (const skill of agent.expertise) {
+        assert.ok(
+          !e.action.includes(skill),
+          `${tenant.name} / ${e.agentId}: 契約の文言が実績として記録されている（${skill}）`,
+        );
+      }
+    }
+  }
+});
+
+test("成功と記録されているのは、実体が動いたものだけ", () => {
+  for (const tenant of [MIKAWA_HOUSE, MIRAI_KAIKEI, LUMIERE]) {
+    for (const e of newCase(tenant).audit) {
+      if (e.actorType !== "agent" || e.status !== "成功") continue;
+      assert.ok(
+        findImpl(e.agentId ?? ""),
+        `${e.agentId}: 実体が無いのに成功として記録されている`,
+      );
+    }
+  }
+});
+
+test("「動く」と書いてあるAgentには、必ず実体がある", () => {
+  // ラベルだけ書き換えても通らないようにする
+  for (const a of ALL_AGENTS) {
+    if (a.maturity === "動く") {
+      assert.ok(findImpl(a.agentId), `${a.agentId}: 「動く」だが実体が無い`);
+    } else {
+      assert.ok(
+        !findImpl(a.agentId),
+        `${a.agentId}: 実体があるのに「${a.maturity}」のまま`,
+      );
+    }
+  }
 });
 
 test("案件には必ず tenantId と重複防止キーが入る", () => {

@@ -17,7 +17,8 @@ const CATEGORY_TONE: Record<AgentContract["category"], Tone> = {
 };
 
 const MATURITY_TONE: Record<AgentContract["maturity"], Tone> = {
-  "中身あり・未接続": "ok",
+  動く: "ok",
+  "中身あり・未接続": "info",
   契約だけ: "warn",
   検討中: "idle",
 };
@@ -291,7 +292,7 @@ function PackCard({ pack }: { pack: DomainPack }) {
 
 export default function AgentsPage() {
   const wired = AGENT_CONTRACTS.filter(
-    (a) => a.maturity === "中身あり・未接続",
+    (a) => a.maturity === "動く" || a.maturity === "中身あり・未接続",
   );
 
   return (
