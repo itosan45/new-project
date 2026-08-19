@@ -183,6 +183,27 @@
       }
     },
     {
+      "id": "decisions/2026-08-19-design-tools-actual-state.md",
+      "type": "decision",
+      "path": "decisions/2026-08-19-design-tools-actual-state.md",
+      "title": "デザイン系の道具は、繋がっていても権限が足りなかった",
+      "createdAt": null,
+      "tags": [
+        "ハーネス",
+        "Web制作",
+        "運用"
+      ],
+      "status": null,
+      "artifactId": null,
+      "version": null,
+      "supersedes": null,
+      "relations": {
+        "basedOn": [
+          "decisions/2026-08-19-capability-dashboard.md"
+        ]
+      }
+    },
+    {
       "id": "decisions/2026-08-19-document-reader-connected.md",
       "type": "decision",
       "path": "decisions/2026-08-19-document-reader-connected.md",
@@ -740,6 +761,14 @@
     {
       "from": "decisions/2026-08-19-capability-dashboard.md",
       "to": "decisions/2026-08-19-web-production-agents.md",
+      "type": "SUPPORTED_BY",
+      "source": "frontmatter",
+      "confidence": 1,
+      "evidence": null
+    },
+    {
+      "from": "decisions/2026-08-19-design-tools-actual-state.md",
+      "to": "decisions/2026-08-19-capability-dashboard.md",
       "type": "SUPPORTED_BY",
       "source": "frontmatter",
       "confidence": 1,
@@ -1347,6 +1376,14 @@
     },
     {
       "from": "decisions/2026-08-19-capability-dashboard.md",
+      "to": "decisions/2026-08-19-design-tools-actual-state.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, 運用"
+    },
+    {
+      "from": "decisions/2026-08-19-capability-dashboard.md",
       "to": "decisions/2026-08-19-document-reader-connected.md",
       "type": "RELATED_TO",
       "source": "inferred",
@@ -1416,6 +1453,38 @@
       "source": "inferred",
       "confidence": 0.5,
       "evidence": "共通タグ: ハーネス, engineer"
+    },
+    {
+      "from": "decisions/2026-08-19-design-tools-actual-state.md",
+      "to": "decisions/2026-08-19-capability-dashboard.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, 運用"
+    },
+    {
+      "from": "decisions/2026-08-19-design-tools-actual-state.md",
+      "to": "decisions/2026-08-19-web-production-agents.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, Web制作"
+    },
+    {
+      "from": "decisions/2026-08-19-design-tools-actual-state.md",
+      "to": "decisions/2026-08-19-webapp-replaced-by-harness.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, 運用"
+    },
+    {
+      "from": "decisions/2026-08-19-design-tools-actual-state.md",
+      "to": "secretary/logs/2026-08-19.md",
+      "type": "REFERENCES",
+      "source": "inferred",
+      "confidence": 0.7,
+      "evidence": "本文中に「2026-08-19」への言及"
     },
     {
       "from": "decisions/2026-08-19-document-reader-connected.md",
@@ -1979,6 +2048,14 @@
     },
     {
       "from": "decisions/2026-08-19-web-production-agents.md",
+      "to": "decisions/2026-08-19-design-tools-actual-state.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, Web制作"
+    },
+    {
+      "from": "decisions/2026-08-19-web-production-agents.md",
       "to": "decisions/2026-08-19-document-reader-connected.md",
       "type": "RELATED_TO",
       "source": "inferred",
@@ -2080,6 +2157,14 @@
       "source": "inferred",
       "confidence": 0.5,
       "evidence": "共通タグ: ハーネス, 運用, engineer"
+    },
+    {
+      "from": "decisions/2026-08-19-webapp-replaced-by-harness.md",
+      "to": "decisions/2026-08-19-design-tools-actual-state.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, 運用"
     },
     {
       "from": "decisions/2026-08-19-webapp-replaced-by-harness.md",
@@ -2515,11 +2600,11 @@
     }
   ],
   "manifest": {
-    "generatedAt": "2026-08-19T08:19:51.487Z",
-    "nodeCount": 37,
-    "edgeCount": 229,
-    "structuralEdgeCount": 31,
-    "inferredEdgeCount": 198,
+    "generatedAt": "2026-08-19T08:32:56.563Z",
+    "nodeCount": 38,
+    "edgeCount": 237,
+    "structuralEdgeCount": 32,
+    "inferredEdgeCount": 205,
     "errors": [],
     "warnings": []
   }

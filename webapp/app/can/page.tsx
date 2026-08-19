@@ -9,6 +9,7 @@ import { INVASION_LEVELS, type InvasionLevel } from "@/lib/domain/engagement";
 import { SOLO_LIMITS, isTooDeep } from "@/lib/domain/operator";
 import { ALL_AGENTS } from "@/lib/data/agents";
 import { findImpl } from "@/lib/agents/registry";
+import { DESIGN_ROUTES, TOOLS, type ToolState } from "@/lib/data/tools";
 
 export const metadata = { title: "できること" };
 
@@ -43,6 +44,13 @@ const CANNOT: { what: string; why: string }[] = [
     why: "人間が1人なので受けられない。日中の対応まで",
   },
 ];
+
+const TOOL_TONE: Record<ToolState, Tone> = {
+  使える: "ok",
+  権限が足りない: "warn",
+  認証がまだ: "warn",
+  未接続: "idle",
+};
 
 const LEVEL_ORDER: InvasionLevel[] = ["L0", "L1", "L2", "L3", "L4"];
 
@@ -229,6 +237,68 @@ export default function CanPage() {
               </div>
             );
           })}
+        </div>
+      </section>
+
+      {/* 使う道具。状態を確認した日つきで出す */}
+      <section className="mb-8">
+        <h2 className="mb-1 text-base font-bold text-ink">使う道具</h2>
+        <p className="mb-3 text-[11px] leading-relaxed text-ink-muted">
+          「使えます」と書く前に、実際に繋がっているかを確かめたもの。
+          <b className="text-ink">繋がっていても権限が足りないことがあります。</b>
+          状態は変わるので確認日を付けてあります。
+        </p>
+        <Card padded={false}>
+          <div className="flex flex-col divide-y divide-line">
+            {TOOLS.map((t) => (
+              <div key={t.name} className="px-4 py-3">
+                <div className="flex flex-wrap items-center gap-2">
+                  <Badge tone={TOOL_TONE[t.state]}>{t.state}</Badge>
+                  <span className="text-[13px] font-medium text-ink">
+                    {t.name}
+                  </span>
+                  <span className="text-[11px] text-ink-muted">{t.用途}</span>
+                </div>
+                <p className="mt-1 text-[11px] leading-relaxed text-ink-muted">
+                  {t.detail}
+                </p>
+                {t.必要な操作 && (
+                  <p className="mt-1 text-[11px] leading-relaxed text-warn">
+                    使えるようにするには：{t.必要な操作}（あなたの操作）
+                  </p>
+                )}
+                <p className="mt-1 font-mono text-[10px] text-ink-subtle">
+                  確認 {t.確認日}
+                </p>
+              </div>
+            ))}
+          </div>
+        </Card>
+
+        <div className="mt-3">
+          <p className="mb-2 text-[11px] font-medium text-ink">
+            デザインが絡む仕事で、いま取れる道
+          </p>
+          <div className="flex flex-col gap-2">
+            {DESIGN_ROUTES.map((r) => (
+              <div key={r.route} className="rounded-lg border border-line p-3">
+                <div className="flex flex-wrap items-baseline gap-2">
+                  <span className="text-[12px] font-medium text-ink">
+                    {r.route}
+                  </span>
+                  <span className="text-[10px] text-ink-subtle">
+                    {r.使う道具}
+                  </span>
+                </div>
+                <p className="mt-1 text-[11px] leading-relaxed text-ink-muted">
+                  向いている場面：{r.向いている場面}
+                </p>
+                <p className="mt-0.5 text-[11px] leading-relaxed text-danger">
+                  制約：{r.制約}
+                </p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
