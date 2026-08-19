@@ -41,7 +41,7 @@ export const AGENT_CONTRACTS: AgentContract[] = [
     timeoutSeconds: 60,
     maxRetries: 2,
     confidenceThreshold: 0.7,
-    owner: "運用チーム",
+    owner: "自分",
     maturity: "実装済み",
   },
   {
@@ -80,7 +80,7 @@ export const AGENT_CONTRACTS: AgentContract[] = [
     timeoutSeconds: 120,
     maxRetries: 2,
     confidenceThreshold: 0.85,
-    owner: "運用チーム",
+    owner: "自分",
     maturity: "実装済み",
   },
 
@@ -118,7 +118,7 @@ export const AGENT_CONTRACTS: AgentContract[] = [
     timeoutSeconds: 30,
     maxRetries: 2,
     confidenceThreshold: 0.8,
-    owner: "森 千夏",
+    owner: "自分",
     maturity: "実装済み",
   },
   {
@@ -150,7 +150,7 @@ export const AGENT_CONTRACTS: AgentContract[] = [
     timeoutSeconds: 300,
     maxRetries: 2,
     confidenceThreshold: 0.7,
-    owner: "田中 健一",
+    owner: "自分",
     maturity: "実装済み",
   },
   {
@@ -182,7 +182,7 @@ export const AGENT_CONTRACTS: AgentContract[] = [
     timeoutSeconds: 300,
     maxRetries: 2,
     confidenceThreshold: 0.7,
-    owner: "森 千夏",
+    owner: "自分",
     maturity: "設計のみ",
   },
   {
@@ -217,7 +217,7 @@ export const AGENT_CONTRACTS: AgentContract[] = [
     timeoutSeconds: 600,
     maxRetries: 1,
     confidenceThreshold: 0.8,
-    owner: "鈴木 花子",
+    owner: "自分",
     maturity: "実装済み",
   },
   {
@@ -250,7 +250,7 @@ export const AGENT_CONTRACTS: AgentContract[] = [
     timeoutSeconds: 180,
     maxRetries: 1,
     confidenceThreshold: 0.85,
-    owner: "木下 陸",
+    owner: "自分",
     maturity: "設計のみ",
   },
 
@@ -290,7 +290,7 @@ export const AGENT_CONTRACTS: AgentContract[] = [
     timeoutSeconds: 120,
     maxRetries: 2,
     confidenceThreshold: 0.75,
-    owner: "森 千夏",
+    owner: "自分",
     maturity: "設計のみ",
   },
   {
@@ -321,7 +321,7 @@ export const AGENT_CONTRACTS: AgentContract[] = [
     timeoutSeconds: 240,
     maxRetries: 2,
     confidenceThreshold: 0.7,
-    owner: "伊藤 美咲",
+    owner: "自分",
     maturity: "実装済み",
   },
   {
@@ -420,7 +420,7 @@ export const AGENT_CONTRACTS: AgentContract[] = [
     timeoutSeconds: 60,
     maxRetries: 1,
     confidenceThreshold: 0.9,
-    owner: "平田 遼",
+    owner: "自分",
     maturity: "実装済み",
   },
   {
@@ -451,7 +451,7 @@ export const AGENT_CONTRACTS: AgentContract[] = [
     timeoutSeconds: 120,
     maxRetries: 1,
     confidenceThreshold: 0.9,
-    owner: "山本 大地",
+    owner: "自分",
     maturity: "実装済み",
   },
 
@@ -485,7 +485,7 @@ export const AGENT_CONTRACTS: AgentContract[] = [
     timeoutSeconds: 60,
     maxRetries: 0,
     confidenceThreshold: 0.9,
-    owner: "運用チーム",
+    owner: "自分",
     maturity: "実装済み",
   },
   {
@@ -523,7 +523,7 @@ export const AGENT_CONTRACTS: AgentContract[] = [
     timeoutSeconds: 30,
     maxRetries: 3,
     confidenceThreshold: 0.95,
-    owner: "平田 遼",
+    owner: "自分",
     maturity: "設計のみ",
   },
   {
@@ -563,7 +563,7 @@ export const AGENT_CONTRACTS: AgentContract[] = [
     timeoutSeconds: 300,
     maxRetries: 0,
     confidenceThreshold: 0.9,
-    owner: "運用チーム",
+    owner: "自分",
     maturity: "検討中",
   },
 
@@ -599,7 +599,7 @@ export const AGENT_CONTRACTS: AgentContract[] = [
     timeoutSeconds: 180,
     maxRetries: 0,
     confidenceThreshold: 0.95,
-    owner: "佐藤 優",
+    owner: "自分",
     maturity: "実装済み",
   },
   {
@@ -625,7 +625,7 @@ export const AGENT_CONTRACTS: AgentContract[] = [
     timeoutSeconds: 60,
     maxRetries: 3,
     confidenceThreshold: 0.6,
-    owner: "高橋 誠",
+    owner: "自分",
     maturity: "実装済み",
   },
 ];
@@ -638,7 +638,7 @@ export const AGENT_RUNTIME: AgentRuntimeState[] = [
     processedToday: 352,
     successRate: 0.982,
     lastRunAt: "5分前",
-    assignee: "田中 健一",
+    assignee: "自分",
   },
   {
     agentId: "data-analyst",
@@ -647,7 +647,7 @@ export const AGENT_RUNTIME: AgentRuntimeState[] = [
     processedToday: 298,
     successRate: 0.967,
     lastRunAt: "3分前",
-    assignee: "鈴木 花子",
+    assignee: "自分",
   },
   {
     agentId: "executor",
@@ -656,7 +656,7 @@ export const AGENT_RUNTIME: AgentRuntimeState[] = [
     processedToday: 412,
     successRate: 0.921,
     lastRunAt: "7分前",
-    assignee: "佐藤 優",
+    assignee: "自分",
   },
   {
     agentId: "qa",
@@ -665,7 +665,7 @@ export const AGENT_RUNTIME: AgentRuntimeState[] = [
     processedToday: 222,
     successRate: 0.973,
     lastRunAt: "2分前",
-    assignee: "山本 大地",
+    assignee: "自分",
   },
   {
     agentId: "report-generator",
@@ -674,7 +674,7 @@ export const AGENT_RUNTIME: AgentRuntimeState[] = [
     processedToday: 96,
     successRate: 0.99,
     lastRunAt: "11分前",
-    assignee: "伊藤 美咲",
+    assignee: "自分",
   },
   {
     agentId: "notification",
@@ -683,7 +683,7 @@ export const AGENT_RUNTIME: AgentRuntimeState[] = [
     processedToday: 184,
     successRate: 0.995,
     lastRunAt: "1分前",
-    assignee: "高橋 誠",
+    assignee: "自分",
   },
   {
     agentId: "intake",
@@ -692,7 +692,7 @@ export const AGENT_RUNTIME: AgentRuntimeState[] = [
     processedToday: 141,
     successRate: 0.998,
     lastRunAt: "1分前",
-    assignee: "運用チーム",
+    assignee: "自分",
   },
   {
     agentId: "approval",
@@ -701,7 +701,7 @@ export const AGENT_RUNTIME: AgentRuntimeState[] = [
     processedToday: 63,
     successRate: 1.0,
     lastRunAt: "4分前",
-    assignee: "運用チーム",
+    assignee: "自分",
   },
   {
     agentId: "document-reader",
@@ -710,7 +710,7 @@ export const AGENT_RUNTIME: AgentRuntimeState[] = [
     processedToday: 486,
     successRate: 0.943,
     lastRunAt: "1分前",
-    assignee: "運用チーム",
+    assignee: "自分",
   },
   {
     agentId: "classifier",
@@ -719,7 +719,7 @@ export const AGENT_RUNTIME: AgentRuntimeState[] = [
     processedToday: 174,
     successRate: 0.958,
     lastRunAt: "2分前",
-    assignee: "森 千夏",
+    assignee: "自分",
   },
   {
     agentId: "validator",
@@ -728,7 +728,7 @@ export const AGENT_RUNTIME: AgentRuntimeState[] = [
     processedToday: 391,
     successRate: 0.934,
     lastRunAt: "3分前",
-    assignee: "平田 遼",
+    assignee: "自分",
   },
 ];
 

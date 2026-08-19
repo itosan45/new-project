@@ -5,6 +5,7 @@ import { Shell, UserChip } from "@/components/shell";
 import { Card, Icon, IconTile, Metric } from "@/components/ui";
 import { TENANTS } from "@/lib/data/tenants";
 import { listAllCases, summarize, type CaseRecord } from "@/lib/store/cases";
+import { SOLO_LIMITS } from "@/lib/domain/operator";
 
 export const metadata = { title: "案件" };
 export const dynamic = "force-dynamic";
@@ -42,7 +43,7 @@ export default async function CasesPage() {
       }
     >
       <div className="flex items-center justify-end gap-3 border-b border-line bg-surface px-4 py-3 sm:px-7">
-        <UserChip name="Admin User" sub="システム管理者" dark={false} />
+        <UserChip name="自分" sub="この組織で唯一の人間" dark={false} />
         <LogoutButton />
       </div>
 
@@ -105,6 +106,26 @@ export default async function CasesPage() {
             />
           </div>
         </Card>
+
+        {/* 承認は全部自分に来る。溜まったら中身を見ずに押すようになるので、
+            件数のほうで止める */}
+        {stats.pendingApprovals >= SOLO_LIMITS.maxPendingApprovals && (
+          <Card className="border-danger/40 bg-danger-soft/20">
+            <div className="flex items-start gap-3">
+              <IconTile name="alert" tone="danger" />
+              <div>
+                <p className="text-xs font-medium text-ink">
+                  承認待ちが{stats.pendingApprovals}件。新しい案件を受けないでください
+                </p>
+                <p className="mt-1 text-[11px] leading-relaxed text-ink-muted">
+                  判断できる人間は自分1人だけです。溜まった承認は、中身を見ずに
+                  押すようになります。そうなった時点で承認ゲートは無いのと同じなので、
+                  上限（{SOLO_LIMITS.maxPendingApprovals}件）を先に片づけてください。
+                </p>
+              </div>
+            </div>
+          </Card>
+        )}
 
         <CaseDesk tenants={TENANTS} cases={cases} />
       </div>

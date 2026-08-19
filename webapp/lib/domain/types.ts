@@ -145,6 +145,14 @@ export interface AgentContract {
   maxRetries: number;
   /** これを下回る確信度なら人間に回す。 */
   confidenceThreshold: number;
+  /**
+   * このAgentの出力に責任を持つ人。
+   *
+   * 人間は自分1人しかいないので、実際は全部「自分」になる。
+   * それでも項目として残してあるのは、他社に売るときに
+   * 別の人が入る場所だから。いま架空の担当者名を置くと、
+   * 誰かがやってくれるように見えてしまう。
+   */
   owner: string;
   maturity: AgentMaturity;
 }
