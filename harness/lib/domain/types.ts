@@ -101,22 +101,81 @@ export type AgentCategory = "調査" | "分析" | "実行" | "管理" | "収益"
 
 export type AgentHealth = "正常" | "注意" | "異常";
 
+/** 実装の段階。設計だけのものを稼働中と混ぜない。 */
+export type AgentMaturity = "実装済み" | "設計のみ" | "検討中";
+
 export interface AgentContract {
   agentId: string;
   agentVersion: string;
   name: string;
   category: AgentCategory;
   purpose: string;
+
+  // --- 権限（何をしてよいか） ---
   allowedActions: string[];
   /** 明示的に禁止する操作。allowedActions の裏返しではなく、別に書く。 */
   forbiddenActions: string[];
   allowedDataScopes: DataClassification[];
   sideEffectClass: SideEffectClass;
+
+  // --- 専門性（何ができるか） ---
+  /**
+   * 具体的に何が得意か。「分析する」のような曖昧な記述は書かない。
+   * ここが曖昧なAgentは、依頼が集中して結局どれも中途半端になる。
+   */
+  expertise: string[];
+  /**
+   * 使ってはいけない場面。
+   *
+   * expertise より重要。できることの一覧だけ書くと、
+   * 「たぶんできるだろう」で守備範囲外の仕事が回ってきて事故る。
+   */
+  notSuitableFor: string[];
+  /** 動作に必要な入力。これが揃わないなら起動させない。 */
+  requiredInputs: string[];
+  /** 出力するもの */
+  produces: string[];
+  /** 既知の弱点。隠さず書く。運用の回避策はここから決まる。 */
+  qualityRisks: string[];
+  /** 人間に引き渡す条件。確信度以外のトリガー。 */
+  escalatesWhen: string[];
+
+  // --- 運用 ---
   timeoutSeconds: number;
   maxRetries: number;
   /** これを下回る確信度なら人間に回す。 */
   confidenceThreshold: number;
   owner: string;
+  maturity: AgentMaturity;
+}
+
+/**
+ * ドメインパック（分野別の専門知識）。
+ *
+ * 業種ごとにAgentを作り分けると、業種 × Agent の数だけ実装が要る。
+ * 設計書の「共通の実行エンジン + 会社別設定」に従い、
+ * Agentは共通のまま、分野知識を差し込む形にする。
+ *
+ *     専門性 = 共通Agent × ドメインパック
+ *
+ * 建設向けのData Analystと、EC向けのData Analystは同じ実装で、
+ * 読み込むパックが違うだけ。ここを分けた瞬間に横展開できなくなる。
+ */
+export interface DomainPack {
+  packId: string;
+  name: string;
+  /** この分野の業種 */
+  industries: string[];
+  /** このパックを差し込むAgent */
+  appliesTo: string[];
+  /** 分野固有の語彙。OCRと分類の精度はここで決まる。 */
+  vocabulary: { term: string; meaning: string }[];
+  /** 抽出すべき項目と、その手がかり */
+  extractionFields: { field: string; hint: string; required: boolean }[];
+  /** この分野での検証ルール */
+  validationRules: string[];
+  /** この分野で必ず人間に回すもの。業界の慣習や法令に由来する。 */
+  alwaysEscalate: string[];
 }
 
 export interface AgentRuntimeState {

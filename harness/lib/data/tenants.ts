@@ -69,6 +69,16 @@ export const MIKAWA_HOUSE: TenantProfile = {
   approvalReasons: ["金額変更"],
   dataClassifications: ["INTERNAL", "PERSONAL", "FINANCIAL"],
 
+  requiredAgents: [
+    "intake",
+    "document-reader",
+    "validator",
+    "approval",
+    "executor",
+    "audit",
+  ],
+  domainPack: "construction",
+
   approvalGatePurpose:
     "品質の担保。手書きOCRは必ず読み違える。人が最後に見る工程を残すことが、精度の不足を運用で埋める唯一の方法になる。",
 
@@ -148,6 +158,16 @@ export const MIRAI_KAIKEI: TenantProfile = {
   approvalReasons: ["外部送信", "金額変更", "削除"],
   dataClassifications: ["CONFIDENTIAL", "PERSONAL", "FINANCIAL", "SECRET"],
 
+  requiredAgents: [
+    "intake",
+    "document-reader",
+    "validator",
+    "qa",
+    "approval",
+    "audit",
+  ],
+  domainPack: "accounting",
+
   approvalGatePurpose:
     "責任の所在。士業は「なぜそう判断したか」を説明する義務がある。承認記録と判断根拠が残らない限り、AIの出力は業務に使えない。",
 
@@ -223,6 +243,18 @@ export const LUMIERE: TenantProfile = {
 
   approvalReasons: ["外部送信", "公開", "社外共有"],
   dataClassifications: ["INTERNAL", "PERSONAL", "CONFIDENTIAL"],
+
+  requiredAgents: [
+    "intake",
+    "classifier",
+    "draft-writer",
+    "voice-of-customer",
+    "data-analyst",
+    "qa",
+    "approval",
+    "executor",
+  ],
+  domainPack: "ecommerce",
 
   approvalGatePurpose:
     "爆発半径の抑制。1件の誤送信が数万人に届く。取り消せない操作の前で必ず止めることが、事故の規模を1件に留める唯一の方法になる。",

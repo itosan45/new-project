@@ -76,28 +76,6 @@ export default function Home() {
         </div>
       </header>
 
-      {/* 設計の前提。画面より先にここを見る */}
-      <section className="mb-8">
-        <Link href="/tenants">
-          <Card className="transition-colors hover:border-primary/40">
-            <div className="flex items-start gap-3">
-              <IconTile name="people" tone="warn" />
-              <div className="min-w-0 flex-1">
-                <div className="flex items-center gap-2">
-                  <h3 className="text-sm font-semibold text-ink">仮想顧客（3社）</h3>
-                  <Badge tone="warn">設計の前提</Badge>
-                </div>
-                <p className="mt-1.5 text-xs leading-relaxed text-ink-muted">
-                  三河ハウスサポート（住宅リフォーム）／みらい会計パートナーズ（税理士法人）／
-                  ルミエール（化粧品D2C）。9名のペルソナと、各社で承認ゲートが守るものの違い。
-                </p>
-                <p className="mt-2 font-mono text-[10px] text-ink-subtle">/tenants</p>
-              </div>
-            </div>
-          </Card>
-        </Link>
-      </section>
-
       <section className="mb-8">
         <h2 className="mb-3 text-sm font-semibold text-ink">画面</h2>
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
@@ -167,62 +145,53 @@ export default function Home() {
       </section>
 
       <section>
-        <h2 className="mb-3 text-sm font-semibold text-ink">
-          登録済みAgent{" "}
-          <span className="font-normal text-ink-subtle">
-            （{AGENT_CONTRACTS.length}体）
-          </span>
-        </h2>
-        <Card padded={false}>
-          <table className="w-full text-left">
-            <thead>
-              <tr className="border-b border-line text-[10px] text-ink-muted">
-                <th className="px-4 py-2.5 font-medium">Agent</th>
-                <th className="px-3 py-2.5 font-medium">区分</th>
-                <th className="px-3 py-2.5 font-medium">副作用</th>
-                <th className="px-3 py-2.5 font-medium">扱えるデータ</th>
-                <th className="px-4 py-2.5 text-right font-medium">確信度下限</th>
-              </tr>
-            </thead>
-            <tbody>
-              {AGENT_CONTRACTS.map((a) => (
-                <tr key={a.agentId} className="border-b border-line last:border-0">
-                  <td className="px-4 py-2.5">
-                    <div className="text-xs font-medium text-ink">{a.name}</div>
-                    <div className="text-[10px] text-ink-subtle">
-                      {a.agentId} v{a.agentVersion}
-                    </div>
-                  </td>
-                  <td className="px-3 py-2.5">
-                    <Badge tone="idle">{a.category}</Badge>
-                  </td>
-                  <td className="px-3 py-2.5">
-                    <Badge
-                      tone={
-                        a.sideEffectClass === "READ_ONLY"
-                          ? "ok"
-                          : a.sideEffectClass === "SIDE_EFFECT"
-                            ? "warn"
-                            : a.sideEffectClass === "IRREVERSIBLE"
-                              ? "danger"
-                              : "idle"
-                      }
-                    >
-                      {a.sideEffectClass}
-                    </Badge>
-                  </td>
-                  <td className="px-3 py-2.5 text-[10px] text-ink-muted">
-                    {a.allowedDataScopes.join(", ")}
-                  </td>
-                  <td className="tabular px-4 py-2.5 text-right text-[11px] text-ink">
-                    {a.confidenceThreshold}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </Card>
+        <h2 className="mb-3 text-sm font-semibold text-ink">設計リファレンス</h2>
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+          <Link href="/agents">
+            <Card className="h-full transition-colors hover:border-primary/40">
+              <div className="flex items-start gap-3">
+                <IconTile name="robot" tone="primary" />
+                <div className="min-w-0">
+                  <div className="flex items-center gap-2">
+                    <h3 className="text-sm font-semibold text-ink">
+                      Agentの専門性
+                    </h3>
+                    <Badge tone="idle">{AGENT_CONTRACTS.length}体</Badge>
+                  </div>
+                  <p className="mt-1.5 text-xs leading-relaxed text-ink-muted">
+                    各Agentの得意なこと・使ってはいけない場面・既知の弱点。
+                    分野別のドメインパック3種と、顧客ごとに必要なAgentの対応表。
+                  </p>
+                  <p className="mt-2 font-mono text-[10px] text-ink-subtle">
+                    /agents
+                  </p>
+                </div>
+              </div>
+            </Card>
+          </Link>
+          <Link href="/tenants">
+            <Card className="h-full transition-colors hover:border-primary/40">
+              <div className="flex items-start gap-3">
+                <IconTile name="people" tone="warn" />
+                <div className="min-w-0">
+                  <div className="flex items-center gap-2">
+                    <h3 className="text-sm font-semibold text-ink">仮想顧客</h3>
+                    <Badge tone="idle">3社・9名</Badge>
+                  </div>
+                  <p className="mt-1.5 text-xs leading-relaxed text-ink-muted">
+                    住宅リフォーム／税理士法人／化粧品D2C。
+                    各社で承認ゲートが守るものの違い。
+                  </p>
+                  <p className="mt-2 font-mono text-[10px] text-ink-subtle">
+                    /tenants
+                  </p>
+                </div>
+              </div>
+            </Card>
+          </Link>
+        </div>
       </section>
+
     </main>
   );
 }

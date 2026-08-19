@@ -23,6 +23,7 @@ http://localhost:3000 を開くと画面一覧が出る。
 |---|---|---|
 | `/` | 画面一覧 | 開発用の入口。Agent契約の一覧も出る |
 | `/tenants` | 仮想顧客3社 | 設計の前提。画面より先にここを見る |
+| `/agents` | Agentの専門性 | 16体の契約とドメインパック3種 |
 | `/employee` | お仕事コックピット | 社員 |
 | `/ceo` | CEOアシスタント | 経営 |
 | `/admin` | エージェント運用センター | 管理者 |
@@ -53,6 +54,58 @@ http://localhost:3000 を開くと画面一覧が出る。
 撮る以上の操作を覚えるつもりはない」。この一行があるだけで、
 その画面に入力欄をいくつ置けるかが決まる。
 
+## Agentの専門性（`/agents`）
+
+### 専門性 = 共通Agent × ドメインパック
+
+業種ごとにAgentを作り分けると、**業種 × Agent** の数だけ実装が要る。
+建設向けのDocument Readerと会計向けのDocument Readerは同じ実装にして、
+読み込む**ドメインパック**だけを変える。
+
+新しい業種の顧客が来たときに追加するのはパック1つで、Agentは触らない。
+ここを分けた瞬間に横展開できなくなる。
+
+| パック | 対象業種 | 差し込むAgent |
+|---|---|---|
+| 建設・リフォーム | 住宅リフォーム、防蟻工事、工務店 | document-reader, validator, data-analyst |
+| 士業・会計 | 税理士法人、会計事務所、記帳代行 | document-reader, validator, audit, data-analyst |
+| EC・D2C | EC、D2C、通販、サブスク | classifier, draft-writer, voice-of-customer, data-analyst |
+
+パックが持つもの: 分野の語彙、抽出項目とその手がかり、検証ルール、
+**必ず人間に回すもの**（業界の慣習や法令に由来する）。
+
+### 契約に「できないこと」を持たせる
+
+`AgentContract` は権限（何をしてよいか）だけでなく、専門性を持つ。
+
+| 項目 | 中身 |
+|---|---|
+| `expertise` | 具体的に何が得意か |
+| `notSuitableFor` | **使ってはいけない場面** |
+| `requiredInputs` | 揃わなければ起動させない入力 |
+| `produces` | 出力するもの |
+| `qualityRisks` | 既知の弱点。隠さず書く |
+| `escalatesWhen` | 確信度以外の、人間への引き渡し条件 |
+| `maturity` | 実装済み / 設計のみ / 検討中 |
+
+`notSuitableFor` が `expertise` より重要。できることの一覧しか無いと、
+「たぶんできるだろう」で守備範囲外の仕事が回ってきて事故る。
+
+`qualityRisks` は正直に書く。たとえば Document Reader には
+「手書きの1と7を取り違える」と書いてある。ここを書かないと、
+運用側で回避策を用意できない。
+
+### Agentは16体。ただし全社に配らない
+
+追加の基準は「仮想顧客3社のどれかが実際に必要としているか」だけ。
+あったら便利そう、では足さない。
+
+- 三河ハウスサポート: 6体（intake, document-reader, validator, approval, executor, audit）
+- みらい会計パートナーズ: 6体（+ qa、− executor）
+- ルミエール: 8体（classifier, draft-writer, voice-of-customer 中心）
+
+使わないAgentは配らない。権限の穴にしかならないため。
+
 ## 骨組み
 
 ### `lib/domain/types.ts`
@@ -75,7 +128,8 @@ http://localhost:3000 を開くと画面一覧が出る。
 | ファイル | 中身 |
 |---|---|
 | `tenants.ts` | 仮想顧客3社とペルソナ9名 |
-| `agents.ts` | Agent契約8体と、その稼働状況 |
+| `domain-packs.ts` | 分野別の専門知識3種 |
+| `agents.ts` | Agent契約16体と、その稼働状況 |
 | `runs.ts` | ライブ実行トレースが表示している Run と実行ログ |
 | `workspace.ts` | 社員・CEO・管理者の各画面が使うデータ |
 
@@ -135,6 +189,9 @@ http://localhost:3000 を開くと画面一覧が出る。
 3. 承認による Run の再開を動かす
 4. 1つの実システム（メールまたはCRM）と繋ぐ
 
-なお、設計書は16 Agent・3プレーン構成を前提にしているが、初期に全部
-立ち上げると担当が重なって追跡できなくなる。ここでは重複の少ない8体から
-始めている。増やすときは `lib/data/agents.ts` に足す。
+設計書の16 Agentのうち、担当が重なっていた Discovery / Process は
+Intake に統合し、代わりに顧客が実際に必要とする Document Reader /
+Classifier / Validator / Draft Writer / Audit を追加した。
+結果として同じ16体だが、重複はない。増やすときは
+`lib/data/agents.ts` に足す。ただし「どの顧客が必要としているか」を
+言えないものは足さない。

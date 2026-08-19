@@ -71,6 +71,14 @@ export interface TenantProfile {
   /** 想定される月次の削減 */
   expectedMonthlySaving: string;
 
+  /**
+   * この会社が実際に必要とするAgent。
+   * 全Agentを全社に配らない。使わないAgentは権限の穴にしかならない。
+   */
+  requiredAgents: string[];
+  /** 差し込むドメインパック */
+  domainPack: string;
+
   /** この顧客がハーネスのどこを試すか。3社で重ならないように選ぶ。 */
   stressTests: string[];
   /** 失敗したときに何が起きるか。設計の優先順位はここで決まる。 */
