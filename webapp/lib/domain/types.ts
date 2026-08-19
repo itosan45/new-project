@@ -66,7 +66,11 @@ export type StepStatus =
   | "COMPLETED"
   | "WAITING_APPROVAL"
   | "SKIPPED"
-  | "FAILED";
+  | "FAILED"
+  /** 入力が揃っていないので実行していない。推測で埋めるくらいなら止める。 */
+  | "NEEDS_INPUT"
+  /** Agentの中身がまだ無い。契約だけの状態。 */
+  | "NOT_IMPLEMENTED";
 
 export const STEP_STATUS_LABEL: Record<StepStatus, string> = {
   PENDING: "待機中",
@@ -75,6 +79,8 @@ export const STEP_STATUS_LABEL: Record<StepStatus, string> = {
   WAITING_APPROVAL: "承認待ち",
   SKIPPED: "スキップ",
   FAILED: "失敗",
+  NEEDS_INPUT: "入力待ち",
+  NOT_IMPLEMENTED: "中身なし",
 };
 
 // ---------------------------------------------------------------------------
@@ -113,6 +119,53 @@ export type AgentHealth = "正常" | "注意" | "異常";
  * - 検討中: 要るかどうかも決まっていない
  */
 export type AgentMaturity = "契約だけ" | "中身あり・未接続" | "検討中";
+
+/**
+ * Agentの経験。
+ *
+ * 「ベテラン」を経歴文で書いても飾りにしかならない。
+ * 実際にベテランと素人を分けているのは次の4つなので、それを持たせる。
+ *
+ * ここを書き換えると Agent の出力が変わる、という状態にしてある。
+ * 参照されない経歴は、ただの飾り。
+ */
+export interface AgentExperience {
+  level: "見習い" | "一人前" | "ベテラン";
+
+  /** 初心者が持っていない判断基準。「こういう時はこうする」 */
+  judgment: { 状況: string; 判断: string; 理由: string }[];
+
+  /** 経験者だけが知っている地雷 */
+  traps: string[];
+
+  /** 相場観。見積と提案の裏付けになる数字 */
+  benchmarks: { 項目: string; 値: string; 根拠: string }[];
+
+  /**
+   * いまの標準。
+   *
+   * 必ず確認日を持たせる。日付の無いトレンド情報は、
+   * 去年の常識で提案する原因になる。
+   */
+  currentPractice: { 項目: string; いま: string; 確認日: string }[];
+
+  /** この知識が古くなる目安（日数）。過ぎたら画面で要確認と出す。 */
+  staleAfterDays: number;
+}
+
+/** 経験が古くなっていないか。トレンドは黙って腐るので、腐ったことが分かるようにする。 */
+export function isStale(
+  exp: AgentExperience,
+  today: Date = new Date(),
+): boolean {
+  const dates = exp.currentPractice
+    .map((p) => Date.parse(p.確認日))
+    .filter((n) => !Number.isNaN(n));
+  if (dates.length === 0) return true;
+  const newest = Math.max(...dates);
+  const days = (today.getTime() - newest) / 86_400_000;
+  return days > exp.staleAfterDays;
+}
 
 export interface AgentContract {
   agentId: string;
@@ -165,6 +218,14 @@ export interface AgentContract {
    */
   owner: string;
   maturity: AgentMaturity;
+
+  /**
+   * この分野での経験。
+   *
+   * 判断を伴う仕事をするAgentには必須。持たないAgentは、
+   * 決まった手順を流すだけのものに限る。
+   */
+  experience?: AgentExperience;
 }
 
 /**

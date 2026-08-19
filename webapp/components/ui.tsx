@@ -135,6 +135,10 @@ const STEP_TONE: Record<StepStatus, Tone> = {
   WAITING_APPROVAL: "warn",
   SKIPPED: "idle",
   FAILED: "danger",
+  // 完了と同じ色にしない。ここを同色にした瞬間、
+  // やっていないものが「やった」に見える
+  NEEDS_INPUT: "warn",
+  NOT_IMPLEMENTED: "idle",
 };
 
 export function StepStatusBadge({ status }: { status: StepStatus }) {

@@ -24,7 +24,7 @@ function StepDots({ steps }: { steps: CaseRecord["run"]["steps"] }) {
           className={`size-2 rounded-full ${
             s.status === "COMPLETED"
               ? "bg-ok"
-              : s.status === "WAITING_APPROVAL"
+              : s.status === "WAITING_APPROVAL" || s.status === "NEEDS_INPUT"
                 ? "bg-warn"
                 : s.status === "SKIPPED"
                   ? "bg-danger"

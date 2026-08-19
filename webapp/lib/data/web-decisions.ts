@@ -1,0 +1,195 @@
+import type { DecisionSpec } from "@/lib/domain/web-project";
+
+/**
+ * Web制作で決めなければいけないこと、全部。
+ *
+ * 「ホームページ作ってください」と言われて、これに答えずに作り始めると、
+ * どこかで必ず作り直しになる。1回目の打ち合わせで全部は聞けないので、
+ * どの回で聞くかも持たせてある。
+ */
+export const WEB_DECISIONS: DecisionSpec[] = [
+  {
+    key: "goal",
+    question: "このサイトで、いちばん増やしたいものは何ですか",
+    why: "狙いが2つ以上あると、どのページも中途半端になる",
+    ifUnanswered:
+      "「とりあえず会社の紹介」になり、見た人が何もせずに帰る",
+    options: [
+      "問い合わせを増やす",
+      "採用に応募してもらう",
+      "商品を売る",
+      "信用を示す（名刺代わり）",
+      "予約を取る",
+      "資料を請求してもらう",
+    ],
+    blocksEstimate: true,
+    stage: "1回目",
+  },
+  {
+    key: "persona",
+    question:
+      "そのサイトを見るのは、どんな人ですか。年齢・立場・どんなときに開くか",
+    why: "文字の大きさ、専門用語を使うか、スマホ前提かが全部ここで決まる",
+    ifUnanswered: "作り手の好みでデザインが決まる。相手に刺さらない",
+    blocksEstimate: false,
+    stage: "1回目",
+  },
+  {
+    key: "primaryAction",
+    question: "見た人に、最後に何をしてほしいですか。1つだけ選ぶとしたら",
+    why: "ボタンの置き場所と数が決まる。複数あるとどれも押されない",
+    ifUnanswered:
+      "「お問い合わせ」ボタンを置いて終わりになり、押されたか分からない",
+    options: [
+      "フォームから問い合わせ",
+      "電話をかける",
+      "LINEで友だち追加",
+      "予約する",
+      "資料をダウンロード",
+      "購入する",
+      "応募する",
+    ],
+    blocksEstimate: true,
+    stage: "1回目",
+  },
+  {
+    key: "existingSite",
+    question: "今あるサイトはありますか。作り直しですか、新規ですか",
+    why: "作り直しなら、既存の内容の移行とURLの引き継ぎが工数に乗る",
+    ifUnanswered: "公開後に検索順位が落ちて、前より悪くなる",
+    blocksEstimate: true,
+    stage: "1回目",
+  },
+  {
+    key: "hosting",
+    question: "どこに置きますか。今の契約はありますか",
+    why: "毎月かかる費用と、あとで誰が触れるかが変わる",
+    ifUnanswered:
+      "完成してから置き場所が無いことに気づく。納品できない",
+    options: [
+      "Vercel",
+      "WordPress.com",
+      "レンタルサーバー",
+      "相手の既存サーバー",
+      "未定",
+    ],
+    blocksEstimate: true,
+    stage: "1回目",
+  },
+  {
+    key: "domain",
+    question: "独自ドメインは持っていますか。無ければ取りますか",
+    why: "取得と設定は相手の支払いとログインが要る。こちらだけでは終わらない",
+    ifUnanswered: "公開日が、ドメインの手続き待ちで動く",
+    blocksEstimate: false,
+    stage: "1回目",
+  },
+  {
+    key: "buildStyle",
+    question: "雛形をベースにしますか、デザインから作りますか",
+    why: "ここで工数が一桁変わる。金額の差が一番大きい項目",
+    ifUnanswered: "安いと思われたまま、作り込みを期待される",
+    options: ["雛形をそのまま", "雛形を調整", "デザインから作る", "未定"],
+    blocksEstimate: true,
+    stage: "1回目",
+  },
+  {
+    key: "pages",
+    question: "必要なページを挙げてください",
+    why: "ページ数がそのまま工数になる",
+    ifUnanswered: "「あと1ページだけ」が無限に増える",
+    blocksEstimate: true,
+    stage: "2回目以降",
+  },
+  {
+    key: "content",
+    question: "文章と写真は、どちらが用意しますか",
+    why: "制作が止まる原因の1位がこれ。相手待ちで何週間も動かなくなる",
+    ifUnanswered:
+      "「写真は後で送ります」のまま公開できない。こちらの遅れに見える",
+    blocksEstimate: true,
+    stage: "2回目以降",
+  },
+  {
+    key: "motion",
+    question: "動きや動画は入れますか",
+    why: "工数と、スマホでの表示速度に直結する",
+    ifUnanswered:
+      "他社サイトを見て「こういう動きが欲しい」が後から来る。追加費用の話になる",
+    options: ["動きなし", "軽く動かす", "しっかり動かす", "動画を主役にする"],
+    blocksEstimate: true,
+    stage: "2回目以降",
+  },
+  {
+    key: "snsLinks",
+    question: "繋ぐSNSはありますか",
+    why: "リンクを置くだけか、投稿を埋め込むかで作りが変わる",
+    ifUnanswered: "公開後に「Instagramも載せて」が来る",
+    blocksEstimate: false,
+    stage: "2回目以降",
+  },
+  {
+    key: "lineAccount",
+    question: "公式LINEはありますか。友だち追加をサイトから促しますか",
+    why: "LINEが主な導線なら、フォームより先に置く必要がある",
+    ifUnanswered:
+      "問い合わせフォームを作ったのに、実際の連絡は全部LINEに来る",
+    blocksEstimate: false,
+    stage: "2回目以降",
+  },
+  {
+    key: "chat",
+    question: "チャットは置きますか",
+    why: "有人なら誰が答えるか、AIなら何を答えさせないかを決める必要がある",
+    ifUnanswered:
+      "置いたが誰も見ておらず、返事が来ないチャットが残る。信用を落とす",
+    options: ["置かない", "よくある質問だけ", "有人チャット", "AIチャット"],
+    blocksEstimate: true,
+    stage: "2回目以降",
+  },
+  {
+    key: "form",
+    question: "問い合わせフォームの送信先は、どのメールアドレスですか",
+    why: "送信先の設定は相手のメール環境に触る。こちらだけでは完結しない",
+    ifUnanswered: "公開後、問い合わせが誰にも届いていないことに後で気づく",
+    blocksEstimate: false,
+    stage: "制作前",
+  },
+  {
+    key: "measurement",
+    question: "何件になったら成功ですか。今は月に何件ありますか",
+    why: "今の数字が無いと、効果が出たかどうかを言えない",
+    ifUnanswered: "「なんとなく良くなった気がする」で終わり、次に繋がらない",
+    blocksEstimate: false,
+    stage: "1回目",
+  },
+  {
+    key: "updates",
+    question: "公開したあと、誰がどれくらい更新しますか",
+    why: "相手が自分で触るなら、触れる作りにする必要がある",
+    ifUnanswered:
+      "更新のたびに連絡が来る。無償対応になるか、放置されて古いサイトになる",
+    blocksEstimate: true,
+    stage: "2回目以降",
+  },
+  {
+    key: "deadline",
+    question: "いつまでに公開したいですか。その日に何かありますか",
+    why: "展示会や採用の締切など、動かせない日があるかを確かめる",
+    ifUnanswered: "「なるべく早く」のまま、こちらの都合で遅れたことになる",
+    blocksEstimate: false,
+    stage: "1回目",
+  },
+  {
+    key: "budget",
+    question: "予算はどれくらいを考えていますか",
+    why: "雛形か作り込みかの判断が、ここで決まることがある",
+    ifUnanswered: "提案してから「そんなにかかるんですか」で終わる",
+    blocksEstimate: false,
+    stage: "1回目",
+  },
+];
+
+export function findDecision(key: string): DecisionSpec | undefined {
+  return WEB_DECISIONS.find((d) => d.key === key);
+}

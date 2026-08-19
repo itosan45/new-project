@@ -1,0 +1,64 @@
+import type { WebBrief } from "@/lib/domain/web-project";
+
+/**
+ * Agentの実体。
+ *
+ * ここが今までの穴だった。契約（何をしてよいか）だけがあって、
+ * 中身が無いのに「実装済み」と表示していた。
+ *
+ * この形にした理由はひとつで、
+ * **入力が揃っていないAgentを動かさない**ため。
+ *
+ * 蓋を開けたら何も定義されていないのに動いてしまい、
+ * それらしい出力が出てくる、という状態を作らない。
+ * 足りないときは「足りない」と言って止まる。推測で埋めない。
+ */
+
+export interface AgentContext {
+  /** Web制作案件の設計内容。分野が違えばここが変わる。 */
+  brief?: WebBrief;
+  /** 自由記述の依頼文 */
+  request?: string;
+}
+
+export type AgentResult =
+  | {
+      status: "完了";
+      /** 何をしたか。1行。 */
+      summary: string;
+      /** 出力。型はAgentごとに違う。 */
+      output: unknown;
+      /** そう判断した根拠。根拠を出せない出力は返さない。 */
+      evidence: string[];
+    }
+  | {
+      status: "入力が足りない";
+      /** 何が足りないか。項目名で返す。 */
+      missing: string[];
+      /** 誰に聞けばよいか */
+      askWho: "顧客" | "自分";
+      summary: string;
+    }
+  | {
+      status: "未実装";
+      summary: string;
+    };
+
+export interface AgentImpl {
+  agentId: string;
+  /** 実際に処理する。入力が足りなければ、その旨を返して止まる。 */
+  run(ctx: AgentContext): AgentResult;
+}
+
+/** 入力不足を組み立てるための共通処理。 */
+export function needsInput(
+  missing: string[],
+  askWho: "顧客" | "自分" = "顧客",
+): AgentResult {
+  return {
+    status: "入力が足りない",
+    missing,
+    askWho,
+    summary: `${missing.length}件が未回答のため実行していません`,
+  };
+}
