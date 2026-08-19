@@ -102,7 +102,17 @@ export type AgentCategory = "調査" | "分析" | "実行" | "管理" | "収益"
 export type AgentHealth = "正常" | "注意" | "異常";
 
 /** 実装の段階。設計だけのものを稼働中と混ぜない。 */
-export type AgentMaturity = "実装済み" | "設計のみ" | "検討中";
+/**
+ * Agentがどこまで本物か。
+ *
+ * 「実装済み」という言葉は使わない。契約（何をしてよいか）を書いただけの
+ * ものを実装済みと呼ぶと、動くと思って仕事を受けてしまう。
+ *
+ * - 契約だけ: 権限と守備範囲は決まっているが、中身の処理は無い
+ * - 中身あり・未接続: 実際に動くコードが別にあるが、まだ繋いでいない
+ * - 検討中: 要るかどうかも決まっていない
+ */
+export type AgentMaturity = "契約だけ" | "中身あり・未接続" | "検討中";
 
 export interface AgentContract {
   agentId: string;

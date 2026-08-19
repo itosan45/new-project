@@ -17,8 +17,8 @@ const CATEGORY_TONE: Record<AgentContract["category"], Tone> = {
 };
 
 const MATURITY_TONE: Record<AgentContract["maturity"], Tone> = {
-  実装済み: "ok",
-  設計のみ: "warn",
+  "中身あり・未接続": "ok",
+  契約だけ: "warn",
   検討中: "idle",
 };
 
@@ -290,7 +290,9 @@ function PackCard({ pack }: { pack: DomainPack }) {
 }
 
 export default function AgentsPage() {
-  const implemented = AGENT_CONTRACTS.filter((a) => a.maturity === "実装済み");
+  const wired = AGENT_CONTRACTS.filter(
+    (a) => a.maturity === "中身あり・未接続",
+  );
 
   return (
     <main className="mx-auto max-w-6xl px-4 py-6 sm:px-6 sm:py-10">
@@ -304,7 +306,7 @@ export default function AgentsPage() {
         <h1 className="text-xl font-bold text-ink">
           Agentの専門性{" "}
           <span className="text-sm font-normal text-ink-subtle">
-            （{AGENT_CONTRACTS.length}体 / うち実装済み {implemented.length}体）
+            （{AGENT_CONTRACTS.length}体 / うち中身のあるもの {wired.length}体）
           </span>
         </h1>
         <p className="mt-2 max-w-3xl text-[13px] leading-relaxed text-ink-muted">

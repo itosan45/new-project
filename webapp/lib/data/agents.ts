@@ -42,7 +42,7 @@ export const AGENT_CONTRACTS: AgentContract[] = [
     maxRetries: 2,
     confidenceThreshold: 0.7,
     owner: "自分",
-    maturity: "実装済み",
+    maturity: "契約だけ",
   },
   {
     agentId: "document-reader",
@@ -81,7 +81,7 @@ export const AGENT_CONTRACTS: AgentContract[] = [
     maxRetries: 2,
     confidenceThreshold: 0.85,
     owner: "自分",
-    maturity: "実装済み",
+    maturity: "中身あり・未接続",
   },
 
   // === 分類・分析 ========================================================
@@ -119,7 +119,7 @@ export const AGENT_CONTRACTS: AgentContract[] = [
     maxRetries: 2,
     confidenceThreshold: 0.8,
     owner: "自分",
-    maturity: "実装済み",
+    maturity: "契約だけ",
   },
   {
     agentId: "marketing-research",
@@ -151,7 +151,7 @@ export const AGENT_CONTRACTS: AgentContract[] = [
     maxRetries: 2,
     confidenceThreshold: 0.7,
     owner: "自分",
-    maturity: "実装済み",
+    maturity: "契約だけ",
   },
   {
     agentId: "voice-of-customer",
@@ -183,7 +183,7 @@ export const AGENT_CONTRACTS: AgentContract[] = [
     maxRetries: 2,
     confidenceThreshold: 0.7,
     owner: "自分",
-    maturity: "設計のみ",
+    maturity: "契約だけ",
   },
   {
     agentId: "data-analyst",
@@ -218,7 +218,7 @@ export const AGENT_CONTRACTS: AgentContract[] = [
     maxRetries: 1,
     confidenceThreshold: 0.8,
     owner: "自分",
-    maturity: "実装済み",
+    maturity: "契約だけ",
   },
   {
     agentId: "revenue-analyst",
@@ -251,7 +251,7 @@ export const AGENT_CONTRACTS: AgentContract[] = [
     maxRetries: 1,
     confidenceThreshold: 0.85,
     owner: "自分",
-    maturity: "設計のみ",
+    maturity: "契約だけ",
   },
 
   // === 作成 ==============================================================
@@ -291,7 +291,7 @@ export const AGENT_CONTRACTS: AgentContract[] = [
     maxRetries: 2,
     confidenceThreshold: 0.75,
     owner: "自分",
-    maturity: "設計のみ",
+    maturity: "契約だけ",
   },
   {
     agentId: "report-generator",
@@ -322,7 +322,7 @@ export const AGENT_CONTRACTS: AgentContract[] = [
     maxRetries: 2,
     confidenceThreshold: 0.7,
     owner: "自分",
-    maturity: "実装済み",
+    maturity: "契約だけ",
   },
   {
     agentId: "proposal-architect",
@@ -386,7 +386,7 @@ export const AGENT_CONTRACTS: AgentContract[] = [
     maxRetries: 1,
     confidenceThreshold: 0.75,
     owner: "秘書",
-    maturity: "設計のみ",
+    maturity: "契約だけ",
   },
 
   // === 検証 ==============================================================
@@ -421,7 +421,7 @@ export const AGENT_CONTRACTS: AgentContract[] = [
     maxRetries: 1,
     confidenceThreshold: 0.9,
     owner: "自分",
-    maturity: "実装済み",
+    maturity: "契約だけ",
   },
   {
     agentId: "qa",
@@ -452,7 +452,7 @@ export const AGENT_CONTRACTS: AgentContract[] = [
     maxRetries: 1,
     confidenceThreshold: 0.9,
     owner: "自分",
-    maturity: "実装済み",
+    maturity: "契約だけ",
   },
 
   // === 管理 ==============================================================
@@ -486,7 +486,7 @@ export const AGENT_CONTRACTS: AgentContract[] = [
     maxRetries: 0,
     confidenceThreshold: 0.9,
     owner: "自分",
-    maturity: "実装済み",
+    maturity: "契約だけ",
   },
   {
     agentId: "audit",
@@ -524,7 +524,7 @@ export const AGENT_CONTRACTS: AgentContract[] = [
     maxRetries: 3,
     confidenceThreshold: 0.95,
     owner: "自分",
-    maturity: "設計のみ",
+    maturity: "契約だけ",
   },
   {
     agentId: "recovery",
@@ -600,7 +600,7 @@ export const AGENT_CONTRACTS: AgentContract[] = [
     maxRetries: 0,
     confidenceThreshold: 0.95,
     owner: "自分",
-    maturity: "実装済み",
+    maturity: "契約だけ",
   },
   {
     agentId: "notification",
@@ -626,7 +626,7 @@ export const AGENT_CONTRACTS: AgentContract[] = [
     maxRetries: 3,
     confidenceThreshold: 0.6,
     owner: "自分",
-    maturity: "実装済み",
+    maturity: "契約だけ",
   },
 ];
 

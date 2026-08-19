@@ -7,6 +7,7 @@ Claude Code を「秘書」窓口とした個人用の仮想組織の土台。
 - `departments/`: 部署ごとのフォルダ（`creator`, `engineer`, `web-designer`。増減自由）
 - `docs/prompts.md`: 土台構築・フィードバック反映用のプロンプトテンプレート
 - `webapp/`: Vercelにデプロイしているアプリ（業務自動化ハーネス。詳しくは `webapp/README.md`）
+- `docs/できる仕事.md`: いま受けられる仕事と、受けられない仕事
 - `notes/` `decisions/` `tasks/` `outputs/` `references/`: 思いつき・決定・作業・
   成果物・根拠を1ファイル1件で記録する場所
 - `graph/`: 上記と `secretary/` `departments/` のつながりを自動でまとめた

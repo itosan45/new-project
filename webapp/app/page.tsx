@@ -276,8 +276,13 @@ export default async function Home() {
       </section>
 
       <p className="text-[11px] text-ink-subtle">
-        Agent {AGENT_CONTRACTS.length}体（うち実装済み{" "}
-        {AGENT_CONTRACTS.filter((a) => a.maturity === "実装済み").length}体）。
+        Agent {AGENT_CONTRACTS.length}体。ただし中身の処理が入っているのは{" "}
+        {
+          AGENT_CONTRACTS.filter((a) => a.maturity === "中身あり・未接続")
+            .length
+        }
+        体だけで、残りは契約（何をしてよいか）を決めた段階です。
+        いま実際に手を動かしているのは秘書とあなたで、Agentはまだ器です。
         責任者はすべて自分。架空の担当者は置いていません。
       </p>
     </main>

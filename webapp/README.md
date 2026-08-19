@@ -146,7 +146,7 @@ npm test
 | `produces` | 出力するもの |
 | `qualityRisks` | 既知の弱点。隠さず書く |
 | `escalatesWhen` | 確信度以外の、人間への引き渡し条件 |
-| `maturity` | 実装済み / 設計のみ / 検討中 |
+| `maturity` | 契約だけ / 中身あり・未接続 / 検討中 |
 
 `notSuitableFor` が `expertise` より重要。できることの一覧しか無いと、
 「たぶんできるだろう」で守備範囲外の仕事が回ってきて事故る。
