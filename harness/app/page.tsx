@@ -155,6 +155,28 @@ export default function Home() {
       <section>
         <h2 className="mb-3 text-sm font-semibold text-ink">設計リファレンス</h2>
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+          <Link href="/flow">
+            <Card className="h-full transition-colors hover:border-primary/40">
+              <div className="flex items-start gap-3">
+                <IconTile name="flow" tone="info" />
+                <div className="min-w-0">
+                  <div className="flex items-center gap-2">
+                    <h3 className="text-sm font-semibold text-ink">
+                      仕事の流れ
+                    </h3>
+                    <Badge tone="idle">6段階</Badge>
+                  </div>
+                  <p className="mt-1.5 text-xs leading-relaxed text-ink-muted">
+                    相談から運用まで。各段階で秘書・Agent・あなたが何をするか、
+                    次へ進める条件は何か。相談と提案は1回で終わらない前提。
+                  </p>
+                  <p className="mt-2 font-mono text-[10px] text-ink-subtle">
+                    /flow
+                  </p>
+                </div>
+              </div>
+            </Card>
+          </Link>
           <Link href="/agents">
             <Card className="h-full transition-colors hover:border-primary/40">
               <div className="flex items-start gap-3">
