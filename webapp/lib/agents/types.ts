@@ -19,6 +19,8 @@ export interface AgentContext {
   brief?: WebBrief;
   /** 自由記述の依頼文 */
   request?: string;
+  /** 顧客名。成果物に載る */
+  clientName?: string;
   /**
    * 読み取り済みの書類。
    *
@@ -28,6 +30,14 @@ export interface AgentContext {
   documents?: { ファイル名: string; 全文: string }[];
   /** どのドメインパックを使うか。何を探すかはパックが持つ */
   packId?: string;
+  /**
+   * 前のAgentが出したもの。agentId をキーにする。
+   *
+   * 受け渡しの順番（WEB_HANDOFF）は定義してあったのに、
+   * 実際には何も渡していなかった。5体が独立に動いているだけだった。
+   * ここを通すことで、後ろのAgentが前の結果を使って組み立てられる。
+   */
+  prior?: Record<string, unknown>;
 }
 
 export type AgentResult =

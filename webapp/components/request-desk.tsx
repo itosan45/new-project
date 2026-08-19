@@ -3,7 +3,11 @@
 import { useState } from "react";
 import { Badge, Card, Icon, type Tone } from "@/components/ui";
 import { WEB_DECISIONS } from "@/lib/data/web-decisions";
-import type { AgentRunResult, WebRequest } from "@/lib/domain/web-request";
+import type {
+  AgentRunResult,
+  Deliverable,
+  WebRequest,
+} from "@/lib/domain/web-request";
 
 /**
  * 依頼を出す窓口。
@@ -138,6 +142,63 @@ function ResultCard({ r }: { r: AgentRunResult }) {
         </details>
       )}
     </div>
+  );
+}
+
+/**
+ * 成果物。
+ *
+ * ここが「どこから出てくるのか」への答え。
+ * 中身をそのまま見せて、コピーもできるようにする。
+ * 保存先のパスも出す。どこに置かれたか分からない成果物は無いのと同じ。
+ */
+function DeliverableCard({ d }: { d: Deliverable }) {
+  const [copied, setCopied] = useState(false);
+  return (
+    <Card
+      className={d.readyForClient ? "border-ok/40" : "border-warn/40"}
+    >
+      <div className="flex flex-wrap items-start justify-between gap-2">
+        <div className="min-w-0">
+          <div className="flex flex-wrap items-center gap-2">
+            <Icon name="doc" className="size-4 text-primary" />
+            <span className="text-[13px] font-medium text-ink">
+              {d.fileName}
+            </span>
+            <Badge tone={d.readyForClient ? "ok" : "warn"}>
+              {d.readyForClient ? "顧客に出せる" : "社内用（未確定あり）"}
+            </Badge>
+          </div>
+          <p className="mt-1 font-mono text-[10px] text-ink-subtle">{d.path}</p>
+        </div>
+        <button
+          type="button"
+          onClick={() => {
+            navigator.clipboard?.writeText(d.content);
+            setCopied(true);
+            setTimeout(() => setCopied(false), 1600);
+          }}
+          className="rounded-lg border border-line-strong bg-surface px-3 py-1.5 text-[11px] text-ink"
+        >
+          {copied ? "コピーしました" : "全文をコピー"}
+        </button>
+      </div>
+
+      {d.undecided.length > 0 && (
+        <div className="mt-3 rounded-md bg-warn-soft/40 p-2.5">
+          <p className="text-[10px] font-medium text-warn">
+            決まっていないもの（{d.undecided.length}件）。これが埋まるまで顧客には出せません
+          </p>
+          <p className="mt-1 text-[11px] leading-relaxed text-ink">
+            {d.undecided.join("・")}
+          </p>
+        </div>
+      )}
+
+      <pre className="mt-3 max-h-[420px] overflow-auto whitespace-pre-wrap rounded-lg bg-surface-muted p-3 text-[11px] leading-relaxed text-ink">
+        {d.content}
+      </pre>
+    </Card>
   );
 }
 
@@ -280,6 +341,10 @@ export function RequestDesk({ initial }: { initial: WebRequest[] }) {
           </button>
         </div>
       </Card>
+
+      {result && result.deliverables.length > 0 && (
+        <DeliverableCard d={result.deliverables[0]} />
+      )}
 
       {result && (
         <>

@@ -62,6 +62,13 @@ export default async function RequestPage() {
               足りないものを<b className="text-ink">まとめて</b>知りたいので。
               1件ずつ聞きに行くと、打ち合わせが何回にも増えます。
             </p>
+            <p className="mt-2 border-t border-line pt-2 text-[11px] leading-relaxed text-ink-muted">
+              最後の<b className="text-ink">提案書作成</b>が成果物を出します。
+              前のAgentが止まっていれば作りません。
+              決まっていない欄があるうちは
+              <b className="text-ink">「社内用」</b>として出て、顧客には出せない判定になります。
+              できたものは <code className="font-mono text-[10px]">deliverables/</code> に保存されます。
+            </p>
           </div>
         </div>
       </Card>

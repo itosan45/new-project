@@ -4,6 +4,7 @@ import { webBriefAgent } from "@/lib/agents/web/brief";
 import { webEstimateAgent } from "@/lib/agents/web/estimate";
 import { webIaAgent } from "@/lib/agents/web/ia";
 import { webMeasureAgent } from "@/lib/agents/web/measure";
+import { webProposalAgent } from "@/lib/agents/web/proposal";
 import { webPreflightAgent } from "@/lib/agents/web/preflight";
 
 /**
@@ -23,6 +24,7 @@ const IMPLS: AgentImpl[] = [
   webEstimateAgent,
   webMeasureAgent,
   webPreflightAgent,
+  webProposalAgent,
 ];
 
 export const AGENT_IMPLS: Record<string, AgentImpl> = Object.fromEntries(

@@ -18,6 +18,19 @@ export async function saveWebRequest(req: WebRequest): Promise<void> {
     JSON.stringify(req, null, 2),
     `依頼を受け付けました: ${req.clientName} / ${req.requestId}`,
   );
+
+  /*
+   * 成果物は、記録とは別にそのままの形で置く。
+   * JSONの中に文字列として埋まっているだけだと、
+   * 「どこから成果物が出てくるのか」に答えられない。
+   */
+  for (const d of req.deliverables) {
+    await putFile(
+      d.path,
+      d.content,
+      `${d.readyForClient ? "提案書" : "提案書（社内用・未確定あり）"}: ${req.clientName}`,
+    );
+  }
 }
 
 export async function listWebRequests(): Promise<WebRequest[]> {

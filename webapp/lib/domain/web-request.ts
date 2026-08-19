@@ -24,6 +24,27 @@ export interface AgentRunResult {
   output?: unknown;
 }
 
+/**
+ * 成果物。
+ *
+ * ハーネスから実際に出てくるもの。これまでは記録しか出しておらず、
+ * 実物は秘書が手で作って、エンジンの外に置いていた。
+ */
+export interface Deliverable {
+  fileName: string;
+  /** 保存先。リポジトリ上のパス */
+  path: string;
+  /** 中身 */
+  content: string;
+  /** 顧客に出せる状態か */
+  readyForClient: boolean;
+  /** 出せない理由 */
+  undecided: string[];
+  /** 誰が作ったか */
+  byAgent: string;
+  createdAt: string;
+}
+
 export interface WebRequest {
   requestId: string;
   clientName: string;
@@ -34,6 +55,8 @@ export interface WebRequest {
   brief: WebBrief;
   createdAt: string;
   results: AgentRunResult[];
+  /** できあがったもの。Agentが出せなければ空 */
+  deliverables: Deliverable[];
 }
 
 /** 依頼ぜんたいの状態。Agentの結果から決まる。 */

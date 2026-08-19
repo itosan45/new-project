@@ -6,6 +6,8 @@ import { webIaAgent } from "@/lib/agents/web/ia";
 import { webEstimateAgent } from "@/lib/agents/web/estimate";
 import { webMeasureAgent } from "@/lib/agents/web/measure";
 import { webPreflightAgent } from "@/lib/agents/web/preflight";
+import { webProposalAgent } from "@/lib/agents/web/proposal";
+import { runWebRequest } from "@/lib/engine/web-pipeline";
 import { WEB_AGENTS } from "@/lib/data/web-agents";
 import { BASE_DAYS, PER_PAGE_DAYS } from "@/lib/data/web-rates";
 
@@ -221,6 +223,83 @@ test("公開前チェック: 作り直しならURLの対応表を要求する", 
   if (r.status !== "完了") throw new Error("完了しなかった");
   const out = r.output as { 公開前にやること: string[] };
   assert.ok(out.公開前にやること.some((x) => x.includes("対応表")));
+});
+
+// --- 提案書（成果物の出口） ------------------------------------------------
+
+test("提案書: 前のAgentが動いていなければ作らない", () => {
+  // 情報設計も工数も無いのに、それらしい提案書を作ってはいけない
+  const r = webProposalAgent.run({ brief: fullBrief(), prior: {} });
+  assert.equal(r.status, "入力が足りない");
+});
+
+test("提案書: 未確定が残っていれば、顧客に出せないと判定する", () => {
+  const b = fullBrief();
+  b.deadline.value = "";      // 公開希望日が未定
+  b.updates.value = "";       // 更新の担当が未定
+  const req = runWebRequest({
+    clientName: "テスト運送",
+    summary: "作り直したい",
+    brief: b,
+  });
+  const d = req.deliverables[0];
+  assert.ok(d, "成果物が出ていない");
+  assert.equal(d.readyForClient, false);
+  assert.ok(d.undecided.length >= 2, "未確定が数えられていない");
+  assert.match(d.content, /未確定/);
+});
+
+test("提案書: 用途の分からないページが残っていたら、出せないと判定する", () => {
+  // 「（用途を確認する）」を載せたまま顧客に出すと、その欄でそのまま揉める
+  const b = fullBrief();
+  b.pages.value = ["トップ", "ほげほげ"];
+  const req = runWebRequest({ clientName: "テスト運送", summary: "新規", brief: b });
+  const d = req.deliverables[0];
+  assert.ok(d);
+  assert.equal(d.readyForClient, false);
+  assert.ok(
+    d.undecided.some((u) => u.includes("ほげほげ")),
+    "用途の分からないページが未確定に入っていない",
+  );
+});
+
+test("提案書: 顧客名が入る", () => {
+  const req = runWebRequest({
+    clientName: "株式会社テスト運送",
+    summary: "作り直したい",
+    brief: fullBrief(),
+  });
+  const d = req.deliverables[0];
+  assert.ok(d);
+  assert.match(d.content, /株式会社テスト運送/);
+  assert.ok(!d.content.includes("（顧客名）"), "顧客名が空のまま出ている");
+});
+
+test("提案書: 金額を書かない", () => {
+  // いくらで売るかは人が決める
+  const req = runWebRequest({
+    clientName: "テスト運送",
+    summary: "作り直したい",
+    brief: fullBrief(),
+  });
+  const d = req.deliverables[0];
+  assert.ok(d);
+  assert.ok(!/円|¥/.test(d.content), "提案書に金額が書かれている");
+  assert.match(d.content, /やらないこと/);
+});
+
+test("成果物には保存先のパスが付く", () => {
+  // 「どこから出てくるのか」に答えられる状態にする
+  const req = runWebRequest({
+    clientName: "テスト運送",
+    summary: "作り直したい",
+    brief: fullBrief(),
+  });
+  const d = req.deliverables[0];
+  assert.ok(d);
+  assert.match(d.path, /^deliverables\//);
+  assert.ok(d.path.includes(req.requestId));
+  assert.ok(d.content.length > 500, "中身が薄い");
 });
 
 // --- 経験 ------------------------------------------------------------------

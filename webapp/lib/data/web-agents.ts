@@ -407,6 +407,84 @@ export const WEB_AGENTS: AgentContract[] = [
     },
   },
 
+  {
+    agentId: "web-proposal",
+    agentVersion: "1.0.0",
+    name: "提案書作成 Agent",
+    category: "分析",
+    // ここが成果物の出口。これが無いと、ハーネスは記録しか出さない
+    purpose: "前のAgentが出したものを組み立てて、顧客に渡す提案書を作る",
+    allowedActions: ["提案書の組み立て", "未確定項目の列挙", "顧客に出せるかの判定"],
+    forbiddenActions: [
+      "分からない欄を推測で埋める",
+      "金額を書く",
+      "顧客への送付",
+      "未確定を隠して「出せる」と判定する",
+    ],
+    allowedDataScopes: ["INTERNAL", "CONFIDENTIAL"],
+    sideEffectClass: "DRAFT_ONLY",
+    expertise: [
+      "情報設計と工数の結果を、1つの文書に組み立てる",
+      "未確定の欄を空けたまま残す",
+      "やらないことを必ず載せる",
+    ],
+    notSuitableFor: [
+      "新しい事実を作ること（前の結果を組み立てるだけ）",
+      "値付け",
+      "デザインそのもの",
+    ],
+    requiredInputs: ["情報設計の結果", "工数の結果", "設計内容（WebBrief）"],
+    produces: ["提案書（Markdown）", "未確定項目の一覧", "顧客に出せるかの判定"],
+    qualityRisks: [
+      "前の結果が粗いと、そのまま粗い提案書になる（自分では直せない）",
+    ],
+    escalatesWhen: ["未確定が1件でも残っている"],
+    timeoutSeconds: 60,
+    maxRetries: 1,
+    confidenceThreshold: 0.9,
+    owner: "自分",
+    maturity: "動く",
+    experience: {
+      level: "一人前",
+      judgment: [
+        {
+          状況: "決まっていない項目がある",
+          判断: "推測で埋めず「未確定」と書き、社内用として出す",
+          理由: "埋めた瞬間、相手はそれを合意事項として読む",
+        },
+        {
+          状況: "提案書を作るとき",
+          判断: "「やらないこと」を必ず1節置く",
+          理由: "書かれていない作業は、後から必ず無償で降ってくる",
+        },
+        {
+          状況: "金額を書きたくなる",
+          判断: "作業量と根拠までにする",
+          理由: "いくらで売るかは人が決める。ここで決めると誰も止められない",
+        },
+      ],
+      traps: [
+        "未確定を空欄のままにすると、見落として顧客に出してしまう",
+        "前のAgentが止まっているのに、それらしい提案書を作ってしまう",
+      ],
+      benchmarks: [
+        {
+          項目: "提案書に必ず載せる節",
+          値: "狙い / ページ構成 / 作業量 / やらないこと / 効果の測り方 / 公開前",
+          根拠: "揉める原因は、この6つのどれかが欠けたとき",
+        },
+      ],
+      currentPractice: [
+        {
+          項目: "金額の扱い",
+          いま: "提案書には作業量までを書き、金額は別紙にする",
+          確認日: "2026-08-19",
+        },
+      ],
+      staleAfterDays: 365,
+    },
+  },
+
   // --- ここから下は中身が無い。判断が要る仕事なので、実際にやるのは秘書 ---
 
   {
@@ -481,10 +559,11 @@ export const WEB_AGENTS: AgentContract[] = [
 export const WEB_HANDOFF: { from: string; to: string; 渡すもの: string }[] = [
   { from: "web-brief", to: "web-ia", 渡すもの: "狙い・見る人・してほしい行動" },
   { from: "web-ia", to: "web-estimate", 渡すもの: "ページ構成" },
-  { from: "web-estimate", to: "proposal-architect", 渡すもの: "工数と内訳" },
-  { from: "proposal-architect", to: "web-visual", 渡すもの: "承諾された範囲" },
+  { from: "web-estimate", to: "web-preflight", 渡すもの: "工数と内訳" },
+  { from: "web-preflight", to: "web-measure", 渡すもの: "公開してよい判定" },
+  { from: "web-measure", to: "web-proposal", 渡すもの: "計測の設計" },
+  { from: "web-proposal", to: "web-visual", 渡すもの: "承諾された範囲" },
   { from: "web-visual", to: "web-copy", 渡すもの: "配色と文字サイズ" },
   { from: "web-copy", to: "web-build", 渡すもの: "文章" },
   { from: "web-build", to: "web-preflight", 渡すもの: "動くページ" },
-  { from: "web-preflight", to: "web-measure", 渡すもの: "公開してよい判定" },
 ];

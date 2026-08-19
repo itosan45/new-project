@@ -3,7 +3,8 @@ import { WEB_HANDOFF } from "@/lib/data/web-agents";
 import { findImpl } from "@/lib/agents/registry";
 import type { AgentContext } from "@/lib/agents/types";
 import type { WebBrief } from "@/lib/domain/web-project";
-import type { AgentRunResult, WebRequest } from "@/lib/domain/web-request";
+import type { AgentRunResult, Deliverable, WebRequest } from "@/lib/domain/web-request";
+import type { ProposalOutput } from "@/lib/agents/web/proposal";
 
 /**
  * 依頼をAgentに通す。
@@ -39,7 +40,14 @@ export function runWebRequest(input: {
   summary: string;
   brief: WebBrief;
 }): WebRequest {
-  const ctx: AgentContext = { brief: input.brief, request: input.summary };
+  // 前のAgentが出したものを、後ろのAgentに渡していく
+  const prior: Record<string, unknown> = {};
+  const ctx: AgentContext = {
+    brief: input.brief,
+    request: input.summary,
+    clientName: input.clientName,
+    prior,
+  };
   const results: AgentRunResult[] = [];
 
   for (const agentId of webAgentOrder()) {
@@ -47,6 +55,7 @@ export function runWebRequest(input: {
     if (!impl) continue;
     const r = impl.run(ctx);
     const base = { agentId, agentName: agentName(agentId) };
+    if (r.status === "完了" || r.status === "人に回す") prior[agentId] = r.output;
 
     if (r.status === "入力が足りない") {
       results.push({
@@ -72,13 +81,37 @@ export function runWebRequest(input: {
     });
   }
 
+  const requestId = newId();
+  const createdAt = new Date().toISOString();
+
+  /*
+   * 成果物を取り出す。
+   *
+   * Agentが「文書」を出したものは、記録ではなく成果物として別に扱う。
+   * ここが無いと、いくらAgentを通しても実物が出てこない。
+   */
+  const deliverables: Deliverable[] = [];
+  const proposal = prior["web-proposal"] as ProposalOutput | undefined;
+  if (proposal) {
+    deliverables.push({
+      fileName: proposal.fileName,
+      path: `deliverables/${requestId}/${proposal.fileName}`,
+      content: proposal.document,
+      readyForClient: proposal.readyForClient,
+      undecided: proposal.undecided,
+      byAgent: "web-proposal",
+      createdAt,
+    });
+  }
+
   return {
-    requestId: newId(),
+    deliverables,
+    requestId,
     clientName: input.clientName,
     siteUrl: input.siteUrl,
     summary: input.summary,
     brief: input.brief,
-    createdAt: new Date().toISOString(),
+    createdAt,
     results,
   };
 }
