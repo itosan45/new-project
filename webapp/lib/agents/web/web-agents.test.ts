@@ -97,6 +97,31 @@ test("情報設計: 揃っていれば構成を出し、根拠も返す", () => 
   assert.notEqual(out.actionLabel, "お問い合わせ", "何が起きるか分からない文言");
 });
 
+test("情報設計: 指定されたページに、噛み合わない用途を貼らない", () => {
+  // 並び順で用途を割り当てると「ご依頼の流れ → 連絡する」のような
+  // 意味の通らない出力になる。実際に出た
+  const b = fullBrief();
+  b.pages.value = ["トップ", "業務案内", "中継輸送", "ご依頼の流れ", "会社概要", "採用情報", "お問い合わせ"];
+  const r = webIaAgent.run({ brief: b });
+  if (r.status !== "完了") throw new Error("完了しなかった");
+  const out = r.output as { pages: { name: string; purpose: string }[] };
+  const byName = Object.fromEntries(out.pages.map((p) => [p.name, p.purpose]));
+  assert.notEqual(byName["ご依頼の流れ"], "連絡する", "順番で用途を貼っている");
+  assert.match(byName["ご依頼の流れ"], /次に何が起きる/);
+  assert.match(byName["採用情報"], /働く/);
+  assert.match(byName["お問い合わせ"], /連絡/);
+});
+
+test("情報設計: 見当のつかないページ名は、分からないと言う", () => {
+  // 推測で埋めると、それらしい嘘の構成ができる
+  const b = fullBrief();
+  b.pages.value = ["トップ", "ほげほげ"];
+  const r = webIaAgent.run({ brief: b });
+  if (r.status !== "完了") throw new Error("完了しなかった");
+  const out = r.output as { pages: { name: string; purpose: string }[] };
+  assert.equal(out.pages[1].purpose, "（用途を確認する）");
+});
+
 test("情報設計: 電話が主導線なら、受付時間を書くよう指示する", () => {
   const b = fullBrief();
   b.primaryAction.value = "電話をかける";

@@ -79,6 +79,27 @@ const ACTION_LABEL: Record<PrimaryAction, string> = {
   応募する: "応募する",
 };
 
+/**
+ * 定義に無いページ名を、言葉から寄せる。
+ * 当たらなければ null を返す。推測で埋めない。
+ */
+function matchByKeyword(name: string): string | null {
+  const rules: [RegExp, string][] = [
+    [/問い?合わせ|コンタクト/, "連絡する"],
+    [/会社|企業|概要|沿革/, "所在地・沿革・代表。実在を示す"],
+    [/採用|求人|募集/, "誰と働くかを伝え、応募してもらう"],
+    [/安全|品質/, "任せてよい相手かどうかの不安を消す"],
+    [/流れ|手順|ご依頼/, "初めての人が、次に何が起きるか分かるようにする"],
+    [/実績|事例|お客様/, "自分と同じ状況の例を見せる"],
+    [/サービス|業務|事業/, "何をどこまでやるかを具体的に"],
+    [/よくある|質問|FAQ/, "問い合わせ前の不安を先に消す"],
+    [/アクセス|地図/, "行き方。地図と駐車場"],
+    [/料金|価格|費用/, "判断に要る費用の目安を出す"],
+  ];
+  for (const [re, purpose] of rules) if (re.test(name)) return purpose;
+  return null;
+}
+
 export function buildIa(brief: WebBrief): IaOutput | { missing: string[] } {
   const missing: string[] = [];
   if (!brief.goal.value) missing.push("狙い（goal）");
@@ -89,14 +110,24 @@ export function buildIa(brief: WebBrief): IaOutput | { missing: string[] } {
   const goal = brief.goal.value!;
   const action = brief.primaryAction.value!;
 
-  // 相手がページを指定していれば、そちらを優先する。
-  // 勝手に構成を差し替えると、聞いた意味が無くなる
+  /*
+   * 相手がページを指定していれば、そちらを優先する。
+   * 勝手に構成を差し替えると、聞いた意味が無くなる。
+   *
+   * ただし、**並び順で用途を貼り付けてはいけない。**
+   * 「ご依頼の流れ」に「連絡する」という用途が付く、というような
+   * 噛み合わない出力になる。名前で照合し、分からないものは分からないと言う。
+   */
   const listed = brief.pages.value;
+  const known = new Map<string, string>();
+  for (const list of Object.values(PAGES_BY_GOAL)) {
+    for (const p of list) if (!known.has(p.name)) known.set(p.name, p.purpose);
+  }
   const pages =
     listed && listed.length > 0
-      ? listed.map((name, i) => ({
+      ? listed.map((name) => ({
           name,
-          purpose: PAGES_BY_GOAL[goal][i]?.purpose ?? "（用途を確認する）",
+          purpose: known.get(name) ?? matchByKeyword(name) ?? "（用途を確認する）",
           hasMainAction: true,
         }))
       : PAGES_BY_GOAL[goal];
