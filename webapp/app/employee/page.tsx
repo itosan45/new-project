@@ -46,7 +46,6 @@ const TASK_BUTTON: Record<string, "primary" | "outline"> = {
 export default function EmployeeCockpit() {
   return (
     <Shell
-      variant="dark"
       nav={NAV}
       activeHref="/employee"
       brand={

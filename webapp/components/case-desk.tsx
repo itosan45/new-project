@@ -13,6 +13,29 @@ import type { TenantProfile } from "@/lib/domain/tenant";
  * この画面がデモではなく職場である条件になる。
  */
 
+/** 工程の進み具合を点で表す。表とスマホ用カードの両方で使う。 */
+function StepDots({ steps }: { steps: CaseRecord["run"]["steps"] }) {
+  return (
+    <div className="flex gap-0.5">
+      {steps.map((s) => (
+        <span
+          key={s.stepId}
+          title={`${s.agentId}: ${s.summary}`}
+          className={`size-2 rounded-full ${
+            s.status === "COMPLETED"
+              ? "bg-ok"
+              : s.status === "WAITING_APPROVAL"
+                ? "bg-warn"
+                : s.status === "SKIPPED"
+                  ? "bg-danger"
+                  : "bg-idle"
+          }`}
+        />
+      ))}
+    </div>
+  );
+}
+
 export function CaseDesk({
   tenants,
   cases,
@@ -260,7 +283,7 @@ export function CaseDesk({
       )}
 
       <Card padded={false}>
-        <div className="flex items-center justify-between border-b border-line px-5 py-3.5">
+        <div className="flex flex-wrap items-center justify-between gap-1 border-b border-line px-4 py-3 sm:px-5 sm:py-3.5">
           <h2 className="text-[15px] font-semibold text-ink">案件の記録</h2>
           <span className="text-[11px] text-ink-muted">
             {cases.length}件（すべてリポジトリに保存されています）
@@ -271,64 +294,74 @@ export function CaseDesk({
             まだ案件がありません。上のフォームから受け付けてください。
           </p>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full min-w-[720px] text-left">
-              <thead>
-                <tr className="border-b border-line text-[10px] text-ink-muted">
-                  <th className="px-5 py-2.5 font-medium">件名</th>
-                  <th className="px-3 py-2.5 font-medium">顧客</th>
-                  <th className="px-3 py-2.5 font-medium">工程</th>
-                  <th className="px-3 py-2.5 font-medium">状態</th>
-                  <th className="px-5 py-2.5 text-right font-medium">受付</th>
-                </tr>
-              </thead>
-              <tbody>
-                {[...waiting, ...done].map((c) => (
-                  <tr
-                    key={c.run.runId}
-                    className="border-b border-line last:border-0"
-                  >
-                    <td className="px-5 py-2.5">
-                      <div className="text-xs font-medium text-ink">
-                        {c.run.title}
-                      </div>
-                      <div className="font-mono text-[10px] text-ink-subtle">
-                        {c.run.runId}
-                      </div>
-                    </td>
-                    <td className="px-3 py-2.5 text-[11px] text-ink-muted">
-                      {c.run.tenantId}
-                    </td>
-                    <td className="px-3 py-2.5">
-                      <div className="flex gap-0.5">
-                        {c.run.steps.map((s) => (
-                          <span
-                            key={s.stepId}
-                            title={`${s.agentId}: ${s.summary}`}
-                            className={`size-2 rounded-full ${
-                              s.status === "COMPLETED"
-                                ? "bg-ok"
-                                : s.status === "WAITING_APPROVAL"
-                                  ? "bg-warn"
-                                  : s.status === "SKIPPED"
-                                    ? "bg-danger"
-                                    : "bg-idle"
-                            }`}
-                          />
-                        ))}
-                      </div>
-                    </td>
-                    <td className="px-3 py-2.5">
-                      <RunStatusBadge status={c.run.status} />
-                    </td>
-                    <td className="px-5 py-2.5 text-right text-[10px] text-ink-subtle">
-                      {c.run.startedAt.slice(5, 16).replace("T", " ")}
-                    </td>
+          <>
+            {/* スマホ: 1件1枚のカードに積み替える。
+                横スクロールする表は、指では読めない */}
+            <div className="flex flex-col divide-y divide-line sm:hidden">
+              {[...waiting, ...done].map((c) => (
+                <div key={c.run.runId} className="flex flex-col gap-2 px-4 py-3">
+                  <div className="flex items-start justify-between gap-2">
+                    <span className="min-w-0 text-[13px] font-medium text-ink">
+                      {c.run.title}
+                    </span>
+                    <RunStatusBadge status={c.run.status} />
+                  </div>
+                  <StepDots steps={c.run.steps} />
+                  <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] text-ink-muted">
+                    <span>{c.run.tenantId}</span>
+                    <span>{c.run.startedAt.slice(5, 16).replace("T", " ")}</span>
+                  </div>
+                  <span className="font-mono text-[10px] text-ink-subtle">
+                    {c.run.runId}
+                  </span>
+                </div>
+              ))}
+            </div>
+
+            {/* PC: 表のまま */}
+            <div className="hidden overflow-x-auto sm:block">
+              <table className="w-full min-w-[720px] text-left">
+                <thead>
+                  <tr className="border-b border-line text-[10px] text-ink-muted">
+                    <th className="px-5 py-2.5 font-medium">件名</th>
+                    <th className="px-3 py-2.5 font-medium">顧客</th>
+                    <th className="px-3 py-2.5 font-medium">工程</th>
+                    <th className="px-3 py-2.5 font-medium">状態</th>
+                    <th className="px-5 py-2.5 text-right font-medium">受付</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody>
+                  {[...waiting, ...done].map((c) => (
+                    <tr
+                      key={c.run.runId}
+                      className="border-b border-line last:border-0"
+                    >
+                      <td className="px-5 py-2.5">
+                        <div className="text-xs font-medium text-ink">
+                          {c.run.title}
+                        </div>
+                        <div className="font-mono text-[10px] text-ink-subtle">
+                          {c.run.runId}
+                        </div>
+                      </td>
+                      <td className="px-3 py-2.5 text-[11px] text-ink-muted">
+                        {c.run.tenantId}
+                      </td>
+                      <td className="px-3 py-2.5">
+                        <StepDots steps={c.run.steps} />
+                      </td>
+                      <td className="px-3 py-2.5">
+                        <RunStatusBadge status={c.run.status} />
+                      </td>
+                      <td className="px-5 py-2.5 text-right text-[10px] text-ink-subtle">
+                        {c.run.startedAt.slice(5, 16).replace("T", " ")}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </>
         )}
       </Card>
     </div>

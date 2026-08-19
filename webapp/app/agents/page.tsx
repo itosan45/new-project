@@ -293,7 +293,7 @@ export default function AgentsPage() {
   const implemented = AGENT_CONTRACTS.filter((a) => a.maturity === "実装済み");
 
   return (
-    <main className="mx-auto max-w-6xl px-6 py-10">
+    <main className="mx-auto max-w-6xl px-4 py-6 sm:px-6 sm:py-10">
       <header className="mb-6">
         <Link
           href="/"
@@ -343,7 +343,42 @@ export default function AgentsPage() {
           顧客ごとに必要なAgent
         </h2>
         <Card padded={false}>
-          <div className="overflow-x-auto">
+          {/* スマホ: 縦横の表は指では読めないので、Agentごとに1枚 */}
+          <div className="flex flex-col divide-y divide-line sm:hidden">
+            {AGENT_CONTRACTS.map((a) => (
+              <div key={a.agentId} className="flex flex-col gap-2 px-4 py-3">
+                <div className="flex items-center justify-between gap-2">
+                  <div className="flex min-w-0 items-center gap-2">
+                    <IconTile
+                      name={AGENT_ICON[a.agentId] ?? "robot"}
+                      tone={CATEGORY_TONE[a.category]}
+                      size="sm"
+                    />
+                    <span className="min-w-0 text-[12px] font-medium text-ink">
+                      {a.name}
+                    </span>
+                  </div>
+                  <Badge tone={MATURITY_TONE[a.maturity]}>{a.maturity}</Badge>
+                </div>
+                <div className="flex flex-wrap gap-1.5">
+                  {TENANTS.filter((t) =>
+                    t.requiredAgents.includes(a.agentId),
+                  ).map((t) => (
+                    <Badge key={t.tenantId} tone="ok">
+                      {t.name}
+                    </Badge>
+                  ))}
+                  {TENANTS.every((t) => !t.requiredAgents.includes(a.agentId)) && (
+                    <span className="text-[11px] text-ink-subtle">
+                      どの顧客にも配っていない
+                    </span>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="hidden overflow-x-auto sm:block">
             <table className="w-full min-w-[820px] text-left">
               <thead>
                 <tr className="border-b border-line text-[10px] text-ink-muted">

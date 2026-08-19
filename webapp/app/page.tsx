@@ -69,7 +69,7 @@ const PRINCIPLES = [
 
 export default function Home() {
   return (
-    <main className="mx-auto max-w-5xl px-6 py-12">
+    <main className="mx-auto max-w-5xl px-4 py-6 sm:px-6 sm:py-12">
       <header className="mb-8">
         <div className="flex items-center gap-2.5">
           <span className="flex size-9 items-center justify-center rounded-lg bg-primary text-white">

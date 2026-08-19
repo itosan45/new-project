@@ -143,7 +143,6 @@ function TrendChart() {
 export default function AdminOpsCenter() {
   return (
     <Shell
-      variant="dark"
       nav={ADMIN_NAV}
       activeHref="/admin"
       brand={
@@ -163,7 +162,7 @@ export default function AdminOpsCenter() {
         </span>
       }
     >
-      <div className="flex items-center justify-end gap-3 border-b border-line bg-surface px-7 py-3">
+      <div className="flex items-center justify-end gap-3 border-b border-line bg-surface px-4 py-3 sm:px-7">
         <Link
           href="/tenants"
           className="flex items-center gap-1.5 rounded-md border border-line px-2.5 py-1.5 text-[11px] text-ink hover:border-primary/40"
@@ -176,7 +175,7 @@ export default function AdminOpsCenter() {
         <LogoutButton />
       </div>
 
-      <div className="flex flex-col gap-4 px-7 py-5">
+      <div className="flex flex-col gap-4 px-4 py-4 sm:px-7 sm:py-5">
         <div>
           <h1 className="text-lg font-bold text-ink">エージェント運用センター</h1>
           <p className="mt-1 text-[13px] text-ink-muted">

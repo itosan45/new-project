@@ -204,6 +204,27 @@
       }
     },
     {
+      "id": "decisions/2026-08-19-responsive-not-two-uis.md",
+      "type": "decision",
+      "path": "decisions/2026-08-19-responsive-not-two-uis.md",
+      "title": "PC用とスマホ用を別々に作らず、1つの画面が幅で組み替わるようにする",
+      "createdAt": null,
+      "tags": [
+        "ハーネス",
+        "UI",
+        "web-designer"
+      ],
+      "status": null,
+      "artifactId": null,
+      "version": null,
+      "supersedes": null,
+      "relations": {
+        "basedOn": [
+          "decisions/2026-08-19-webapp-replaced-by-harness.md"
+        ]
+      }
+    },
+    {
       "id": "decisions/2026-08-19-webapp-replaced-by-harness.md",
       "type": "decision",
       "path": "decisions/2026-08-19-webapp-replaced-by-harness.md",
@@ -613,6 +634,14 @@
     {
       "from": "decisions/2026-08-19-proposal-architect-agent.md",
       "to": "decisions/2026-08-19-hearing-and-proposal-repeat.md",
+      "type": "SUPPORTED_BY",
+      "source": "frontmatter",
+      "confidence": 1,
+      "evidence": null
+    },
+    {
+      "from": "decisions/2026-08-19-responsive-not-two-uis.md",
+      "to": "decisions/2026-08-19-webapp-replaced-by-harness.md",
       "type": "SUPPORTED_BY",
       "source": "frontmatter",
       "confidence": 1,
@@ -1444,10 +1473,10 @@
     }
   ],
   "manifest": {
-    "generatedAt": "2026-08-19T03:54:25.709Z",
-    "nodeCount": 31,
-    "edgeCount": 111,
-    "structuralEdgeCount": 25,
+    "generatedAt": "2026-08-19T04:23:52.189Z",
+    "nodeCount": 32,
+    "edgeCount": 112,
+    "structuralEdgeCount": 26,
     "inferredEdgeCount": 86,
     "errors": [],
     "warnings": []

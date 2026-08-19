@@ -205,7 +205,7 @@ function TenantSection({
 
 export default function TenantsPage() {
   return (
-    <main className="mx-auto max-w-6xl px-6 py-10">
+    <main className="mx-auto max-w-6xl px-4 py-6 sm:px-6 sm:py-10">
       <header className="mb-6">
         <Link
           href="/"
@@ -227,7 +227,31 @@ export default function TenantsPage() {
 
       {/* 3社の違いが一目で分かる比較。設計判断はこの差から生まれる */}
       <Card className="mb-5" padded={false}>
-        <div className="overflow-x-auto">
+        {/* スマホ: 会社ごとに1枚 */}
+        <div className="flex flex-col divide-y divide-line sm:hidden">
+          {TENANTS.map((t, i) => (
+            <div key={t.tenantId} className="flex flex-col gap-2 px-4 py-3">
+              <div className="flex items-center gap-2">
+                <IconTile name={TENANT_ICON[i]} tone={TENANT_TONE[i]} size="sm" />
+                <div className="min-w-0">
+                  <div className="text-[12px] font-medium text-ink">{t.name}</div>
+                  <div className="text-[10px] text-ink-subtle">{t.industry}</div>
+                </div>
+              </div>
+              <Field label="最初の1業務">{t.primaryWorkflow}</Field>
+              <Field label="承認ゲートが守るもの">
+                {t.approvalGatePurpose.split("。")[0]}
+              </Field>
+              <Field label="月次削減">
+                <span className="font-medium text-ok">
+                  {t.expectedMonthlySaving.replace("約 ", "")}
+                </span>
+              </Field>
+            </div>
+          ))}
+        </div>
+
+        <div className="hidden overflow-x-auto sm:block">
           <table className="w-full min-w-[720px] text-left">
             <thead>
               <tr className="border-b border-line text-[10px] text-ink-muted">

@@ -47,7 +47,6 @@ const SELECTS = [
 export default function CeoAssistant() {
   return (
     <Shell
-      variant="dark"
       nav={NAV}
       activeHref="/ceo"
       brand={
@@ -68,7 +67,7 @@ export default function CeoAssistant() {
         </div>
       }
     >
-      <div className="flex items-center justify-between gap-4 border-b border-line bg-surface px-7 py-3.5">
+      <div className="flex items-center justify-between gap-4 border-b border-line bg-surface px-4 py-3 sm:px-7 sm:py-3.5">
         <div className="flex items-center gap-3">
           <h1 className="text-base font-semibold text-ink">CEOアシスタント</h1>
           <span className="flex items-center gap-1.5 rounded-md border border-line px-2 py-1 text-[11px] text-ink-muted">
@@ -83,7 +82,7 @@ export default function CeoAssistant() {
         </div>
       </div>
 
-      <div className="flex flex-col gap-4 px-7 py-5">
+      <div className="flex flex-col gap-4 px-4 py-4 sm:px-7 sm:py-5">
         {/* 指示入力 */}
         <Card>
           <CardHeader

@@ -269,7 +269,7 @@ export default function FlowPage() {
   ][];
 
   return (
-    <main className="mx-auto max-w-6xl px-6 py-10">
+    <main className="mx-auto max-w-6xl px-4 py-6 sm:px-6 sm:py-10">
       <header className="mb-6">
         <Link
           href="/"
@@ -291,7 +291,7 @@ export default function FlowPage() {
 
       {/* 全体像 */}
       <Card className="mb-5">
-        <div className="flex flex-wrap items-center gap-1.5">
+        <div className="-mx-1 flex flex-wrap items-center gap-1.5 px-1">
           {active.map((d, i) => (
             <div key={d.stage} className="flex items-center gap-1.5">
               <div
@@ -348,7 +348,7 @@ export default function FlowPage() {
 
       {/* 侵襲度 */}
       <Card className="mb-5" padded={false}>
-        <div className="border-b border-line px-5 py-3.5">
+        <div className="border-b border-line px-4 py-3 sm:px-5 sm:py-3.5">
           <h2 className="text-[15px] font-semibold text-ink">
             どこまで踏み込むか（侵襲度）
           </h2>
@@ -359,7 +359,33 @@ export default function FlowPage() {
             いきなり上は受けない。
           </p>
         </div>
-        <div className="overflow-x-auto">
+        {/* スマホ: 表をやめて1段1枚に積む */}
+        <div className="flex flex-col divide-y divide-line sm:hidden">
+          {levels.map(([key, v]) => (
+            <div key={key} className="flex flex-col gap-1.5 px-4 py-3">
+              <Badge
+                tone={
+                  key === "L0" || key === "L1"
+                    ? "ok"
+                    : key === "L2"
+                      ? "warn"
+                      : "danger"
+                }
+              >
+                {key} {v.label}
+              </Badge>
+              <p className="text-[12px] font-medium text-ink">{v.detail}</p>
+              <p className="text-[11px] leading-relaxed text-ink-muted">
+                例: {v.example}
+              </p>
+              <p className="text-[11px] leading-relaxed text-ink-muted">
+                事故ったとき: {v.risk}
+              </p>
+            </div>
+          ))}
+        </div>
+
+        <div className="hidden overflow-x-auto sm:block">
           <table className="w-full min-w-[720px] text-left">
             <thead>
               <tr className="border-b border-line text-[10px] text-ink-muted">

@@ -22,7 +22,7 @@ export function Card({
   return (
     <section
       className={`overflow-hidden rounded-xl border border-line bg-surface ${
-        padded ? "p-5" : ""
+        padded ? "p-4 sm:p-5" : ""
       } ${className}`}
     >
       {children}
