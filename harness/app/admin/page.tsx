@@ -1,4 +1,5 @@
 import { Fragment } from "react";
+import Link from "next/link";
 import { ADMIN_NAV } from "@/components/admin-nav";
 import { Shell, UserChip } from "@/components/shell";
 import {
@@ -162,10 +163,13 @@ export default function AdminOpsCenter() {
       }
     >
       <div className="flex items-center justify-end gap-3 border-b border-line bg-surface px-7 py-3">
-        <span className="flex items-center gap-1.5 rounded-md border border-line px-2.5 py-1.5 text-[11px] text-ink">
+        <Link
+          href="/tenants"
+          className="flex items-center gap-1.5 rounded-md border border-line px-2.5 py-1.5 text-[11px] text-ink hover:border-primary/40"
+        >
           <Icon name="building" className="size-3.5 text-ink-muted" />
           Demo Company ⌄
-        </span>
+        </Link>
         <Icon name="bell" className="size-4 text-ink-muted" />
         <UserChip name="Admin User" sub="システム管理者" dark={false} />
       </div>

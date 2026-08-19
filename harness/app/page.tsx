@@ -76,6 +76,28 @@ export default function Home() {
         </div>
       </header>
 
+      {/* 設計の前提。画面より先にここを見る */}
+      <section className="mb-8">
+        <Link href="/tenants">
+          <Card className="transition-colors hover:border-primary/40">
+            <div className="flex items-start gap-3">
+              <IconTile name="people" tone="warn" />
+              <div className="min-w-0 flex-1">
+                <div className="flex items-center gap-2">
+                  <h3 className="text-sm font-semibold text-ink">仮想顧客（3社）</h3>
+                  <Badge tone="warn">設計の前提</Badge>
+                </div>
+                <p className="mt-1.5 text-xs leading-relaxed text-ink-muted">
+                  三河ハウスサポート（住宅リフォーム）／みらい会計パートナーズ（税理士法人）／
+                  ルミエール（化粧品D2C）。9名のペルソナと、各社で承認ゲートが守るものの違い。
+                </p>
+                <p className="mt-2 font-mono text-[10px] text-ink-subtle">/tenants</p>
+              </div>
+            </div>
+          </Card>
+        </Link>
+      </section>
+
       <section className="mb-8">
         <h2 className="mb-3 text-sm font-semibold text-ink">画面</h2>
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
