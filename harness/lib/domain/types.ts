@@ -1,0 +1,369 @@
+/**
+ * 業務自動化ハーネス — ドメイン型
+ *
+ * 設計コンテキストの「11. 重要な設計ルール」「17. Workflow / Agent実行契約」に
+ * 対応する。画面はすべてここで定義した型だけを読む。UIに都合のよい形の
+ * データを別に作らないこと。作った瞬間に、画面と実体がずれ始める。
+ */
+
+// ---------------------------------------------------------------------------
+// 全データ共通のメタデータ（設計書 5. 必須メタデータ）
+// ---------------------------------------------------------------------------
+
+/** 会社の識別子。これを持たないデータは存在してはいけない。 */
+export type TenantId = string;
+
+export type DataClassification =
+  | "PUBLIC"
+  | "INTERNAL"
+  | "CONFIDENTIAL"
+  | "PERSONAL"
+  | "FINANCIAL"
+  | "SECRET";
+
+export interface TenantScoped {
+  tenantId: TenantId;
+  workspaceId: string;
+}
+
+// ---------------------------------------------------------------------------
+// 実行の状態（設計書 14. 状態モデル）
+// ---------------------------------------------------------------------------
+
+export type RunStatus =
+  | "QUEUED"
+  | "RUNNING"
+  | "RETRYING"
+  | "RECOVERING"
+  | "VERIFYING"
+  | "SUCCEEDED"
+  | "PARTIAL_SUCCESS"
+  | "BLOCKED"
+  | "FAILED"
+  | "HUMAN_REVIEW";
+
+/**
+ * 「成功」「部分成功」「未実行」を混ぜないための表示区分。
+ * 設計書が目標ゼロに置いている「未実行を成功扱いした件数」は、
+ * ここを曖昧にした瞬間に発生する。
+ */
+export const RUN_STATUS_LABEL: Record<RunStatus, string> = {
+  QUEUED: "待機中",
+  RUNNING: "実行中",
+  RETRYING: "再試行中",
+  RECOVERING: "復旧中",
+  VERIFYING: "検証中",
+  SUCCEEDED: "成功",
+  PARTIAL_SUCCESS: "部分成功",
+  BLOCKED: "未実行",
+  FAILED: "失敗",
+  HUMAN_REVIEW: "要確認",
+};
+
+export type StepStatus =
+  | "PENDING"
+  | "RUNNING"
+  | "COMPLETED"
+  | "WAITING_APPROVAL"
+  | "SKIPPED"
+  | "FAILED";
+
+export const STEP_STATUS_LABEL: Record<StepStatus, string> = {
+  PENDING: "待機中",
+  RUNNING: "実行中",
+  COMPLETED: "完了",
+  WAITING_APPROVAL: "承認待ち",
+  SKIPPED: "スキップ",
+  FAILED: "失敗",
+};
+
+// ---------------------------------------------------------------------------
+// Agent（設計書 17. Agent契約）
+// ---------------------------------------------------------------------------
+
+/** 副作用の重さ。再実行してよいかがこれで決まる。 */
+export type SideEffectClass =
+  | "READ_ONLY"
+  | "DRAFT_ONLY"
+  | "REVERSIBLE"
+  | "SIDE_EFFECT"
+  | "IRREVERSIBLE";
+
+export const SIDE_EFFECT_LABEL: Record<SideEffectClass, string> = {
+  READ_ONLY: "読み取りのみ",
+  DRAFT_ONLY: "下書きのみ",
+  REVERSIBLE: "取り消し可能",
+  SIDE_EFFECT: "外部に影響あり",
+  IRREVERSIBLE: "取り消し不可",
+};
+
+export type AgentCategory = "調査" | "分析" | "実行" | "管理" | "収益";
+
+export type AgentHealth = "正常" | "注意" | "異常";
+
+export interface AgentContract {
+  agentId: string;
+  agentVersion: string;
+  name: string;
+  category: AgentCategory;
+  purpose: string;
+  allowedActions: string[];
+  /** 明示的に禁止する操作。allowedActions の裏返しではなく、別に書く。 */
+  forbiddenActions: string[];
+  allowedDataScopes: DataClassification[];
+  sideEffectClass: SideEffectClass;
+  timeoutSeconds: number;
+  maxRetries: number;
+  /** これを下回る確信度なら人間に回す。 */
+  confidenceThreshold: number;
+  owner: string;
+}
+
+export interface AgentRuntimeState {
+  agentId: string;
+  health: AgentHealth;
+  /** 稼働中か。停止していても契約は残る。 */
+  active: boolean;
+  processedToday: number;
+  successRate: number;
+  lastRunAt: string;
+  assignee: string;
+}
+
+// ---------------------------------------------------------------------------
+// Run（1件の処理）
+// ---------------------------------------------------------------------------
+
+export interface RunStep {
+  stepId: string;
+  agentId: string;
+  status: StepStatus;
+  startedAt?: string;
+  completedAt?: string;
+  summary: string;
+  /** 進捗を出せる処理だけが持つ。持たない処理で 0% と出さないこと。 */
+  progress?: { done: number; total: number; label: string };
+  handoffTo?: string;
+  /** 開始条件。待機中のステップが「何を待っているか」を画面に出すため。 */
+  waitingFor?: string;
+}
+
+export interface Evidence {
+  label: string;
+  detail: string;
+}
+
+export interface Decision {
+  agentId: string;
+  conclusion: string;
+  evidence: Evidence[];
+  /** 0〜1。設計書の confidence_threshold と突き合わせる。 */
+  confidence: number;
+  nextAction: string;
+  decidedAt: string;
+}
+
+export interface ContextSource {
+  sourceId: string;
+  name: string;
+  kind: "csv" | "pdf" | "database" | "spreadsheet" | "mail";
+  access: "読取" | "書込" | "不可";
+  updatedAt: string;
+  classification: DataClassification;
+}
+
+export interface Run extends TenantScoped {
+  runId: string;
+  /** 同じ入力での二重実行を防ぐ鍵。設計書 17. の必須条件。 */
+  idempotencyKey: string;
+  workflowId: string;
+  /** 開始時点で固定する。途中で最新版に差し替えない。 */
+  workflowVersion: string;
+  title: string;
+  status: RunStatus;
+  startedAt: string;
+  expectedEndAt?: string;
+  trigger: "手動実行" | "スケジュール" | "イベント";
+  priority: "最優先" | "高" | "通常" | "低";
+  requestedBy: string;
+  description: string;
+  steps: RunStep[];
+  decisions: Decision[];
+  contextSources: ContextSource[];
+  /** 現在の入力条件。画面ではチップで出す。 */
+  contextChips: { label: string; value: string }[];
+}
+
+// ---------------------------------------------------------------------------
+// 承認（設計書 16. 権限・承認ポリシー）
+// ---------------------------------------------------------------------------
+
+export type ApprovalReason =
+  | "外部送信"
+  | "金額変更"
+  | "社外共有"
+  | "削除"
+  | "契約"
+  | "公開";
+
+export interface ApprovalRequest extends TenantScoped {
+  approvalId: string;
+  runId?: string;
+  title: string;
+  /** なぜ人間の承認が要るのか。ここが空の承認は作らせない。 */
+  reason: ApprovalReason;
+  requestedBy: string;
+  requestedAt: string;
+  agentId?: string;
+  priority: "高優先度" | "通常";
+  classification: DataClassification;
+  detail: string;
+  status: "PENDING" | "APPROVED" | "REJECTED";
+  /** 承認後にこれらが変わったら、承認を無効にして取り直す。 */
+  approvalScopeHash: string;
+}
+
+// ---------------------------------------------------------------------------
+// 成果物（設計書 15. Agent作業データ・ログ・成果物の保存設計）
+// ---------------------------------------------------------------------------
+
+export type ArtifactStatus =
+  | "CREATED"
+  | "VALIDATING"
+  | "DRAFT"
+  | "REVIEW_REQUIRED"
+  | "APPROVED"
+  | "EXPORTED"
+  | "ARCHIVED"
+  | "INVALID"
+  | "QUARANTINED"
+  | "SUPERSEDED";
+
+export type ArtifactZone =
+  | "00_input"
+  | "10_raw"
+  | "20_working"
+  | "30_evidence"
+  | "40_output"
+  | "50_review"
+  | "60_export"
+  | "90_quarantine";
+
+export interface Artifact extends TenantScoped {
+  artifactId: string;
+  runId: string;
+  agentId: string;
+  name: string;
+  artifactType: string;
+  zone: ArtifactZone;
+  version: number;
+  status: ArtifactStatus;
+  /** ファイル名でなく ID で系譜をつなぐ。「この数字はどこから来たか」に答えるため。 */
+  sourceArtifactIds: string[];
+  contentHash: string;
+  createdAt: string;
+  createdBy: string;
+}
+
+// ---------------------------------------------------------------------------
+// 監査ログ（設計書 15. ログの分離）
+// ---------------------------------------------------------------------------
+
+export type AuditLogKind =
+  | "Execution"
+  | "Agent"
+  | "Decision"
+  | "DataAccess"
+  | "Artifact"
+  | "ErrorRecovery"
+  | "HumanAction";
+
+export interface AuditEvent extends TenantScoped {
+  eventId: string;
+  kind: AuditLogKind;
+  runId?: string;
+  agentId?: string;
+  timestamp: string;
+  /** 人か Agent か。ここを混ぜると責任の所在が消える。 */
+  actor: string;
+  actorType: "human" | "agent" | "system";
+  action: string;
+  status: "成功" | "失敗" | "承認待ち" | "停止";
+  detail?: string;
+}
+
+// ---------------------------------------------------------------------------
+// 社員向け（設計書 8. お仕事コックピット）
+// ---------------------------------------------------------------------------
+
+export interface EmployeeTask {
+  taskId: string;
+  order: number;
+  title: string;
+  dueLabel: string;
+  dueUrgent: boolean;
+  status: "未対応" | "進行中" | "承認待ち";
+  description: string;
+  actionLabel: string;
+  icon: "mail" | "chart" | "doc";
+}
+
+export interface AutomatedWork {
+  workId: string;
+  title: string;
+  completedAt: string;
+  /** 削減できた分数。根拠を持たない推定値をここに入れないこと。 */
+  savedMinutes: number;
+  icon: "mail" | "doc" | "people" | "cloud";
+}
+
+export interface AssistantMessage {
+  role: "user" | "assistant";
+  time: string;
+  text: string;
+  bullets?: string[];
+  /** 出典。これが付けられない回答は画面に出さない。 */
+  sources?: { name: string; kind: "spreadsheet" | "database" | "doc" }[];
+}
+
+// ---------------------------------------------------------------------------
+// CEO向け（設計書 9. CEOアシスタント）
+// ---------------------------------------------------------------------------
+
+export interface Instruction extends TenantScoped {
+  instructionId: string;
+  title: string;
+  assignee: string;
+  priority: "最優先" | "高" | "中" | "通常";
+  dueLabel: string;
+  progress: number;
+  subStatus: string;
+  status: "進行中" | "完了";
+}
+
+export interface SecretaryActivity {
+  time: string;
+  actor: string;
+  actorType: "human" | "agent" | "system";
+  action: string;
+  status: "進行中" | "完了" | "承認待ち";
+}
+
+// ---------------------------------------------------------------------------
+// 効果測定
+// ---------------------------------------------------------------------------
+
+/**
+ * 削減効果。
+ *
+ * basis を必ず持たせている。設計書に算出方法の定義がなく、推定値のまま
+ * ROI 提案に使うと商談で崩れるため、根拠を型として強制する。
+ */
+export interface SavingMetric {
+  label: string;
+  value: string;
+  unit: string;
+  deltaLabel?: string;
+  deltaDirection?: "up" | "down" | "flat";
+  basis: string;
+}
