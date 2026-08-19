@@ -139,6 +139,7 @@ const STEP_TONE: Record<StepStatus, Tone> = {
   // やっていないものが「やった」に見える
   NEEDS_INPUT: "warn",
   NOT_IMPLEMENTED: "idle",
+  NEEDS_REVIEW: "warn",
 };
 
 export function StepStatusBadge({ status }: { status: StepStatus }) {

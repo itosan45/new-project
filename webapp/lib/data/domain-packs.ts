@@ -30,14 +30,61 @@ export const CONSTRUCTION_PACK: DomainPack = {
   ],
 
   extractionFields: [
-    { field: "調査日", hint: "和暦表記あり。「R8.8.14」形式も想定", required: true },
-    { field: "物件住所", hint: "手書き。番地の数字が読みにくい", required: true },
-    { field: "施主名", hint: "「様」を除去する", required: true },
-    { field: "築年数", hint: "「築○年」または竣工年", required: false },
-    { field: "被害箇所", hint: "床下・浴室・玄関など。複数選択", required: true },
-    { field: "被害程度", hint: "軽微・中程度・重度の3段階", required: true },
-    { field: "施工面積", hint: "㎡または坪。単位を必ず記録", required: true },
-    { field: "概算金額", hint: "手書き。桁の読み違えに注意", required: false },
+    {
+      field: "調査日",
+      hint: "和暦表記あり。「R8.8.14」形式も想定",
+      required: true,
+      kind: "日付",
+    },
+    {
+      field: "物件住所",
+      hint: "手書き。番地の数字が読みにくい",
+      required: true,
+      kind: "キーワード",
+      clues: ["住所", "所在地", "物件"],
+    },
+    {
+      field: "施主名",
+      hint: "「様」を除去する",
+      required: true,
+      kind: "キーワード",
+      clues: ["施主", "お客様名", "氏名", "宛名"],
+    },
+    {
+      field: "築年数",
+      hint: "「築○年」または竣工年",
+      required: false,
+      kind: "キーワード",
+      clues: ["築年数", "築", "竣工"],
+    },
+    {
+      field: "被害箇所",
+      hint: "床下・浴室・玄関など。複数選択",
+      required: true,
+      kind: "キーワード",
+      clues: ["被害箇所", "箇所"],
+    },
+    {
+      field: "被害程度",
+      hint: "軽微・中程度・重度の3段階",
+      required: true,
+      kind: "キーワード",
+      clues: ["被害程度", "程度"],
+    },
+    {
+      field: "施工面積",
+      hint: "㎡または坪。単位を必ず記録",
+      required: true,
+      kind: "キーワード",
+      clues: ["施工面積", "面積"],
+    },
+    {
+      // 金額は最大値を拾う。合計であることが多いため
+      field: "概算金額",
+      hint: "手書き。桁の読み違えに注意",
+      required: false,
+      kind: "金額",
+    },
   ],
 
   validationRules: [
@@ -73,13 +120,43 @@ export const ACCOUNTING_PACK: DomainPack = {
   ],
 
   extractionFields: [
-    { field: "取引日", hint: "領収書の発行日。和暦あり", required: true },
-    { field: "取引先名", hint: "屋号と法人名が異なることがある", required: true },
-    { field: "インボイス番号", hint: "T+13桁。無い場合は控除不可として扱う", required: false },
+    { field: "取引日", hint: "領収書の発行日。和暦あり", required: true, kind: "日付" },
+    {
+      /*
+       * 手がかりは長めの語にする。
+       * 「発行」だけにすると「発行日 2026年8月12日」に食われて、
+       * 取引先名として日付が入る。短い語ほど別の語に当たりやすい。
+       */
+      field: "取引先名",
+      hint: "屋号と法人名が異なることがある。上部に無記名で書かれていることも多い",
+      required: true,
+      kind: "キーワード",
+      clues: ["発行元", "発行者", "店名", "屋号", "会社名"],
+    },
+    {
+      field: "インボイス番号",
+      hint: "T+13桁。無い場合は控除不可として扱う",
+      required: false,
+      kind: "キーワード",
+      clues: ["登録番号", "インボイス", "適格請求書"],
+    },
+    {
+      // 税抜と合計の区別は文面からは決められない。人が確認する
+      field: "合計金額",
+      hint: "最大値を拾う。税抜との区別は人が確認する",
+      required: true,
+      kind: "金額",
+    },
     { field: "税抜金額", hint: "内訳に記載がない場合は逆算しない", required: true },
     { field: "消費税額", hint: "税率ごとに分けて記録", required: true },
     { field: "税率", hint: "10%と8%が混在しうる", required: true },
-    { field: "但し書き", hint: "勘定科目の判定に使う", required: true },
+    {
+      field: "但し書き",
+      hint: "勘定科目の判定に使う",
+      required: true,
+      kind: "キーワード",
+      clues: ["但し", "但", "内容"],
+    },
     { field: "支払方法", hint: "現金・カード・振込", required: false },
   ],
 
@@ -119,7 +196,19 @@ export const ECOMMERCE_PACK: DomainPack = {
 
   extractionFields: [
     { field: "問い合わせ区分", hint: "配送・返品・品質・解約・その他", required: true },
-    { field: "注文番号", hint: "本文中の英数字列", required: false },
+    {
+      field: "注文番号",
+      hint: "本文中の英数字列",
+      required: false,
+      kind: "キーワード",
+      clues: ["注文番号", "ご注文番号", "オーダー"],
+    },
+    {
+      field: "電話番号",
+      hint: "折り返し先。本文に書かれていることがある",
+      required: false,
+      kind: "電話番号",
+    },
     { field: "感情の強さ", hint: "0〜1。文面の語調から", required: true },
     { field: "緊急度", hint: "肌トラブルの訴えは最優先", required: true },
     { field: "定期便の有無", hint: "回答テンプレートが変わる", required: false },

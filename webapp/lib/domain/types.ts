@@ -70,7 +70,9 @@ export type StepStatus =
   /** 入力が揃っていないので実行していない。推測で埋めるくらいなら止める。 */
   | "NEEDS_INPUT"
   /** Agentの中身がまだ無い。契約だけの状態。 */
-  | "NOT_IMPLEMENTED";
+  | "NOT_IMPLEMENTED"
+  /** 処理はできたが、人が見ないと次へ渡せない。完了ではない。 */
+  | "NEEDS_REVIEW";
 
 export const STEP_STATUS_LABEL: Record<StepStatus, string> = {
   PENDING: "待機中",
@@ -81,6 +83,7 @@ export const STEP_STATUS_LABEL: Record<StepStatus, string> = {
   FAILED: "失敗",
   NEEDS_INPUT: "入力待ち",
   NOT_IMPLEMENTED: "中身なし",
+  NEEDS_REVIEW: "要確認",
 };
 
 // ---------------------------------------------------------------------------
@@ -247,6 +250,33 @@ export interface AgentContract {
  * 建設向けのData Analystと、EC向けのData Analystは同じ実装で、
  * 読み込むパックが違うだけ。ここを分けた瞬間に横展開できなくなる。
  */
+/**
+ * 何を、どうやって取り出すか。
+ *
+ * 「共通Agent × ドメインパック」を実際に動かしているのがここ。
+ * Document Reader の実装は業種を知らない。何を探すかはパックが持つ。
+ * 新しい業種が来たら、足すのはパック1つで、Agentは触らない。
+ *
+ * 元は ocr-excel/設定.yaml の「種類」と「手がかり」。同じ考え方で揃えてある。
+ */
+export type ExtractionKind =
+  | "日付"
+  | "金額"
+  | "電話番号"
+  | "キーワード"
+  | "ファイル名"
+  | "全文";
+
+export interface ExtractionField {
+  field: string;
+  hint: string;
+  required: boolean;
+  /** どう探すか。無い項目はまだ自動で取れない */
+  kind?: ExtractionKind;
+  /** kind が「キーワード」のとき、この言葉の右か次の行を拾う */
+  clues?: string[];
+}
+
 export interface DomainPack {
   packId: string;
   name: string;
@@ -257,7 +287,7 @@ export interface DomainPack {
   /** 分野固有の語彙。OCRと分類の精度はここで決まる。 */
   vocabulary: { term: string; meaning: string }[];
   /** 抽出すべき項目と、その手がかり */
-  extractionFields: { field: string; hint: string; required: boolean }[];
+  extractionFields: ExtractionField[];
   /** この分野での検証ルール */
   validationRules: string[];
   /** この分野で必ず人間に回すもの。業界の慣習や法令に由来する。 */

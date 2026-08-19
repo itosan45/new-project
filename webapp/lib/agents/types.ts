@@ -19,6 +19,15 @@ export interface AgentContext {
   brief?: WebBrief;
   /** 自由記述の依頼文 */
   request?: string;
+  /**
+   * 読み取り済みの書類。
+   *
+   * 画像から文字を読むのはここではない（スキャナやGoogleドライブ側）。
+   * 受け取るのは全文。ocr-excel も同じ前提。
+   */
+  documents?: { ファイル名: string; 全文: string }[];
+  /** どのドメインパックを使うか。何を探すかはパックが持つ */
+  packId?: string;
 }
 
 export type AgentResult =
@@ -38,6 +47,23 @@ export type AgentResult =
       /** 誰に聞けばよいか */
       askWho: "顧客" | "自分";
       summary: string;
+    }
+  | {
+      /**
+       * 処理はできたが、人が見ないと先に進めない。
+       *
+       * 「入力が足りない」とは別物。入力はあり、出力も出ている。
+       * ただし必須項目が取れなかった・値が疑わしい、といった理由で
+       * そのまま次の工程に渡してはいけない状態。
+       *
+       * これを「完了」に混ぜると、読み違えたまま見積が作られる。
+       */
+      status: "人に回す";
+      summary: string;
+      output: unknown;
+      evidence: string[];
+      /** なぜ人に回すのか */
+      reason: string[];
     }
   | {
       status: "未実装";

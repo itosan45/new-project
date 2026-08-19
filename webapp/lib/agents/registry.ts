@@ -1,4 +1,5 @@
 import type { AgentImpl } from "@/lib/agents/types";
+import { documentReaderAgent } from "@/lib/agents/doc/document-reader";
 import { webBriefAgent } from "@/lib/agents/web/brief";
 import { webEstimateAgent } from "@/lib/agents/web/estimate";
 import { webIaAgent } from "@/lib/agents/web/ia";
@@ -16,6 +17,7 @@ import { webPreflightAgent } from "@/lib/agents/web/preflight";
  * 前はこれが無く、契約に書いた「得意なこと」を実績として記録していた。
  */
 const IMPLS: AgentImpl[] = [
+  documentReaderAgent,
   webBriefAgent,
   webIaAgent,
   webEstimateAgent,

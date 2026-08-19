@@ -115,16 +115,38 @@ test("同じ承認を二度処理しても状態が動かない", () => {
   assert.equal(twice.audit.length, auditCount, "監査ログが二重に増えた");
 });
 
-test("承認が要らない案件でも、中身が無ければ成功にはならない", () => {
+test("承認が要らない案件でも、成功にはならない", () => {
   // みらい会計は executor を持たない（実行系がない）
   assert.ok(
     !MIRAI_KAIKEI.requiredAgents.includes("executor"),
     "前提が変わっている：みらい会計に executor が入った",
   );
   const record = newCase(MIRAI_KAIKEI);
-  assert.equal(record.approvals.length, 0, "止まる理由が無いはず");
-  // 止まらないことと、仕事をしたことは別
-  assert.equal(record.run.status, "PARTIAL_SUCCESS");
+  assert.equal(record.approvals.length, 0, "承認で止まる理由は無いはず");
+  // 承認ゲートを通らないことと、仕事をしたことは別
+  assert.notEqual(record.run.status, "SUCCEEDED");
+});
+
+test("書類が渡っていなければ、読み取ったことにしない", () => {
+  // 案件の受付にはまだ添付が無い。渡らないので止まるのが正しい
+  const record = newCase(MIRAI_KAIKEI);
+  const step = record.run.steps.find((s) => s.agentId === "document-reader");
+  assert.ok(step, "document-reader が並びに無い");
+  assert.equal(step.status, "NEEDS_INPUT");
+  assert.match(step.summary, /全文/);
+});
+
+test("入力待ちで止まったとき、承認待ちだと書かない", () => {
+  // 「承認後に実行します」と書くと、押せばよいと誤解される
+  const record = newCase(MIRAI_KAIKEI);
+  const pending = record.run.steps.filter((s) => s.status === "PENDING");
+  assert.ok(pending.length > 0, "後続の工程が無い");
+  for (const s of pending) {
+    assert.ok(
+      !s.summary.includes("承認後"),
+      `${s.agentId}: 承認待ちではないのに承認後と書かれている`,
+    );
+  }
 });
 
 // ---------------------------------------------------------------------------

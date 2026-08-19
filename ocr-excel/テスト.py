@@ -28,6 +28,17 @@ class 抽出のテスト(unittest.TestCase):
     def test_ありえない月日は拾わない(self):
         self.assertEqual(抽出.日付を探す("2026年13月45日"), "")
 
+    def test_電話番号を日付と間違えない(self):
+        # 0532-11-2222 を 0532年11月22日として読んでいた。実際に起きた
+        self.assertEqual(抽出.日付を探す("TEL 0532-11-2222"), "")
+        self.assertEqual(
+            抽出.日付を探す("調査日 令和8年8月14日\nTEL 0532-11-2222"),
+            "2026-08-14",
+        )
+
+    def test_整理番号のような数字を日付にしない(self):
+        self.assertEqual(抽出.日付を探す("管理番号 0001-02-03"), "")
+
     def test_金額を取り出せる(self):
         self.assertEqual(抽出.金額を探す("合計 ¥12,300"), "12300")
         self.assertEqual(抽出.金額を探す("1,500円"), "1500")

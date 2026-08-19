@@ -162,6 +162,27 @@
       }
     },
     {
+      "id": "decisions/2026-08-19-document-reader-connected.md",
+      "type": "decision",
+      "path": "decisions/2026-08-19-document-reader-connected.md",
+      "title": "Document Reader を ocr-excel に繋いだ。抽出規則はTypeScriptへ移植",
+      "createdAt": null,
+      "tags": [
+        "ハーネス",
+        "OCR",
+        "engineer"
+      ],
+      "status": null,
+      "artifactId": null,
+      "version": null,
+      "supersedes": null,
+      "relations": {
+        "basedOn": [
+          "decisions/2026-08-19-agents-must-refuse-undefined-input.md"
+        ]
+      }
+    },
+    {
       "id": "decisions/2026-08-19-engagement-six-stages.md",
       "type": "decision",
       "path": "decisions/2026-08-19-engagement-six-stages.md",
@@ -696,6 +717,14 @@
       "evidence": null
     },
     {
+      "from": "decisions/2026-08-19-document-reader-connected.md",
+      "to": "decisions/2026-08-19-agents-must-refuse-undefined-input.md",
+      "type": "SUPPORTED_BY",
+      "source": "frontmatter",
+      "confidence": 1,
+      "evidence": null
+    },
+    {
       "from": "decisions/2026-08-19-hearing-and-proposal-repeat.md",
       "to": "decisions/2026-08-19-engagement-six-stages.md",
       "type": "SUPPORTED_BY",
@@ -889,6 +918,14 @@
     },
     {
       "from": "notes/2026-08-14-ocr-excel-idea.md",
+      "to": "decisions/2026-08-19-document-reader-connected.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "notes/2026-08-14-ocr-excel-idea.md",
       "to": "tasks/2026-08-14-build-ocr-excel.md",
       "type": "RELATED_TO",
       "source": "inferred",
@@ -942,6 +979,14 @@
       "source": "inferred",
       "confidence": 0.5,
       "evidence": "共通タグ: ハーネス, 設計, engineer"
+    },
+    {
+      "from": "decisions/2026-08-14-expertise-via-domain-packs.md",
+      "to": "decisions/2026-08-19-document-reader-connected.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, engineer"
     },
     {
       "from": "decisions/2026-08-14-expertise-via-domain-packs.md",
@@ -1017,6 +1062,14 @@
     },
     {
       "from": "decisions/2026-08-14-ocr-drive-not-vision-api.md",
+      "to": "decisions/2026-08-19-document-reader-connected.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "decisions/2026-08-14-ocr-drive-not-vision-api.md",
       "to": "tasks/2026-08-14-build-ocr-excel.md",
       "type": "RELATED_TO",
       "source": "inferred",
@@ -1057,6 +1110,14 @@
     },
     {
       "from": "decisions/2026-08-14-personas-drive-the-design.md",
+      "to": "decisions/2026-08-19-document-reader-connected.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, engineer"
+    },
+    {
+      "from": "decisions/2026-08-14-personas-drive-the-design.md",
       "to": "decisions/2026-08-19-engagement-six-stages.md",
       "type": "RELATED_TO",
       "source": "inferred",
@@ -1137,6 +1198,14 @@
     },
     {
       "from": "decisions/2026-08-19-agents-must-refuse-undefined-input.md",
+      "to": "decisions/2026-08-19-document-reader-connected.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, engineer"
+    },
+    {
+      "from": "decisions/2026-08-19-agents-must-refuse-undefined-input.md",
       "to": "decisions/2026-08-19-engagement-six-stages.md",
       "type": "RELATED_TO",
       "source": "inferred",
@@ -1200,6 +1269,134 @@
       "evidence": "共通タグ: ハーネス, engineer"
     },
     {
+      "from": "decisions/2026-08-19-document-reader-connected.md",
+      "to": "notes/2026-08-14-ocr-excel-idea.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "decisions/2026-08-19-document-reader-connected.md",
+      "to": "decisions/2026-08-14-expertise-via-domain-packs.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, engineer"
+    },
+    {
+      "from": "decisions/2026-08-19-document-reader-connected.md",
+      "to": "decisions/2026-08-14-ocr-drive-not-vision-api.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "decisions/2026-08-19-document-reader-connected.md",
+      "to": "decisions/2026-08-14-personas-drive-the-design.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, engineer"
+    },
+    {
+      "from": "decisions/2026-08-19-document-reader-connected.md",
+      "to": "decisions/2026-08-19-agents-must-refuse-undefined-input.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, engineer"
+    },
+    {
+      "from": "decisions/2026-08-19-document-reader-connected.md",
+      "to": "decisions/2026-08-19-engagement-six-stages.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, engineer"
+    },
+    {
+      "from": "decisions/2026-08-19-document-reader-connected.md",
+      "to": "decisions/2026-08-19-hearing-and-proposal-repeat.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, engineer"
+    },
+    {
+      "from": "decisions/2026-08-19-document-reader-connected.md",
+      "to": "decisions/2026-08-19-proposal-architect-agent.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, engineer"
+    },
+    {
+      "from": "decisions/2026-08-19-document-reader-connected.md",
+      "to": "decisions/2026-08-19-solo-operator-premise.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, engineer"
+    },
+    {
+      "from": "decisions/2026-08-19-document-reader-connected.md",
+      "to": "decisions/2026-08-19-web-production-agents.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, engineer"
+    },
+    {
+      "from": "decisions/2026-08-19-document-reader-connected.md",
+      "to": "decisions/2026-08-19-webapp-replaced-by-harness.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, engineer"
+    },
+    {
+      "from": "decisions/2026-08-19-document-reader-connected.md",
+      "to": "tasks/2026-08-14-build-ocr-excel.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "decisions/2026-08-19-document-reader-connected.md",
+      "to": "tasks/2026-08-19-build-engagement-flow.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, engineer"
+    },
+    {
+      "from": "decisions/2026-08-19-document-reader-connected.md",
+      "to": "outputs/2026-08-14-harness-dev-env.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, engineer"
+    },
+    {
+      "from": "decisions/2026-08-19-document-reader-connected.md",
+      "to": "outputs/2026-08-14-ocr-excel-friend-kit.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "decisions/2026-08-19-document-reader-connected.md",
+      "to": "outputs/2026-08-14-ocr-excel-v1.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
       "from": "decisions/2026-08-19-engagement-six-stages.md",
       "to": "decisions/2026-08-14-expertise-via-domain-packs.md",
       "type": "RELATED_TO",
@@ -1218,6 +1415,14 @@
     {
       "from": "decisions/2026-08-19-engagement-six-stages.md",
       "to": "decisions/2026-08-19-agents-must-refuse-undefined-input.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, engineer"
+    },
+    {
+      "from": "decisions/2026-08-19-engagement-six-stages.md",
+      "to": "decisions/2026-08-19-document-reader-connected.md",
       "type": "RELATED_TO",
       "source": "inferred",
       "confidence": 0.5,
@@ -1305,6 +1510,14 @@
     },
     {
       "from": "decisions/2026-08-19-hearing-and-proposal-repeat.md",
+      "to": "decisions/2026-08-19-document-reader-connected.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, engineer"
+    },
+    {
+      "from": "decisions/2026-08-19-hearing-and-proposal-repeat.md",
       "to": "decisions/2026-08-19-engagement-six-stages.md",
       "type": "RELATED_TO",
       "source": "inferred",
@@ -1378,6 +1591,14 @@
     {
       "from": "decisions/2026-08-19-proposal-architect-agent.md",
       "to": "decisions/2026-08-19-agents-must-refuse-undefined-input.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, engineer"
+    },
+    {
+      "from": "decisions/2026-08-19-proposal-architect-agent.md",
+      "to": "decisions/2026-08-19-document-reader-connected.md",
       "type": "RELATED_TO",
       "source": "inferred",
       "confidence": 0.5,
@@ -1473,6 +1694,14 @@
     },
     {
       "from": "decisions/2026-08-19-solo-operator-premise.md",
+      "to": "decisions/2026-08-19-document-reader-connected.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, engineer"
+    },
+    {
+      "from": "decisions/2026-08-19-solo-operator-premise.md",
       "to": "decisions/2026-08-19-engagement-six-stages.md",
       "type": "RELATED_TO",
       "source": "inferred",
@@ -1546,6 +1775,14 @@
     {
       "from": "decisions/2026-08-19-web-production-agents.md",
       "to": "decisions/2026-08-19-agents-must-refuse-undefined-input.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, engineer"
+    },
+    {
+      "from": "decisions/2026-08-19-web-production-agents.md",
+      "to": "decisions/2026-08-19-document-reader-connected.md",
       "type": "RELATED_TO",
       "source": "inferred",
       "confidence": 0.5,
@@ -1641,6 +1878,14 @@
     },
     {
       "from": "decisions/2026-08-19-webapp-replaced-by-harness.md",
+      "to": "decisions/2026-08-19-document-reader-connected.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, engineer"
+    },
+    {
+      "from": "decisions/2026-08-19-webapp-replaced-by-harness.md",
       "to": "decisions/2026-08-19-engagement-six-stages.md",
       "type": "RELATED_TO",
       "source": "inferred",
@@ -1729,6 +1974,14 @@
     },
     {
       "from": "tasks/2026-08-14-build-ocr-excel.md",
+      "to": "decisions/2026-08-19-document-reader-connected.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "tasks/2026-08-14-build-ocr-excel.md",
       "to": "outputs/2026-08-14-ocr-excel-friend-kit.md",
       "type": "RELATED_TO",
       "source": "inferred",
@@ -1762,6 +2015,14 @@
     {
       "from": "tasks/2026-08-19-build-engagement-flow.md",
       "to": "decisions/2026-08-19-agents-must-refuse-undefined-input.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, engineer"
+    },
+    {
+      "from": "tasks/2026-08-19-build-engagement-flow.md",
+      "to": "decisions/2026-08-19-document-reader-connected.md",
       "type": "RELATED_TO",
       "source": "inferred",
       "confidence": 0.5,
@@ -1857,6 +2118,14 @@
     },
     {
       "from": "outputs/2026-08-14-harness-dev-env.md",
+      "to": "decisions/2026-08-19-document-reader-connected.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, engineer"
+    },
+    {
+      "from": "outputs/2026-08-14-harness-dev-env.md",
       "to": "decisions/2026-08-19-engagement-six-stages.md",
       "type": "RELATED_TO",
       "source": "inferred",
@@ -1929,6 +2198,14 @@
     },
     {
       "from": "outputs/2026-08-14-ocr-excel-friend-kit.md",
+      "to": "decisions/2026-08-19-document-reader-connected.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "outputs/2026-08-14-ocr-excel-friend-kit.md",
       "to": "tasks/2026-08-14-build-ocr-excel.md",
       "type": "RELATED_TO",
       "source": "inferred",
@@ -1954,6 +2231,14 @@
     {
       "from": "outputs/2026-08-14-ocr-excel-v1.md",
       "to": "decisions/2026-08-14-ocr-drive-not-vision-api.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: OCR, engineer"
+    },
+    {
+      "from": "outputs/2026-08-14-ocr-excel-v1.md",
+      "to": "decisions/2026-08-19-document-reader-connected.md",
       "type": "RELATED_TO",
       "source": "inferred",
       "confidence": 0.5,
@@ -2009,11 +2294,11 @@
     }
   ],
   "manifest": {
-    "generatedAt": "2026-08-19T07:50:13.554Z",
-    "nodeCount": 35,
-    "edgeCount": 171,
-    "structuralEdgeCount": 29,
-    "inferredEdgeCount": 142,
+    "generatedAt": "2026-08-19T08:02:24.410Z",
+    "nodeCount": 36,
+    "edgeCount": 204,
+    "structuralEdgeCount": 30,
+    "inferredEdgeCount": 174,
     "errors": [],
     "warnings": []
   }

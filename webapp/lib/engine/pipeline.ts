@@ -103,8 +103,14 @@ export function startCase(input: StartCaseInput): CaseRecord {
   /** 中身の無いAgentがあったか。あったら「成功」とは呼べない */
   let notImplemented = false;
 
-  // Agentに渡す材料。いまは依頼文だけで、分野ごとの設計内容は未接続
-  const ctx: AgentContext = { request: description };
+  /*
+   * Agentに渡す材料。
+   *
+   * 書類（documents）はまだ受け口が無い。案件の受付に添付が無いため。
+   * 渡らないので Document Reader は「入力待ち」で止まる。
+   * 止まるのが正しい。空のまま読み取ったことにはしない。
+   */
+  const ctx: AgentContext = { request: description, packId: tenant.domainPack };
 
   for (const agentId of tenant.requiredAgents) {
     const agent = findAgent(agentId);
@@ -114,12 +120,15 @@ export function startCase(input: StartCaseInput): CaseRecord {
     if (agentId === "approval" || agentId === "audit") continue;
 
     if (stopped) {
+      // 止まった理由によって、人がやることが違う。
+      // 「承認後に実行します」と一律に書くと、押せばよいと誤解される
+      const 待ち = needsInputStop ? "足りない項目の確認" : "承認";
       steps.push({
         stepId: shortId("s"),
         agentId,
         status: "PENDING",
-        summary: `${agent.name} は承認後に実行します。`,
-        waitingFor: "承認",
+        summary: `${agent.name} は${待ち}のあとに実行します。`,
+        waitingFor: 待ち,
       });
       continue;
     }
@@ -227,6 +236,29 @@ export function startCase(input: StartCaseInput): CaseRecord {
         summary: result.summary,
       });
       notImplemented = true;
+      continue;
+    }
+
+    if (result.status === "人に回す") {
+      // 処理はできたが、そのまま次に渡すと読み違えたまま先へ進む
+      steps.push({
+        stepId: shortId("s"),
+        agentId,
+        status: "NEEDS_REVIEW",
+        summary: result.summary,
+        waitingFor: "人の確認",
+      });
+      record({
+        kind: "Agent",
+        agentId,
+        timestamp: timeLabel(at),
+        actor: agent.name,
+        actorType: "agent",
+        action: result.summary,
+        status: "承認待ち",
+        detail: [...result.reason, ...result.evidence].join(" / "),
+      });
+      stopped = true;
       continue;
     }
 
@@ -361,7 +393,10 @@ export function decideApproval(
    * 「承認したので実行されたはず」という記録だけが残る。
    */
   let notImplemented = false;
-  const ctx: AgentContext = { request: record.run.description };
+  const ctx: AgentContext = {
+    request: record.run.description,
+    packId: record.run.workflowId,
+  };
 
   for (const s of record.run.steps) {
     if (s.status !== "WAITING_APPROVAL" && s.status !== "PENDING") continue;
@@ -391,7 +426,12 @@ export function decideApproval(
 
     const result = impl.run(ctx);
     if (result.status !== "完了") {
-      s.status = result.status === "入力が足りない" ? "NEEDS_INPUT" : "NOT_IMPLEMENTED";
+      s.status =
+        result.status === "入力が足りない"
+          ? "NEEDS_INPUT"
+          : result.status === "人に回す"
+            ? "NEEDS_REVIEW"
+            : "NOT_IMPLEMENTED";
       s.summary = result.summary;
       record.audit.push({
         tenantId: record.run.tenantId,
