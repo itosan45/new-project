@@ -200,9 +200,14 @@ export const WEB_AGENTS: AgentContract[] = [
   {
     agentId: "web-estimate",
     agentVersion: "1.0.0",
-    name: "見積根拠 Agent",
+    name: "工数見積 Agent",
     category: "収益",
-    purpose: "決まった仕様から工数レンジを出し、その内訳を示す",
+    /*
+     * 出すのは時間だけ。金額は出さない。
+     * 一番の用途は商談ではなく、「受けられるかどうか」の判断。
+     * 一人でやる以上、自分の時間が足りるかが先に分からないと受けられない。
+     */
+    purpose: "決まった仕様から、かかる時間と内訳を出す（金額は出さない）",
     allowedActions: ["工数の算出", "内訳の提示", "前提条件の明示"],
     // 金額を確定できると、誰も止められなくなる
     forbiddenActions: ["金額の確定", "顧客への提示", "根拠なしの数字を出す"],
