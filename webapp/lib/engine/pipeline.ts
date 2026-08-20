@@ -58,6 +58,11 @@ export interface StartCaseInput {
   description: string;
   requestedBy: string;
   priority: Run["priority"];
+  /**
+   * 読み取り済みの全文（画像から文字を読むのはこの前の工程）。
+   * 渡さなければ Document Reader は NEEDS_INPUT で止まる。それが正しい動作。
+   */
+  documents?: { ファイル名: string; 全文: string }[];
 }
 
 /**
@@ -67,7 +72,7 @@ export interface StartCaseInput {
  * 作らないことが、このエンジンの唯一の仕事と言ってよい。
  */
 export function startCase(input: StartCaseInput): CaseRecord {
-  const { tenant, title, description, requestedBy, priority } = input;
+  const { tenant, title, description, requestedBy, priority, documents } = input;
   const startedAt = nowIso();
   const runId = `RUN-${startedAt.slice(0, 10).replace(/-/g, "")}-${shortId("c").slice(-6)}`;
   const pack = findPack(tenant.domainPack);
@@ -106,11 +111,14 @@ export function startCase(input: StartCaseInput): CaseRecord {
   /*
    * Agentに渡す材料。
    *
-   * 書類（documents）はまだ受け口が無い。案件の受付に添付が無いため。
-   * 渡らないので Document Reader は「入力待ち」で止まる。
-   * 止まるのが正しい。空のまま読み取ったことにはしない。
+   * documents が渡らなければ Document Reader は「入力待ち」で止まる。
+   * それが正しい。空のまま読み取ったことにはしない。
    */
-  const ctx: AgentContext = { request: description, packId: tenant.domainPack };
+  const ctx: AgentContext = {
+    request: description,
+    packId: tenant.domainPack,
+    documents,
+  };
 
   for (const agentId of tenant.requiredAgents) {
     const agent = findAgent(agentId);

@@ -428,6 +428,19 @@
       "relations": {}
     },
     {
+      "id": "decisions/2026-08-20-case-intake-documents.md",
+      "type": "decision",
+      "path": "decisions/2026-08-20-case-intake-documents.md",
+      "title": "案件受付に書類を添付できるようにする",
+      "createdAt": null,
+      "tags": [],
+      "status": null,
+      "artifactId": null,
+      "version": null,
+      "supersedes": null,
+      "relations": {}
+    },
+    {
       "id": "decisions/2026-08-20-deliverables-window-and-image-handover.md",
       "type": "decision",
       "path": "decisions/2026-08-20-deliverables-window-and-image-handover.md",
@@ -2902,6 +2915,14 @@
       "evidence": "本文中に「2026-08-20」への言及"
     },
     {
+      "from": "decisions/2026-08-20-case-intake-documents.md",
+      "to": "secretary/logs/2026-08-20.md",
+      "type": "REFERENCES",
+      "source": "inferred",
+      "confidence": 0.7,
+      "evidence": "本文中に「2026-08-20」への言及"
+    },
+    {
       "from": "decisions/2026-08-20-deliverables-window-and-image-handover.md",
       "to": "decisions/2026-08-14-expertise-via-domain-packs.md",
       "type": "RELATED_TO",
@@ -3479,6 +3500,14 @@
     },
     {
       "from": "secretary/logs/2026-08-20.md",
+      "to": "decisions/2026-08-20-case-intake-documents.md",
+      "type": "REFERENCES",
+      "source": "inferred",
+      "confidence": 0.7,
+      "evidence": "本文中に「案件受付に書類を添付できるようにする」への言及"
+    },
+    {
+      "from": "secretary/logs/2026-08-20.md",
       "to": "secretary/logs/2026-08-19.md",
       "type": "REFERENCES",
       "source": "inferred",
@@ -3495,11 +3524,11 @@
     }
   ],
   "manifest": {
-    "generatedAt": "2026-08-20T10:01:09.743Z",
-    "nodeCount": 44,
-    "edgeCount": 336,
+    "generatedAt": "2026-08-20T11:49:27.916Z",
+    "nodeCount": 45,
+    "edgeCount": 338,
     "structuralEdgeCount": 36,
-    "inferredEdgeCount": 300,
+    "inferredEdgeCount": 302,
     "errors": [],
     "warnings": []
   }

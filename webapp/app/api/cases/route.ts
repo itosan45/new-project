@@ -29,6 +29,21 @@ export async function POST(req: NextRequest) {
   const requestedBy =
     typeof body?.requestedBy === "string" ? body.requestedBy.trim() : "";
   const priority = body?.priority === "最優先" ? "最優先" : "通常";
+  const documents = Array.isArray(body?.documents)
+    ? body.documents
+        .filter(
+          (d: unknown): d is { ファイル名: string; 全文: string } =>
+            typeof d === "object" &&
+            d !== null &&
+            typeof (d as Record<string, unknown>).ファイル名 === "string" &&
+            typeof (d as Record<string, unknown>).全文 === "string",
+        )
+        .map((d: { ファイル名: string; 全文: string }) => ({
+          ファイル名: d.ファイル名.trim(),
+          全文: d.全文,
+        }))
+        .filter((d: { ファイル名: string; 全文: string }) => d.全文.trim())
+    : [];
 
   const tenant = findTenant(tenantId);
   if (!tenant) {
@@ -48,6 +63,7 @@ export async function POST(req: NextRequest) {
       description,
       requestedBy: requestedBy || "担当者",
       priority,
+      documents: documents.length > 0 ? documents : undefined,
     });
     await saveCase(record);
     return NextResponse.json({ ok: true, run: record.run });

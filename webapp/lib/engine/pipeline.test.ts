@@ -128,12 +128,41 @@ test("承認が要らない案件でも、成功にはならない", () => {
 });
 
 test("書類が渡っていなければ、読み取ったことにしない", () => {
-  // 案件の受付にはまだ添付が無い。渡らないので止まるのが正しい
+  // documents を渡さなかった案件。渡らないので止まるのが正しい
   const record = newCase(MIRAI_KAIKEI);
   const step = record.run.steps.find((s) => s.agentId === "document-reader");
   assert.ok(step, "document-reader が並びに無い");
   assert.equal(step.status, "NEEDS_INPUT");
   assert.match(step.summary, /全文/);
+});
+
+test("書類を渡すと、Document Readerが実際に読み取る", () => {
+  const record = startCase({
+    tenant: MIKAWA_HOUSE,
+    title: "現場調査",
+    description: "検証用",
+    requestedBy: "テスト実行者",
+    priority: "通常",
+    documents: [
+      {
+        ファイル名: "現場調査票_田中様.txt",
+        全文: [
+          "現場調査票",
+          "調査日：2026年8月14日",
+          "物件住所：静岡県浜松市中区〇〇1-2-3",
+          "施主：田中 一郎 様",
+          "被害箇所：床下・浴室",
+          "被害程度：中程度",
+          "施工面積：42.5㎡",
+          "概算金額：¥380,000",
+        ].join("\n"),
+      },
+    ],
+  });
+  const step = record.run.steps.find((s) => s.agentId === "document-reader");
+  assert.ok(step, "document-reader が並びに無い");
+  assert.equal(step.status, "COMPLETED");
+  assert.match(step.summary, /1件から必須項目を取り出しました/);
 });
 
 test("入力待ちで止まったとき、承認待ちだと書かない", () => {

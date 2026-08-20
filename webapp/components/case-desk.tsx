@@ -56,7 +56,51 @@ export function CaseDesk({
   const [requestedBy, setRequestedBy] = useState("");
   const [priority, setPriority] = useState<"通常" | "最優先">("通常");
 
+  // 書類（任意）。Document Reader は「読み取り済みの全文」しか受け取らない。
+  // 画像やPDFから文字を読むOCRはここには無いので、テキストとして貼り付けるか、
+  // すでにテキスト化されたファイルを読み込む
+  const [documents, setDocuments] = useState<
+    { ファイル名: string; 全文: string }[]
+  >([]);
+  const [docName, setDocName] = useState("");
+  const [docText, setDocText] = useState("");
+  const [docError, setDocError] = useState<string | null>(null);
+
   const tenant = tenants.find((t) => t.tenantId === tenantId);
+
+  function addDocument() {
+    if (!docText.trim()) {
+      setDocError("全文が空です");
+      return;
+    }
+    setDocuments((prev) => [
+      ...prev,
+      { ファイル名: docName.trim() || `書類${prev.length + 1}`, 全文: docText },
+    ]);
+    setDocName("");
+    setDocText("");
+    setDocError(null);
+  }
+
+  function removeDocument(i: number) {
+    setDocuments((prev) => prev.filter((_, idx) => idx !== i));
+  }
+
+  function loadFileAsText(file: File) {
+    if (!/\.(txt|md|csv)$/i.test(file.name)) {
+      setDocError(
+        "テキストファイル（.txt / .md / .csv）のみ読み込めます。画像やPDFはOCRがまだ無いので、文字起こしした内容を貼り付けてください",
+      );
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = () => {
+      setDocText(String(reader.result ?? ""));
+      if (!docName.trim()) setDocName(file.name);
+      setDocError(null);
+    };
+    reader.readAsText(file);
+  }
 
   async function submit() {
     if (!title.trim() || busy) return;
@@ -72,12 +116,14 @@ export function CaseDesk({
           description,
           requestedBy,
           priority,
+          documents,
         }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error ?? "受付に失敗しました");
       setTitle("");
       setDescription("");
+      setDocuments([]);
       startTransition(() => router.refresh());
     } catch (e) {
       setError(e instanceof Error ? e.message : "受付に失敗しました");
@@ -187,6 +233,85 @@ export function CaseDesk({
               className="resize-none rounded-lg border border-line bg-surface px-3 py-2 text-xs text-ink outline-none focus:border-primary/50"
             />
           </label>
+
+          {/* 書類。Document Readerは読み取り済みの全文しか受け取れない。
+              画像・PDFから文字を読むOCRはここには無い（別工程）ので、
+              テキストで貼り付けるか、テキスト化済みのファイルを読み込む */}
+          <div className="flex flex-col gap-2 rounded-lg border border-line p-3">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <span className="text-[11px] font-medium text-ink">
+                書類（任意）
+              </span>
+              <span className="text-[10px] text-ink-subtle">
+                読み取り済みの全文のみ。画像・PDFのOCRはまだ無い
+              </span>
+            </div>
+
+            {documents.length > 0 && (
+              <ul className="flex flex-col gap-1.5">
+                {documents.map((d, i) => (
+                  <li
+                    key={i}
+                    className="flex items-center justify-between gap-2 rounded-md bg-surface-muted px-2.5 py-2 text-[11px] text-ink"
+                  >
+                    <span className="min-w-0 truncate">
+                      📄 {d.ファイル名}（{d.全文.length}文字）
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => removeDocument(i)}
+                      aria-label={`${d.ファイル名}を削除`}
+                      className="flex min-h-[36px] min-w-[36px] shrink-0 items-center justify-center rounded-md text-ink-muted hover:bg-surface hover:text-danger"
+                    >
+                      ✕
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            )}
+
+            <div className="flex flex-col gap-2 rounded-md bg-surface-muted p-2.5">
+              <div className="grid grid-cols-1 gap-2 sm:grid-cols-[1fr_auto]">
+                <input
+                  value={docName}
+                  onChange={(e) => setDocName(e.target.value)}
+                  placeholder="ファイル名（例：現場調査票_田中様.txt）"
+                  className="rounded-lg border border-line bg-surface px-3 py-2 text-xs text-ink outline-none focus:border-primary/50"
+                />
+                <label className="flex min-h-[38px] cursor-pointer items-center justify-center gap-1.5 whitespace-nowrap rounded-lg border border-line bg-surface px-3.5 py-2 text-xs text-ink hover:bg-surface-muted">
+                  <Icon name="file" className="size-3.5 text-ink-muted" />
+                  ファイルを選ぶ
+                  <input
+                    type="file"
+                    accept=".txt,.md,.csv"
+                    className="hidden"
+                    onChange={(e) => {
+                      const f = e.target.files?.[0];
+                      if (f) loadFileAsText(f);
+                      e.target.value = "";
+                    }}
+                  />
+                </label>
+              </div>
+              <textarea
+                value={docText}
+                onChange={(e) => setDocText(e.target.value)}
+                rows={3}
+                placeholder="ここに全文を貼り付け（書き起こし・メール本文・OCR済みテキストなど）"
+                className="resize-none rounded-lg border border-line bg-surface px-3 py-2 text-xs text-ink outline-none focus:border-primary/50"
+              />
+              {docError && (
+                <p className="text-[10px] text-danger">{docError}</p>
+              )}
+              <button
+                type="button"
+                onClick={addDocument}
+                className="min-h-[38px] self-start rounded-lg border border-line-strong bg-surface px-3.5 py-2 text-xs font-medium text-ink hover:bg-surface-muted"
+              >
+                ＋ 書類として追加
+              </button>
+            </div>
+          </div>
 
           <div className="flex flex-wrap items-end justify-between gap-3">
             <label className="flex flex-col gap-1">
