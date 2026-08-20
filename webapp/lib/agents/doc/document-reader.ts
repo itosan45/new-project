@@ -1,12 +1,6 @@
 import { needsInput, type AgentImpl, type AgentResult } from "@/lib/agents/types";
 import { findPack } from "@/lib/data/domain-packs";
-import type { ExtractionField } from "@/lib/domain/types";
-import {
-  キーワードで探す,
-  金額を探す,
-  日付を探す,
-  電話番号を探す,
-} from "@/lib/agents/doc/extract";
+import { 項目を取り出す } from "@/lib/agents/doc/extract";
 
 /**
  * Document Reader。
@@ -36,26 +30,6 @@ export interface DocumentReaderOutput {
   自動化していない項目: string[];
 }
 
-function 取り出す(field: ExtractionField, 全文: string, ファイル名: string): string {
-  switch (field.kind) {
-    case "日付":
-      return 日付を探す(全文);
-    case "金額":
-      return 金額を探す(全文);
-    case "電話番号":
-      return 電話番号を探す(全文);
-    case "キーワード":
-      return キーワードで探す(全文, field.clues ?? []);
-    case "ファイル名":
-      return ファイル名;
-    case "全文":
-      return 全文;
-    default:
-      // 探し方が決まっていない項目。空で返す（推測しない）
-      return "";
-  }
-}
-
 export function readDocuments(
   documents: { ファイル名: string; 全文: string }[],
   packId: string,
@@ -70,7 +44,7 @@ export function readDocuments(
 
   const 書類 = documents.map((doc) => {
     const 項目 = pack.extractionFields.map((f) => {
-      const 値 = 取り出す(f, doc.全文, doc.ファイル名);
+      const 値 = 項目を取り出す(f, doc.全文, doc.ファイル名);
       return {
         field: f.field,
         値,

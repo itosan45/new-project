@@ -10,7 +10,12 @@
  *
  * ここは OCR ではない。画像から文字を読むのは外（スキャナやGoogleドライブ）で、
  * 受け取るのは読み取り済みの全文。ocr-excel も同じ前提で作ってある。
+ *
+ * `区分を選ぶ` と `項目を取り出す` だけは ocr-excel に無い、こちら側だけの追加。
+ * EC問い合わせのような「区分に振り分ける」仕事のために足した。
  */
+
+import type { ExtractionField } from "@/lib/domain/types";
 
 // 2026/8/12, 2026-08-12, 2026年8月12日 など
 const 西暦パターン = /(\d{4})\s*[/\-年]\s*(\d{1,2})\s*[/\-月]\s*(\d{1,2})\s*日?/g;
@@ -100,4 +105,58 @@ export function キーワードで探す(文字列: string, 手がかり一覧: 
     }
   }
   return "";
+}
+
+/**
+ * あらかじめ決めた区分の中から、手がかりの言葉を含む最初の1つを返す。
+ * どれにも当たらなければ fallback（無指定なら空文字）。
+ *
+ * 「感情の強さ」「緊急度」のような連続値をこの関数で扱わないこと。
+ * 手がかりの言葉があるかどうかで区分に振り分けるだけで、
+ * 実数の強さを測っているわけではない。
+ */
+export function 区分を選ぶ(
+  文字列: string,
+  区分一覧: { label: string; clues: string[] }[],
+  fallback = "",
+): string {
+  for (const 区分 of 区分一覧) {
+    if (区分.clues.some((手がかり) => 文字列.includes(手がかり))) {
+      return 区分.label;
+    }
+  }
+  return fallback;
+}
+
+/**
+ * ExtractionField の kind に応じて、対応する探し方を呼び分ける。
+ *
+ * Document Reader（書類）と Classifier（問い合わせ文）の両方が使う。
+ * 探し方そのものは1箇所にしかない。2つのAgentが別々に同じ switch を
+ * 持つと、どちらかだけ直してずれる事故になる。
+ */
+export function 項目を取り出す(
+  field: ExtractionField,
+  全文: string,
+  ファイル名 = "",
+): string {
+  switch (field.kind) {
+    case "日付":
+      return 日付を探す(全文);
+    case "金額":
+      return 金額を探す(全文);
+    case "電話番号":
+      return 電話番号を探す(全文);
+    case "キーワード":
+      return キーワードで探す(全文, field.clues ?? []);
+    case "区分":
+      return 区分を選ぶ(全文, field.categories ?? [], field.fallback ?? "");
+    case "ファイル名":
+      return ファイル名;
+    case "全文":
+      return 全文;
+    default:
+      // 探し方が決まっていない項目。空で返す（推測しない）
+      return "";
+  }
 }

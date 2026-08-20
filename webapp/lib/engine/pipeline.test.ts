@@ -12,15 +12,27 @@ import { decideApproval, startCase } from "@/lib/engine/pipeline";
  * 他のどのテストより優先して通っている必要がある。
  */
 
-function newCase(tenant: typeof MIKAWA_HOUSE) {
+function newCase(tenant: typeof MIKAWA_HOUSE, description = "検証用") {
   return startCase({
     tenant,
     title: "テスト案件",
-    description: "検証用",
+    description,
     requestedBy: "テスト実行者",
     priority: "通常",
   });
 }
+
+/**
+ * LUMIERE（EC）の承認ゲート系テスト用。
+ *
+ * Classifierが実際に動くようになったため、「検証用」のような
+ * 区分の手がかりが無い本文だと、承認ゲートより手前（classifier自身）で
+ * 「人に回す」に止まってしまい、承認要求が1件も作られない。
+ * 承認の仕組み自体を検証したいテストなので、区分が判定できる
+ * 現実的な問い合わせ文を使う。
+ */
+const LUMIERE_INQUIRY =
+  "配送が予定日を過ぎても届きません。追跡番号も分からず困っています。";
 
 test("実行系のAgentは、承認前に完了しない", () => {
   for (const tenant of [MIKAWA_HOUSE, LUMIERE]) {
@@ -49,7 +61,7 @@ test("実行系のAgentは、承認前に完了しない", () => {
 });
 
 test("承認が要る案件は、成功ではなく要確認で止まる", () => {
-  const record = newCase(LUMIERE);
+  const record = newCase(LUMIERE, LUMIERE_INQUIRY);
   assert.equal(record.run.status, "HUMAN_REVIEW");
   assert.equal(
     record.approvals.filter((a) => a.status === "PENDING").length,
@@ -72,7 +84,7 @@ test("承認要求には必ず理由が入る", () => {
 test("承認しても、中身の無いAgentは実行されない", () => {
   // 承認＝実行ではない。ここを COMPLETED にすると
   // 「承認したので実行されたはず」という記録だけが残る
-  const record = newCase(LUMIERE);
+  const record = newCase(LUMIERE, LUMIERE_INQUIRY);
   const approvalId = record.approvals[0].approvalId;
 
   const after = decideApproval(record, approvalId, "APPROVED", "承認者");
@@ -87,7 +99,7 @@ test("承認しても、中身の無いAgentは実行されない", () => {
 });
 
 test("差し戻すと、失敗ではなく未実行として残る", () => {
-  const record = newCase(LUMIERE);
+  const record = newCase(LUMIERE, LUMIERE_INQUIRY);
   const approvalId = record.approvals[0].approvalId;
 
   const after = decideApproval(record, approvalId, "REJECTED", "承認者");
@@ -102,7 +114,7 @@ test("差し戻すと、失敗ではなく未実行として残る", () => {
 });
 
 test("同じ承認を二度処理しても状態が動かない", () => {
-  const record = newCase(LUMIERE);
+  const record = newCase(LUMIERE, LUMIERE_INQUIRY);
   const approvalId = record.approvals[0].approvalId;
 
   const once = decideApproval(record, approvalId, "APPROVED", "承認者");

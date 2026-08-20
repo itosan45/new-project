@@ -265,7 +265,14 @@ export type ExtractionKind =
   | "電話番号"
   | "キーワード"
   | "ファイル名"
-  | "全文";
+  | "全文"
+  /**
+   * あらかじめ決めた区分の中から、手がかりの言葉で1つを選ぶ。
+   * 「感情の強さ」「緊急度」のような連続値をここに含めないこと。
+   * 根拠のない実数（0.73 など）を作る原因になる。区分に振り分ける
+   * ところまでを機械の仕事にする。
+   */
+  | "区分";
 
 export interface ExtractionField {
   field: string;
@@ -275,6 +282,10 @@ export interface ExtractionField {
   kind?: ExtractionKind;
   /** kind が「キーワード」のとき、この言葉の右か次の行を拾う */
   clues?: string[];
+  /** kind が「区分」のとき、選べる区分と、それぞれの手がかり */
+  categories?: { label: string; clues: string[] }[];
+  /** kind が「区分」のとき、どの区分にも当たらなかった場合の既定値。無指定なら空欄のまま */
+  fallback?: string;
 }
 
 export interface DomainPack {

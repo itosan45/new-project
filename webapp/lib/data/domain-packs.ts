@@ -195,7 +195,21 @@ export const ECOMMERCE_PACK: DomainPack = {
   ],
 
   extractionFields: [
-    { field: "問い合わせ区分", hint: "配送・返品・品質・解約・その他", required: true },
+    {
+      field: "問い合わせ区分",
+      hint: "配送・返品・品質・解約のどれにも当たらなければ空欄のまま人に回す（推測で「その他」にはしない）",
+      required: true,
+      kind: "区分",
+      categories: [
+        { label: "配送", clues: ["配送", "届かな", "届いて", "発送", "追跡", "宅配"] },
+        { label: "返品", clues: ["返品", "返金", "返したい", "交換して"] },
+        {
+          label: "品質",
+          clues: ["品質", "荒れ", "かぶれ", "異物", "変色", "におい", "パッチテスト", "不良"],
+        },
+        { label: "解約", clues: ["解約", "定期便をやめ", "退会", "解除したい"] },
+      ],
+    },
     {
       field: "注文番号",
       hint: "本文中の英数字列",
@@ -209,9 +223,41 @@ export const ECOMMERCE_PACK: DomainPack = {
       required: false,
       kind: "電話番号",
     },
-    { field: "感情の強さ", hint: "0〜1。文面の語調から", required: true },
-    { field: "緊急度", hint: "肌トラブルの訴えは最優先", required: true },
-    { field: "定期便の有無", hint: "回答テンプレートが変わる", required: false },
+    {
+      field: "感情の強さ",
+      hint: "0〜1の実数は作らない。強い苦情の兆候を検知するところまでが仕事（classifierのnotSuitableForを参照）",
+      required: true,
+      kind: "区分",
+      categories: [
+        {
+          label: "強い",
+          clues: ["最悪", "ひどい", "詐欺", "二度と", "本当に困っ", "裏切られ", "激怒", "許せ"],
+        },
+      ],
+      fallback: "通常",
+    },
+    {
+      field: "緊急度",
+      hint: "肌トラブルの訴えは最優先",
+      required: true,
+      kind: "区分",
+      categories: [
+        {
+          label: "最優先",
+          clues: ["荒れ", "かぶれ", "腫れ", "呼吸", "アレルギー", "湿疹", "痛み", "至急", "大至急"],
+        },
+      ],
+      fallback: "通常",
+    },
+    {
+      field: "定期便の有無",
+      hint: "本文に定期便への言及があるか。無ければ「なし」と決めつけず空欄のまま",
+      required: false,
+      kind: "区分",
+      categories: [
+        { label: "あり", clues: ["定期便", "サブスク", "次回お届け", "次回発送", "継続"] },
+      ],
+    },
   ],
 
   validationRules: [

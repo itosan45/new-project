@@ -1,5 +1,6 @@
 import type { AgentImpl } from "@/lib/agents/types";
 import { documentReaderAgent } from "@/lib/agents/doc/document-reader";
+import { classifierAgent } from "@/lib/agents/ec/classifier";
 import { webBriefAgent } from "@/lib/agents/web/brief";
 import { webEstimateAgent } from "@/lib/agents/web/estimate";
 import { webIaAgent } from "@/lib/agents/web/ia";
@@ -19,6 +20,7 @@ import { webPreflightAgent } from "@/lib/agents/web/preflight";
  */
 const IMPLS: AgentImpl[] = [
   documentReaderAgent,
+  classifierAgent,
   webBriefAgent,
   webIaAgent,
   webEstimateAgent,
