@@ -437,6 +437,19 @@
       }
     },
     {
+      "id": "decisions/2026-08-20-成果物の受け渡し経路.md",
+      "type": "decision",
+      "path": "decisions/2026-08-20-成果物の受け渡し経路.md",
+      "title": "成果物の受け渡し経路（Googleドライブは経由しない）",
+      "createdAt": null,
+      "tags": [],
+      "status": null,
+      "artifactId": null,
+      "version": null,
+      "supersedes": null,
+      "relations": {}
+    },
+    {
       "id": "tasks/2026-08-03-build-mobile-webapp.md",
       "type": "task",
       "path": "tasks/2026-08-03-build-mobile-webapp.md",
@@ -657,6 +670,19 @@
       "type": "log",
       "path": "secretary/logs/2026-08-19.md",
       "title": "2026-08-19",
+      "createdAt": null,
+      "tags": [],
+      "status": null,
+      "artifactId": null,
+      "version": null,
+      "supersedes": null,
+      "relations": {}
+    },
+    {
+      "id": "secretary/logs/2026-08-20.md",
+      "type": "log",
+      "path": "secretary/logs/2026-08-20.md",
+      "title": "2026-08-20",
       "createdAt": null,
       "tags": [],
       "status": null,
@@ -1008,6 +1034,14 @@
     },
     {
       "from": "secretary/logs/2026-08-19.md",
+      "to": "secretary",
+      "type": "BELONGS_TO",
+      "source": "structural",
+      "confidence": 1,
+      "evidence": null
+    },
+    {
+      "from": "secretary/logs/2026-08-20.md",
       "to": "secretary",
       "type": "BELONGS_TO",
       "source": "structural",
@@ -2991,6 +3025,22 @@
       "evidence": "本文中に「2026-08-19」への言及"
     },
     {
+      "from": "decisions/2026-08-20-成果物の受け渡し経路.md",
+      "to": "secretary/logs/2026-08-19.md",
+      "type": "REFERENCES",
+      "source": "inferred",
+      "confidence": 0.7,
+      "evidence": "本文中に「2026-08-19」への言及"
+    },
+    {
+      "from": "decisions/2026-08-20-成果物の受け渡し経路.md",
+      "to": "secretary/logs/2026-08-20.md",
+      "type": "REFERENCES",
+      "source": "inferred",
+      "confidence": 0.7,
+      "evidence": "本文中に「2026-08-20」への言及"
+    },
+    {
       "from": "tasks/2026-08-03-build-mobile-webapp.md",
       "to": "outputs/2026-08-03-mobile-webapp-v1.md",
       "type": "RELATED_TO",
@@ -3399,6 +3449,22 @@
       "evidence": "本文中に「2026-08-14」への言及"
     },
     {
+      "from": "secretary/logs/2026-08-19.md",
+      "to": "secretary/logs/2026-08-20.md",
+      "type": "REFERENCES",
+      "source": "inferred",
+      "confidence": 0.7,
+      "evidence": "本文中に「2026-08-20」への言及"
+    },
+    {
+      "from": "secretary/logs/2026-08-20.md",
+      "to": "secretary/logs/2026-08-19.md",
+      "type": "REFERENCES",
+      "source": "inferred",
+      "confidence": 0.7,
+      "evidence": "本文中に「2026-08-19」への言及"
+    },
+    {
       "from": "departments/engineer/notes/2026-08-14.md",
       "to": "secretary/logs/2026-08-14.md",
       "type": "REFERENCES",
@@ -3408,11 +3474,11 @@
     }
   ],
   "manifest": {
-    "generatedAt": "2026-08-20T00:01:25.550Z",
-    "nodeCount": 41,
-    "edgeCount": 330,
-    "structuralEdgeCount": 35,
-    "inferredEdgeCount": 295,
+    "generatedAt": "2026-08-20T05:14:10.352Z",
+    "nodeCount": 43,
+    "edgeCount": 335,
+    "structuralEdgeCount": 36,
+    "inferredEdgeCount": 299,
     "errors": [],
     "warnings": []
   }
