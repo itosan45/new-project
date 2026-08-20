@@ -98,12 +98,13 @@ export default function LiveTrace() {
 
       <div className="grid grid-cols-1 gap-4 px-4 py-4 sm:px-7 sm:py-5 xl:grid-cols-[1fr_290px]">
         <div className="flex min-w-0 flex-col gap-4">
-          {/* パイプライン */}
-          <div className="flex items-stretch gap-1.5">
+          {/* パイプライン。5枚をスマホ幅に押し込むと文字が縦一列に割れるので、
+              横スクロールさせる（ページ全体は横に伸ばさない） */}
+          <div className="-mx-4 flex items-stretch gap-1.5 overflow-x-auto px-4 pb-1 sm:mx-0 sm:px-0">
             {run.steps.map((step, i) => {
               const active = step.status === "RUNNING";
               return (
-                <div key={step.stepId} className="flex min-w-0 flex-1 items-center gap-1.5">
+                <div key={step.stepId} className="flex min-w-[150px] flex-1 items-center gap-1.5">
                   <div
                     className={`flex min-w-0 flex-1 flex-col gap-2 rounded-xl border p-3 ${
                       active

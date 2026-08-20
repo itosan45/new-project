@@ -162,15 +162,21 @@ export default function AdminOpsCenter() {
         </span>
       }
     >
-      <div className="flex items-center justify-end gap-3 border-b border-line bg-surface px-4 py-3 sm:px-7">
+      <div className="flex items-center justify-end gap-2 border-b border-line bg-surface px-4 py-2.5 sm:px-7">
         <Link
           href="/tenants"
-          className="flex items-center gap-1.5 rounded-md border border-line px-2.5 py-1.5 text-[11px] text-ink hover:border-primary/40"
+          className="flex min-h-[40px] items-center gap-1.5 rounded-md border border-line px-3 py-2 text-[11px] text-ink hover:border-primary/40"
         >
           <Icon name="building" className="size-3.5 text-ink-muted" />
           Demo Company ⌄
         </Link>
-        <Icon name="bell" className="size-4 text-ink-muted" />
+        <button
+          type="button"
+          aria-label="通知"
+          className="flex min-h-[40px] min-w-[40px] items-center justify-center rounded-md text-ink-muted hover:bg-surface-muted"
+        >
+          <Icon name="bell" className="size-4" />
+        </button>
         <UserChip name="Admin User" sub="システム管理者" dark={false} />
         <LogoutButton />
       </div>
@@ -245,7 +251,9 @@ export default function AdminOpsCenter() {
           <Card>
             <CardHeader
               title="承認待ちキュー"
-              action={<LinkAction>すべて表示</LinkAction>}
+              action={
+                <Badge tone="idle">{ADMIN_APPROVAL_QUEUE.length}件 表示中</Badge>
+              }
             />
             <div className="flex flex-col gap-2.5">
               {ADMIN_APPROVAL_QUEUE.map((ap) => (
@@ -283,14 +291,14 @@ export default function AdminOpsCenter() {
                       </Badge>
                     </div>
                   </div>
-                  <div className="flex shrink-0 flex-col items-end gap-1.5">
+                  <div className="flex w-[92px] shrink-0 flex-col items-end gap-2">
                     <span className="text-[10px] text-ink-subtle">
                       {ap.requestedAt}
                     </span>
-                    <Button variant="primary" size="sm">
+                    <Button variant="primary" size="sm" full>
                       承認
                     </Button>
-                    <Button variant="default" size="sm">
+                    <Button variant="default" size="sm" full>
                       レビュー
                     </Button>
                   </div>
@@ -307,10 +315,10 @@ export default function AdminOpsCenter() {
               title="自動化効果の推移"
               action={
                 <span className="flex gap-2 text-[11px] text-ink-muted">
-                  <span className="rounded-md border border-line px-2 py-1">
+                  <span className="flex min-h-[36px] items-center rounded-md border border-line px-3 py-2">
                     今月 ⌄
                   </span>
-                  <span className="rounded-md border border-line px-2 py-1">
+                  <span className="flex min-h-[36px] items-center rounded-md border border-line px-3 py-2">
                     日次 ⌄
                   </span>
                 </span>
@@ -353,47 +361,98 @@ export default function AdminOpsCenter() {
           <Card>
             <CardHeader
               title="エージェント活動状況"
-              action={<LinkAction>すべて表示</LinkAction>}
+              action={
+                <Link href="/agents">
+                  <LinkAction>Agent一覧（全17体）</LinkAction>
+                </Link>
+              }
             />
-            <table className="w-full text-left">
-              <thead>
-                <tr className="border-b border-line text-[10px] text-ink-muted">
-                  <th className="pb-2 font-medium">Agent</th>
-                  <th className="pb-2 font-medium">担当</th>
-                  <th className="pb-2 font-medium">状態</th>
-                  <th className="pb-2 text-right font-medium">最終実行</th>
-                </tr>
-              </thead>
-              <tbody>
-                {AGENT_RUNTIME.slice(0, 6).map((a) => (
-                  <tr key={a.agentId} className="border-b border-line last:border-0">
-                    <td className="py-2">
-                      <span className="flex items-center gap-1.5 text-[11px] text-ink">
-                        <span
-                          className={`size-1.5 shrink-0 rounded-full ${
-                            a.health === "正常" ? "bg-ok" : "bg-warn"
-                          }`}
-                        />
-                        <span className="truncate">{agentName(a.agentId)}</span>
-                      </span>
-                    </td>
-                    <td className="py-2 text-[11px] text-ink-muted">
-                      {a.assignee}
-                    </td>
-                    <td className="py-2">
-                      <Badge tone={a.health === "正常" ? "ok" : "warn"}>
-                        {a.health === "正常" ? "稼働中" : "注意"}
-                      </Badge>
-                    </td>
-                    <td className="py-2 text-right text-[10px] text-ink-subtle">
-                      {a.lastRunAt}
-                    </td>
+            <div className="max-h-[360px] overflow-y-auto">
+              <table className="w-full text-left">
+                <thead>
+                  <tr className="sticky top-0 border-b border-line bg-surface text-[10px] text-ink-muted">
+                    <th className="pb-2 font-medium">Agent</th>
+                    <th className="pb-2 font-medium">担当</th>
+                    <th className="pb-2 text-right font-medium">処理数</th>
+                    <th className="pb-2 font-medium">状態</th>
+                    <th className="pb-2 text-right font-medium">最終実行</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {AGENT_RUNTIME.map((a) => (
+                    <tr key={a.agentId} className="border-b border-line last:border-0">
+                      <td className="py-2">
+                        <span className="flex items-center gap-1.5 text-[11px] text-ink">
+                          <span
+                            className={`size-1.5 shrink-0 rounded-full ${
+                              a.health === "正常" ? "bg-ok" : "bg-warn"
+                            }`}
+                          />
+                          <span className="truncate">{agentName(a.agentId)}</span>
+                        </span>
+                      </td>
+                      <td className="py-2 text-[11px] text-ink-muted">
+                        {a.assignee}
+                      </td>
+                      <td className="tabular py-2 text-right text-[11px] text-ink-muted">
+                        {a.processedToday}
+                      </td>
+                      <td className="py-2">
+                        <Badge tone={a.health === "正常" ? "ok" : "warn"}>
+                          {a.health === "正常" ? "稼働中" : "注意"}
+                        </Badge>
+                      </td>
+                      <td className="py-2 text-right text-[10px] text-ink-subtle">
+                        {a.lastRunAt}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <p className="mt-2 text-[10px] text-ink-subtle">
+              契約は17体。うち稼働中の状態を持つ{AGENT_RUNTIME.length}体を表示
+            </p>
           </Card>
         </div>
+
+        {/* Agentごとの処理内訳。KPIの「本日の処理」の内訳をそのまま出す */}
+        <Card>
+          <CardHeader
+            title="本日の処理内訳（Agentごと）"
+            badge={
+              <span className="text-[10px] font-normal text-ink-subtle">
+                稼働中Agentの processedToday を降順で表示
+              </span>
+            }
+          />
+          <div className="flex flex-col gap-2">
+            {[...AGENT_RUNTIME]
+              .sort((a, b) => b.processedToday - a.processedToday)
+              .map((a) => {
+                const max = Math.max(...AGENT_RUNTIME.map((r) => r.processedToday));
+                const pct = max > 0 ? Math.round((a.processedToday / max) * 100) : 0;
+                return (
+                  <div key={a.agentId} className="flex items-center gap-3">
+                    <span className="w-32 shrink-0 truncate text-[11px] text-ink">
+                      {agentName(a.agentId)}
+                    </span>
+                    <div className="h-2 min-w-0 flex-1 overflow-hidden rounded-full bg-surface-muted">
+                      <div
+                        className={`h-full rounded-full ${
+                          a.health === "正常" ? "bg-ok" : "bg-warn"
+                        }`}
+                        style={{ width: `${pct}%` }}
+                      />
+                    </div>
+                    <span className="tabular w-10 shrink-0 text-right text-[11px] text-ink-muted">
+                      {a.processedToday}
+                    </span>
+                  </div>
+                );
+              })}
+          </div>
+        </Card>
 
         <p className="flex items-center gap-1.5 text-[10px] text-ink-subtle">
           <Icon name="clock" className="size-3" />

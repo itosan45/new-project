@@ -52,7 +52,8 @@ export function CardHeader({
 
 export function LinkAction({ children }: { children: ReactNode }) {
   return (
-    <span className="cursor-pointer text-xs text-ink-muted hover:text-primary">
+    // p-2.5 -m-2.5: 見た目の余白は増やさずに、指で押せる範囲だけ広げる
+    <span className="-m-2.5 inline-flex cursor-pointer items-center gap-0.5 rounded-md p-2.5 text-xs text-ink-muted hover:bg-surface-muted hover:text-primary">
       {children} ›
     </span>
   );
@@ -177,9 +178,10 @@ export function Button({
 }) {
   const base =
     "inline-flex items-center justify-center gap-1.5 rounded-lg font-medium transition-colors cursor-pointer whitespace-nowrap";
+  // min-h: 指でタッチする前提のサイズ（目安44px、詰まった一覧でも38px は死守）
   const sizes = {
-    sm: "px-3 py-1.5 text-xs",
-    md: "px-4 py-2 text-[13px]",
+    sm: "min-h-[38px] px-3.5 py-2 text-xs",
+    md: "min-h-[44px] px-4 py-2.5 text-[13px]",
   };
   const variants = {
     primary: "bg-primary text-white hover:opacity-90",

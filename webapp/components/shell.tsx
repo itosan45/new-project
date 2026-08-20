@@ -90,7 +90,7 @@ export function Shell({
               key={item.href}
               href={item.href}
               prefetch={false}
-              className={`relative flex min-w-[68px] flex-1 flex-col items-center gap-1 px-2 py-2.5 text-[10px] ${
+              className={`relative flex min-w-[68px] flex-1 flex-col items-center gap-1 px-2 py-3 text-[10px] ${
                 active ? "text-nav-text-active" : "text-nav-text"
               }`}
             >
