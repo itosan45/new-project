@@ -95,6 +95,12 @@ export async function listAllCases(
 // 固定値を置くと、増えても減っても同じ数字が出続けて、誰も信じなくなる。
 // ---------------------------------------------------------------------------
 
+/**
+ * 案件1件あたりの削減時間（分）。顧客ごとの実測値に置き換える前の暫定。
+ * /cases と /admin の両方が使う。片方だけ数字を変えるとズレるので、ここ1箇所にする。
+ */
+export const MINUTES_PER_CASE = 20;
+
 export interface CaseStats {
   total: number;
   byStatus: Record<RunStatus, number>;

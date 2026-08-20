@@ -13,28 +13,34 @@ import {
   IconTile,
   LinkAction,
   Metric,
-  Sparkline,
   type Tone,
 } from "@/components/ui";
-import { AGENT_RUNTIME, agentName, findAgent } from "@/lib/data/agents";
+import {
+  AGENT_RUNTIME,
+  ALL_AGENTS,
+  agentName,
+  findAgent,
+} from "@/lib/data/agents";
 import {
   ADMIN_APPROVAL_QUEUE,
-  ADMIN_KPIS,
   ADMIN_TREND_SUMMARY,
   AUTOMATION_TREND,
   WORKFLOW_HEALTH_ORDER,
 } from "@/lib/data/workspace";
+import { TENANTS } from "@/lib/data/tenants";
+import {
+  listAllCases,
+  MINUTES_PER_CASE,
+  summarize,
+  type CaseRecord,
+} from "@/lib/store/cases";
+import { IMPLEMENTED_AGENT_IDS } from "@/lib/agents/registry";
 
 export const metadata = { title: "エージェント運用センター" };
+export const dynamic = "force-dynamic";
 
-const KPI_ICON = ["robot", "inbox", "clock", "money"];
+const KPI_ICON = ["robot", "inbox", "clock", "clock"];
 const KPI_TONE: Tone[] = ["ok", "primary", "warn", "ok"];
-const KPI_SPARK = [
-  [3, 5, 4, 6, 7, 6, 8],
-  [820, 900, 870, 1010, 1120, 1180, 1284],
-  [4, 6, 5, 8, 7, 10, 12],
-  [900, 1050, 1200, 1350, 1500, 1700, 1860],
-];
 
 function AgentHealthCard({ agentId }: { agentId: string }) {
   const runtime = AGENT_RUNTIME.find((a) => a.agentId === agentId);
@@ -140,7 +146,61 @@ function TrendChart() {
   );
 }
 
-export default function AdminOpsCenter() {
+export default async function AdminOpsCenter() {
+  let cases: CaseRecord[] = [];
+  let loadError: string | null = null;
+  try {
+    cases = await listAllCases(TENANTS.map((t) => t.tenantId));
+  } catch (e) {
+    // 鍵が未設定でも画面は出す。何が足りないかを画面で言う
+    loadError = e instanceof Error ? e.message : "読み込みに失敗しました";
+  }
+
+  const today = new Date().toISOString().slice(0, 10);
+  const thisMonth = new Date().toISOString().slice(0, 7);
+  const todayCount = cases.filter(
+    (c) => c.run.startedAt.slice(0, 10) === today,
+  ).length;
+  const monthCases = cases.filter(
+    (c) => c.run.startedAt.slice(0, 7) === thisMonth,
+  );
+  const overall = summarize(cases, MINUTES_PER_CASE);
+  const monthStats = summarize(monthCases, MINUTES_PER_CASE);
+  const implementedCount = IMPLEMENTED_AGENT_IDS.length;
+  const totalAgentCount = ALL_AGENTS.length;
+
+  const kpis: {
+    label: string;
+    value: string;
+    unit?: string;
+    basis: string;
+  }[] = [
+    {
+      label: "実体のあるAgent",
+      value: String(implementedCount),
+      unit: `/ ${totalAgentCount}`,
+      basis: "lib/agents/registry.ts に実装があるAgent数 / 契約の総数（共通17体＋Web制作9体）",
+    },
+    {
+      label: "本日の処理",
+      value: String(todayCount),
+      unit: "件",
+      basis: "cases/ 配下で、本日 startedAt の案件件数",
+    },
+    {
+      label: "承認待ち",
+      value: String(overall.pendingApprovals),
+      unit: "件",
+      basis: "cases/ 配下の案件のうち、PENDING 状態の承認要求の総数",
+    },
+    {
+      label: "削減時間（今月）",
+      value: (monthStats.savedMinutes / 60).toFixed(1),
+      unit: "時間",
+      basis: `今月 startedAt の案件のうち、完了${monthStats.savedFromCases}件 × ${MINUTES_PER_CASE}分（承認待ちは含めない）`,
+    },
+  ];
+
   return (
     <Shell
       nav={ADMIN_NAV}
@@ -189,24 +249,37 @@ export default function AdminOpsCenter() {
           </p>
         </div>
 
-        {/* KPI */}
+        {loadError && (
+          <Card className="border-warn/40 bg-warn-soft/30">
+            <div className="flex items-start gap-3">
+              <IconTile name="alert" tone="warn" />
+              <div>
+                <p className="text-xs font-medium text-ink">
+                  案件の保存先に接続できていません
+                </p>
+                <p className="mt-1 text-[11px] leading-relaxed text-ink-muted">
+                  環境変数（GITHUB_OWNER / GITHUB_REPO / GITHUB_TOKEN）が
+                  設定されているか確認してください。上のKPIは0件として出ています。
+                </p>
+                <p className="mt-1 font-mono text-[10px] text-ink-subtle">
+                  {loadError}
+                </p>
+              </div>
+            </div>
+          </Card>
+        )}
+
+        {/* KPI。固定値ではなく cases/ 配下の実際の案件と registry から数える */}
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-          {ADMIN_KPIS.map((kpi, i) => (
+          {kpis.map((kpi, i) => (
             <Card key={kpi.label}>
-              <div className="flex items-start justify-between gap-3">
-                <div className="flex min-w-0 items-start gap-3">
-                  <IconTile name={KPI_ICON[i]} tone={KPI_TONE[i]} />
-                  <Metric
-                    label={kpi.label}
-                    value={kpi.value}
-                    delta={kpi.deltaLabel}
-                    direction={kpi.deltaDirection}
-                    basis={kpi.basis}
-                  />
-                </div>
-                <Sparkline
-                  points={KPI_SPARK[i]}
-                  tone={i === 2 ? "warn" : "ok"}
+              <div className="flex min-w-0 items-start gap-3">
+                <IconTile name={KPI_ICON[i]} tone={KPI_TONE[i]} />
+                <Metric
+                  label={kpi.label}
+                  value={kpi.value}
+                  unit={kpi.unit}
+                  basis={kpi.basis}
                 />
               </div>
             </Card>

@@ -4,14 +4,16 @@ import { LogoutButton } from "@/components/logout-button";
 import { Shell, UserChip } from "@/components/shell";
 import { Card, Icon, IconTile, Metric } from "@/components/ui";
 import { TENANTS } from "@/lib/data/tenants";
-import { listAllCases, summarize, type CaseRecord } from "@/lib/store/cases";
+import {
+  listAllCases,
+  MINUTES_PER_CASE,
+  summarize,
+  type CaseRecord,
+} from "@/lib/store/cases";
 import { SOLO_LIMITS } from "@/lib/domain/operator";
 
 export const metadata = { title: "案件" };
 export const dynamic = "force-dynamic";
-
-/** 案件1件あたりの削減時間（分）。顧客ごとの実測値に置き換える前の暫定。 */
-const MINUTES_PER_CASE = 20;
 
 export default async function CasesPage() {
   let cases: CaseRecord[] = [];
