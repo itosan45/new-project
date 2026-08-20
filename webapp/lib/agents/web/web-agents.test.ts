@@ -246,7 +246,7 @@ test("提案書: 未確定が残っていれば、顧客に出せないと判定
   assert.ok(d, "成果物が出ていない");
   assert.equal(d.readyForClient, false);
   assert.ok(d.undecided.length >= 2, "未確定が数えられていない");
-  assert.match(d.content, /未確定/);
+  assert.match(d.content ?? "", /未確定/);
 });
 
 test("提案書: 用途の分からないページが残っていたら、出せないと判定する", () => {
@@ -271,8 +271,8 @@ test("提案書: 顧客名が入る", () => {
   });
   const d = req.deliverables[0];
   assert.ok(d);
-  assert.match(d.content, /株式会社テスト運送/);
-  assert.ok(!d.content.includes("（顧客名）"), "顧客名が空のまま出ている");
+  assert.match(d.content ?? "", /株式会社テスト運送/);
+  assert.ok(!(d.content ?? "").includes("（顧客名）"), "顧客名が空のまま出ている");
 });
 
 test("提案書: 金額を書かない", () => {
@@ -284,8 +284,8 @@ test("提案書: 金額を書かない", () => {
   });
   const d = req.deliverables[0];
   assert.ok(d);
-  assert.ok(!/円|¥/.test(d.content), "提案書に金額が書かれている");
-  assert.match(d.content, /やらないこと/);
+  assert.ok(!/円|¥/.test(d.content ?? ""), "提案書に金額が書かれている");
+  assert.match(d.content ?? "", /やらないこと/);
 });
 
 test("成果物には保存先のパスが付く", () => {
@@ -299,7 +299,7 @@ test("成果物には保存先のパスが付く", () => {
   assert.ok(d);
   assert.match(d.path, /^deliverables\//);
   assert.ok(d.path.includes(req.requestId));
-  assert.ok(d.content.length > 500, "中身が薄い");
+  assert.ok((d.content ?? "").length > 500, "中身が薄い");
 });
 
 // --- 経験 ------------------------------------------------------------------

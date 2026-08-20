@@ -30,12 +30,34 @@ export interface AgentRunResult {
  * ハーネスから実際に出てくるもの。これまでは記録しか出しておらず、
  * 実物は秘書が手で作って、エンジンの外に置いていた。
  */
+/**
+ * 成果物の種類。
+ *
+ * ホームページの仕事は、着工前に**モック**を出して合意を取る。
+ * モックはURLやHTMLで渡さない。相手はURLを見て「これは公開されたのか」と
+ * 迷うし、リンクは切れる。画像かPDFで渡すと、そのまま社内で回覧できる。
+ */
+export type DeliverableKind = "提案書" | "モック" | "議事録" | "見積" | "その他";
+
+export type DeliverableFormat = "md" | "pdf" | "png" | "jpg" | "html";
+
+/** 顧客にそのまま送れる形式かどうか。 */
+export function isSendable(f: DeliverableFormat): boolean {
+  return f === "pdf" || f === "png" || f === "jpg";
+}
+
 export interface Deliverable {
   fileName: string;
   /** 保存先。リポジトリ上のパス */
   path: string;
-  /** 中身 */
-  content: string;
+  kind: DeliverableKind;
+  format: DeliverableFormat;
+  /** 文字の成果物。画像・PDFのときは空 */
+  content?: string;
+  /** 画像・PDFのとき。base64 */
+  base64?: string;
+  /** バイト数 */
+  bytes: number;
   /** 顧客に出せる状態か */
   readyForClient: boolean;
   /** 出せない理由 */

@@ -96,6 +96,48 @@ export async function putFile(
   });
 }
 
+/**
+ * バイナリのファイルを置く。
+ *
+ * 成果物には画像とPDFがある。putFile はUTF-8として読んでしまうので、
+ * 画像を通すと壊れる。base64をそのまま渡す口を分ける。
+ */
+export async function putBinaryFile(
+  path: string,
+  base64: string,
+  message: string,
+  sha?: string
+): Promise<void> {
+  const { owner, repo, branch } = repoInfo();
+  await gh(`/repos/${owner}/${repo}/contents/${encodePath(path)}`, {
+    method: "PUT",
+    body: JSON.stringify({
+      message,
+      content: base64,
+      branch,
+      ...(sha ? { sha } : {}),
+    }),
+  });
+}
+
+/** バイナリのファイルを base64 のまま取り出す。画像・PDFの受け渡しに使う。 */
+export async function getBinaryFile(
+  path: string
+): Promise<{ base64: string; sha: string; size: number } | null> {
+  const { owner, repo, branch } = repoInfo();
+  const res = await gh(
+    `/repos/${owner}/${repo}/contents/${encodePath(path)}?ref=${branch}`
+  );
+  if (res.status === 404) return null;
+  const data = await res.json();
+  if (Array.isArray(data) || typeof data.content !== "string") return null;
+  return {
+    base64: data.content.replace(/\n/g, ""),
+    sha: data.sha,
+    size: typeof data.size === "number" ? data.size : 0,
+  };
+}
+
 export async function getLatestFile(
   dir: string
 ): Promise<{ name: string; content: string } | null> {

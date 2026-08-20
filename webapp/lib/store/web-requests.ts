@@ -1,4 +1,4 @@
-import { getFile, listDir, putFile } from "@/lib/github";
+import { getFile, listDir, putBinaryFile, putFile } from "@/lib/github";
 import type { WebRequest } from "@/lib/domain/web-request";
 
 /**
@@ -25,11 +25,12 @@ export async function saveWebRequest(req: WebRequest): Promise<void> {
    * 「どこから成果物が出てくるのか」に答えられない。
    */
   for (const d of req.deliverables) {
-    await putFile(
-      d.path,
-      d.content,
-      `${d.readyForClient ? "提案書" : "提案書（社内用・未確定あり）"}: ${req.clientName}`,
-    );
+    const msg = `${d.kind}${d.readyForClient ? "" : "（社内用・未確定あり）"}: ${req.clientName}`;
+    if (d.base64) {
+      await putBinaryFile(d.path, d.base64, msg);
+    } else if (d.content) {
+      await putFile(d.path, d.content, msg);
+    }
   }
 }
 

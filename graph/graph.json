@@ -415,6 +415,28 @@
       }
     },
     {
+      "id": "decisions/2026-08-20-deliverables-window-and-image-handover.md",
+      "type": "decision",
+      "path": "decisions/2026-08-20-deliverables-window-and-image-handover.md",
+      "title": "成果物の受け取り窓口を決め、見た目のものは画像とPDFで渡す",
+      "createdAt": null,
+      "tags": [
+        "ハーネス",
+        "運用",
+        "web-designer",
+        "engineer"
+      ],
+      "status": null,
+      "artifactId": null,
+      "version": null,
+      "supersedes": null,
+      "relations": {
+        "basedOn": [
+          "decisions/2026-08-19-where-deliverables-come-out.md"
+        ]
+      }
+    },
+    {
       "id": "tasks/2026-08-03-build-mobile-webapp.md",
       "type": "task",
       "path": "tasks/2026-08-03-build-mobile-webapp.md",
@@ -889,6 +911,14 @@
       "evidence": null
     },
     {
+      "from": "decisions/2026-08-20-deliverables-window-and-image-handover.md",
+      "to": "decisions/2026-08-19-where-deliverables-come-out.md",
+      "type": "SUPPORTED_BY",
+      "source": "frontmatter",
+      "confidence": 1,
+      "evidence": null
+    },
+    {
       "from": "tasks/2026-08-03-build-mobile-webapp.md",
       "to": "decisions/2026-08-03-adopt-secretary-structure.md",
       "type": "PART_OF",
@@ -1178,6 +1208,14 @@
     },
     {
       "from": "decisions/2026-08-14-expertise-via-domain-packs.md",
+      "to": "decisions/2026-08-20-deliverables-window-and-image-handover.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, engineer"
+    },
+    {
+      "from": "decisions/2026-08-14-expertise-via-domain-packs.md",
       "to": "tasks/2026-08-19-build-engagement-flow.md",
       "type": "RELATED_TO",
       "source": "inferred",
@@ -1330,6 +1368,14 @@
     },
     {
       "from": "decisions/2026-08-14-personas-drive-the-design.md",
+      "to": "decisions/2026-08-20-deliverables-window-and-image-handover.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, engineer"
+    },
+    {
+      "from": "decisions/2026-08-14-personas-drive-the-design.md",
       "to": "tasks/2026-08-19-build-engagement-flow.md",
       "type": "RELATED_TO",
       "source": "inferred",
@@ -1439,6 +1485,14 @@
       "source": "inferred",
       "confidence": 0.5,
       "evidence": "共通タグ: ハーネス, 設計, engineer"
+    },
+    {
+      "from": "decisions/2026-08-19-agents-must-refuse-undefined-input.md",
+      "to": "decisions/2026-08-20-deliverables-window-and-image-handover.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, engineer"
     },
     {
       "from": "decisions/2026-08-19-agents-must-refuse-undefined-input.md",
@@ -1562,6 +1616,14 @@
     },
     {
       "from": "decisions/2026-08-19-capability-dashboard.md",
+      "to": "decisions/2026-08-20-deliverables-window-and-image-handover.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, 運用, engineer"
+    },
+    {
+      "from": "decisions/2026-08-19-capability-dashboard.md",
       "to": "tasks/2026-08-19-build-engagement-flow.md",
       "type": "RELATED_TO",
       "source": "inferred",
@@ -1595,6 +1657,14 @@
     {
       "from": "decisions/2026-08-19-design-tools-actual-state.md",
       "to": "decisions/2026-08-19-webapp-replaced-by-harness.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, 運用"
+    },
+    {
+      "from": "decisions/2026-08-19-design-tools-actual-state.md",
+      "to": "decisions/2026-08-20-deliverables-window-and-image-handover.md",
       "type": "RELATED_TO",
       "source": "inferred",
       "confidence": 0.5,
@@ -1715,6 +1785,14 @@
     {
       "from": "decisions/2026-08-19-document-reader-connected.md",
       "to": "decisions/2026-08-19-where-deliverables-come-out.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, engineer"
+    },
+    {
+      "from": "decisions/2026-08-19-document-reader-connected.md",
+      "to": "decisions/2026-08-20-deliverables-window-and-image-handover.md",
       "type": "RELATED_TO",
       "source": "inferred",
       "confidence": 0.5,
@@ -1858,6 +1936,14 @@
     },
     {
       "from": "decisions/2026-08-19-engagement-six-stages.md",
+      "to": "decisions/2026-08-20-deliverables-window-and-image-handover.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, engineer"
+    },
+    {
+      "from": "decisions/2026-08-19-engagement-six-stages.md",
       "to": "tasks/2026-08-19-build-engagement-flow.md",
       "type": "RELATED_TO",
       "source": "inferred",
@@ -1970,6 +2056,14 @@
     },
     {
       "from": "decisions/2026-08-19-hearing-and-proposal-repeat.md",
+      "to": "decisions/2026-08-20-deliverables-window-and-image-handover.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, engineer"
+    },
+    {
+      "from": "decisions/2026-08-19-hearing-and-proposal-repeat.md",
       "to": "tasks/2026-08-19-build-engagement-flow.md",
       "type": "RELATED_TO",
       "source": "inferred",
@@ -2082,6 +2176,14 @@
     },
     {
       "from": "decisions/2026-08-19-proposal-architect-agent.md",
+      "to": "decisions/2026-08-20-deliverables-window-and-image-handover.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, engineer"
+    },
+    {
+      "from": "decisions/2026-08-19-proposal-architect-agent.md",
       "to": "tasks/2026-08-19-build-engagement-flow.md",
       "type": "RELATED_TO",
       "source": "inferred",
@@ -2194,6 +2296,14 @@
     },
     {
       "from": "decisions/2026-08-19-request-desk-so-agents-actually-run.md",
+      "to": "decisions/2026-08-20-deliverables-window-and-image-handover.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, engineer"
+    },
+    {
+      "from": "decisions/2026-08-19-request-desk-so-agents-actually-run.md",
       "to": "tasks/2026-08-19-build-engagement-flow.md",
       "type": "RELATED_TO",
       "source": "inferred",
@@ -2211,6 +2321,14 @@
     {
       "from": "decisions/2026-08-19-responsive-not-two-uis.md",
       "to": "decisions/2026-08-19-web-production-agents.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, web-designer"
+    },
+    {
+      "from": "decisions/2026-08-19-responsive-not-two-uis.md",
+      "to": "decisions/2026-08-20-deliverables-window-and-image-handover.md",
       "type": "RELATED_TO",
       "source": "inferred",
       "confidence": 0.5,
@@ -2307,6 +2425,14 @@
     {
       "from": "decisions/2026-08-19-solo-operator-premise.md",
       "to": "decisions/2026-08-19-where-deliverables-come-out.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, engineer"
+    },
+    {
+      "from": "decisions/2026-08-19-solo-operator-premise.md",
+      "to": "decisions/2026-08-20-deliverables-window-and-image-handover.md",
       "type": "RELATED_TO",
       "source": "inferred",
       "confidence": 0.5,
@@ -2442,6 +2568,14 @@
     },
     {
       "from": "decisions/2026-08-19-web-production-agents.md",
+      "to": "decisions/2026-08-20-deliverables-window-and-image-handover.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, web-designer, engineer"
+    },
+    {
+      "from": "decisions/2026-08-19-web-production-agents.md",
       "to": "tasks/2026-08-19-build-engagement-flow.md",
       "type": "RELATED_TO",
       "source": "inferred",
@@ -2562,6 +2696,14 @@
     },
     {
       "from": "decisions/2026-08-19-webapp-replaced-by-harness.md",
+      "to": "decisions/2026-08-20-deliverables-window-and-image-handover.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, 運用, engineer"
+    },
+    {
+      "from": "decisions/2026-08-19-webapp-replaced-by-harness.md",
       "to": "tasks/2026-08-19-build-engagement-flow.md",
       "type": "RELATED_TO",
       "source": "inferred",
@@ -2674,6 +2816,14 @@
     },
     {
       "from": "decisions/2026-08-19-where-deliverables-come-out.md",
+      "to": "decisions/2026-08-20-deliverables-window-and-image-handover.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, engineer"
+    },
+    {
+      "from": "decisions/2026-08-19-where-deliverables-come-out.md",
       "to": "tasks/2026-08-19-build-engagement-flow.md",
       "type": "RELATED_TO",
       "source": "inferred",
@@ -2690,6 +2840,150 @@
     },
     {
       "from": "decisions/2026-08-19-where-deliverables-come-out.md",
+      "to": "secretary/logs/2026-08-19.md",
+      "type": "REFERENCES",
+      "source": "inferred",
+      "confidence": 0.7,
+      "evidence": "本文中に「2026-08-19」への言及"
+    },
+    {
+      "from": "decisions/2026-08-20-deliverables-window-and-image-handover.md",
+      "to": "decisions/2026-08-14-expertise-via-domain-packs.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, engineer"
+    },
+    {
+      "from": "decisions/2026-08-20-deliverables-window-and-image-handover.md",
+      "to": "decisions/2026-08-14-personas-drive-the-design.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, engineer"
+    },
+    {
+      "from": "decisions/2026-08-20-deliverables-window-and-image-handover.md",
+      "to": "decisions/2026-08-19-agents-must-refuse-undefined-input.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, engineer"
+    },
+    {
+      "from": "decisions/2026-08-20-deliverables-window-and-image-handover.md",
+      "to": "decisions/2026-08-19-capability-dashboard.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, 運用, engineer"
+    },
+    {
+      "from": "decisions/2026-08-20-deliverables-window-and-image-handover.md",
+      "to": "decisions/2026-08-19-design-tools-actual-state.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, 運用"
+    },
+    {
+      "from": "decisions/2026-08-20-deliverables-window-and-image-handover.md",
+      "to": "decisions/2026-08-19-document-reader-connected.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, engineer"
+    },
+    {
+      "from": "decisions/2026-08-20-deliverables-window-and-image-handover.md",
+      "to": "decisions/2026-08-19-engagement-six-stages.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, engineer"
+    },
+    {
+      "from": "decisions/2026-08-20-deliverables-window-and-image-handover.md",
+      "to": "decisions/2026-08-19-hearing-and-proposal-repeat.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, engineer"
+    },
+    {
+      "from": "decisions/2026-08-20-deliverables-window-and-image-handover.md",
+      "to": "decisions/2026-08-19-proposal-architect-agent.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, engineer"
+    },
+    {
+      "from": "decisions/2026-08-20-deliverables-window-and-image-handover.md",
+      "to": "decisions/2026-08-19-request-desk-so-agents-actually-run.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, engineer"
+    },
+    {
+      "from": "decisions/2026-08-20-deliverables-window-and-image-handover.md",
+      "to": "decisions/2026-08-19-responsive-not-two-uis.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, web-designer"
+    },
+    {
+      "from": "decisions/2026-08-20-deliverables-window-and-image-handover.md",
+      "to": "decisions/2026-08-19-solo-operator-premise.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, engineer"
+    },
+    {
+      "from": "decisions/2026-08-20-deliverables-window-and-image-handover.md",
+      "to": "decisions/2026-08-19-web-production-agents.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, web-designer, engineer"
+    },
+    {
+      "from": "decisions/2026-08-20-deliverables-window-and-image-handover.md",
+      "to": "decisions/2026-08-19-webapp-replaced-by-harness.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, 運用, engineer"
+    },
+    {
+      "from": "decisions/2026-08-20-deliverables-window-and-image-handover.md",
+      "to": "decisions/2026-08-19-where-deliverables-come-out.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, engineer"
+    },
+    {
+      "from": "decisions/2026-08-20-deliverables-window-and-image-handover.md",
+      "to": "tasks/2026-08-19-build-engagement-flow.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, engineer"
+    },
+    {
+      "from": "decisions/2026-08-20-deliverables-window-and-image-handover.md",
+      "to": "outputs/2026-08-14-harness-dev-env.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, engineer"
+    },
+    {
+      "from": "decisions/2026-08-20-deliverables-window-and-image-handover.md",
       "to": "secretary/logs/2026-08-19.md",
       "type": "REFERENCES",
       "source": "inferred",
@@ -2858,6 +3152,14 @@
     },
     {
       "from": "tasks/2026-08-19-build-engagement-flow.md",
+      "to": "decisions/2026-08-20-deliverables-window-and-image-handover.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, engineer"
+    },
+    {
+      "from": "tasks/2026-08-19-build-engagement-flow.md",
       "to": "outputs/2026-08-14-harness-dev-env.md",
       "type": "RELATED_TO",
       "source": "inferred",
@@ -2971,6 +3273,14 @@
     {
       "from": "outputs/2026-08-14-harness-dev-env.md",
       "to": "decisions/2026-08-19-where-deliverables-come-out.md",
+      "type": "RELATED_TO",
+      "source": "inferred",
+      "confidence": 0.5,
+      "evidence": "共通タグ: ハーネス, engineer"
+    },
+    {
+      "from": "outputs/2026-08-14-harness-dev-env.md",
+      "to": "decisions/2026-08-20-deliverables-window-and-image-handover.md",
       "type": "RELATED_TO",
       "source": "inferred",
       "confidence": 0.5,
@@ -3098,11 +3408,11 @@
     }
   ],
   "manifest": {
-    "generatedAt": "2026-08-19T21:54:00.116Z",
-    "nodeCount": 40,
-    "edgeCount": 294,
-    "structuralEdgeCount": 34,
-    "inferredEdgeCount": 260,
+    "generatedAt": "2026-08-20T00:01:25.550Z",
+    "nodeCount": 41,
+    "edgeCount": 330,
+    "structuralEdgeCount": 35,
+    "inferredEdgeCount": 295,
     "errors": [],
     "warnings": []
   }

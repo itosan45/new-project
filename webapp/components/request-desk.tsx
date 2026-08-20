@@ -174,7 +174,7 @@ function DeliverableCard({ d }: { d: Deliverable }) {
         <button
           type="button"
           onClick={() => {
-            navigator.clipboard?.writeText(d.content);
+            navigator.clipboard?.writeText(d.content ?? "");
             setCopied(true);
             setTimeout(() => setCopied(false), 1600);
           }}

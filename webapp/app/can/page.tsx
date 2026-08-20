@@ -302,6 +302,52 @@ export default function CanPage() {
         </div>
       </section>
 
+      {/* 渡し方 */}
+      <section className="mb-8">
+        <h2 className="mb-1 text-base font-bold text-ink">どうやって渡すか</h2>
+        <p className="mb-3 text-[11px] leading-relaxed text-ink-muted">
+          ホームページの仕事は、
+          <b className="text-ink">着工前にモック（デザイン案）を出して合意を取って</b>
+          から作り始めます。その渡し方も決めてあります。
+        </p>
+        <Card padded={false}>
+          <div className="flex flex-col divide-y divide-line">
+            <div className="px-4 py-3">
+              <div className="flex flex-wrap items-center gap-2">
+                <Badge tone="ok">これで渡す</Badge>
+                <span className="text-[13px] font-medium text-ink">
+                  PDF・画像（PNG / JPEG）
+                </span>
+              </div>
+              <p className="mt-1 text-[11px] leading-relaxed text-ink-muted">
+                そのまま社内で回覧できて、印刷して会議に出せます。
+                PDFは<b className="text-ink">1枚の長いページ</b>にします。
+                複数ページに切ると、デザインが途中で分断されて判断できません。
+              </p>
+            </div>
+            <div className="px-4 py-3">
+              <div className="flex flex-wrap items-center gap-2">
+                <Badge tone="danger">これでは渡さない</Badge>
+                <span className="text-[13px] font-medium text-ink">
+                  URL・HTMLファイル
+                </span>
+              </div>
+              <p className="mt-1 text-[11px] leading-relaxed text-ink-muted">
+                相手は「これはもう公開されたのか」と迷います。リンクはいずれ切れます。
+                社内で回覧するときに、開けない人が出ます。
+              </p>
+            </div>
+          </div>
+        </Card>
+        <p className="mt-2 text-[11px] leading-relaxed text-ink-muted">
+          できたものは{" "}
+          <Link href="/deliverables" className="text-primary hover:underline">
+            成果物
+          </Link>{" "}
+          に並びます。相手に渡すときは、そこから取り出します。
+        </p>
+      </section>
+
       {/* できないこと */}
       <section className="mb-8">
         <h2 className="mb-1 text-base font-bold text-ink">できないこと</h2>

@@ -96,7 +96,10 @@ export function runWebRequest(input: {
     deliverables.push({
       fileName: proposal.fileName,
       path: `deliverables/${requestId}/${proposal.fileName}`,
+      kind: "提案書",
+      format: "md",
       content: proposal.document,
+      bytes: Buffer.byteLength(proposal.document, "utf-8"),
       readyForClient: proposal.readyForClient,
       undecided: proposal.undecided,
       byAgent: "web-proposal",

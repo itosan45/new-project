@@ -36,6 +36,13 @@ const IN_USE: Screen[] = [
     tone: "primary",
   },
   {
+    href: "/deliverables",
+    title: "成果物",
+    desc: "できあがったものの受け取り窓口。相手に渡すときはここから取り出す。モックは画像とPDFで。",
+    icon: "doc",
+    tone: "ok",
+  },
+  {
     href: "/can",
     title: "できること・できないこと",
     desc: "仕事の話が来たとき、その場で答えるためのもの。ホームページなら何週間でどこまで作れるか。",
