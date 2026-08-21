@@ -489,6 +489,19 @@
       "relations": {}
     },
     {
+      "id": "decisions/2026-08-21-admin-full-real-data.md",
+      "type": "decision",
+      "path": "decisions/2026-08-21-admin-full-real-data.md",
+      "title": "/adminの残りもすべて実データ化する",
+      "createdAt": null,
+      "tags": [],
+      "status": null,
+      "artifactId": null,
+      "version": null,
+      "supersedes": null,
+      "relations": {}
+    },
+    {
       "id": "tasks/2026-08-03-build-mobile-webapp.md",
       "type": "task",
       "path": "tasks/2026-08-03-build-mobile-webapp.md",
@@ -722,6 +735,19 @@
       "type": "log",
       "path": "secretary/logs/2026-08-20.md",
       "title": "2026-08-20",
+      "createdAt": null,
+      "tags": [],
+      "status": null,
+      "artifactId": null,
+      "version": null,
+      "supersedes": null,
+      "relations": {}
+    },
+    {
+      "id": "secretary/logs/2026-08-21.md",
+      "type": "log",
+      "path": "secretary/logs/2026-08-21.md",
+      "title": "2026-08-21",
       "createdAt": null,
       "tags": [],
       "status": null,
@@ -1081,6 +1107,14 @@
     },
     {
       "from": "secretary/logs/2026-08-20.md",
+      "to": "secretary",
+      "type": "BELONGS_TO",
+      "source": "structural",
+      "confidence": 1,
+      "evidence": null
+    },
+    {
+      "from": "secretary/logs/2026-08-21.md",
       "to": "secretary",
       "type": "BELONGS_TO",
       "source": "structural",
@@ -3104,6 +3138,22 @@
       "evidence": "本文中に「2026-08-20」への言及"
     },
     {
+      "from": "decisions/2026-08-21-admin-full-real-data.md",
+      "to": "secretary/logs/2026-08-20.md",
+      "type": "REFERENCES",
+      "source": "inferred",
+      "confidence": 0.7,
+      "evidence": "本文中に「2026-08-20」への言及"
+    },
+    {
+      "from": "decisions/2026-08-21-admin-full-real-data.md",
+      "to": "secretary/logs/2026-08-21.md",
+      "type": "REFERENCES",
+      "source": "inferred",
+      "confidence": 0.7,
+      "evidence": "本文中に「2026-08-21」への言及"
+    },
+    {
       "from": "tasks/2026-08-03-build-mobile-webapp.md",
       "to": "outputs/2026-08-03-mobile-webapp-v1.md",
       "type": "RELATED_TO",
@@ -3545,11 +3595,11 @@
     }
   ],
   "manifest": {
-    "generatedAt": "2026-08-20T12:39:27.752Z",
-    "nodeCount": 46,
-    "edgeCount": 339,
-    "structuralEdgeCount": 36,
-    "inferredEdgeCount": 303,
+    "generatedAt": "2026-08-21T10:00:17.955Z",
+    "nodeCount": 48,
+    "edgeCount": 342,
+    "structuralEdgeCount": 37,
+    "inferredEdgeCount": 305,
     "errors": [],
     "warnings": []
   }

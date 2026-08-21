@@ -154,3 +154,96 @@ export function summarize(
     savedFromCases: succeeded,
   };
 }
+
+/** 案件の中の承認要求を、どの案件のものかを付けて平らにする。運用センターの承認待ちキューが使う。 */
+export interface FlatApproval extends ApprovalRequest {
+  caseTitle: string;
+  caseRunId: string;
+}
+
+export function pendingApprovalsOf(records: CaseRecord[]): FlatApproval[] {
+  return records.flatMap((r) =>
+    r.approvals
+      .filter((a) => a.status === "PENDING")
+      .map((a) => ({ ...a, caseTitle: r.run.title, caseRunId: r.run.runId })),
+  );
+}
+
+export interface AgentActivityStats {
+  agentId: string;
+  /** この案件ストア全体で、このAgentのstepが登場した回数 */
+  totalSteps: number;
+  /** そのうちCOMPLETEDだった回数 */
+  completed: number;
+  /** 本日 startedAt の案件で、COMPLETEDだった回数 */
+  completedToday: number;
+  /** 最後にCOMPLETEDになった案件の startedAt（ISO）。一度も無ければ null */
+  lastCompletedAt: string | null;
+}
+
+/**
+ * Agentごとの稼働実績を数える。
+ *
+ * 「成功率」を出さないのは、実装したてのAgentは分母が小さく、
+ * 1件失敗しただけで％が大きく振れて意味を持たないため。
+ * 件数（完了／登場）をそのまま出す。
+ */
+export function summarizeAgentActivity(
+  records: CaseRecord[],
+  today: string,
+): Map<string, AgentActivityStats> {
+  const map = new Map<string, AgentActivityStats>();
+  for (const r of records) {
+    const isToday = r.run.startedAt.slice(0, 10) === today;
+    for (const s of r.run.steps) {
+      const cur = map.get(s.agentId) ?? {
+        agentId: s.agentId,
+        totalSteps: 0,
+        completed: 0,
+        completedToday: 0,
+        lastCompletedAt: null,
+      };
+      cur.totalSteps += 1;
+      if (s.status === "COMPLETED") {
+        cur.completed += 1;
+        if (isToday) cur.completedToday += 1;
+        if (!cur.lastCompletedAt || r.run.startedAt > cur.lastCompletedAt) {
+          cur.lastCompletedAt = r.run.startedAt;
+        }
+      }
+      map.set(s.agentId, cur);
+    }
+  }
+  return map;
+}
+
+export interface DailyStats {
+  date: string;
+  cases: number;
+  hoursSaved: number;
+}
+
+/**
+ * 日付ごとの実績。件数が少ないうちは点も少ない。それが正しい。
+ * 架空の推移を埋めて滑らかに見せることはしない。
+ */
+export function summarizeByDay(
+  records: CaseRecord[],
+  minutesPerCase: number,
+): DailyStats[] {
+  const map = new Map<string, { cases: number; succeeded: number }>();
+  for (const r of records) {
+    const date = r.run.startedAt.slice(0, 10);
+    const cur = map.get(date) ?? { cases: 0, succeeded: 0 };
+    cur.cases += 1;
+    if (r.run.status === "SUCCEEDED") cur.succeeded += 1;
+    map.set(date, cur);
+  }
+  return [...map.entries()]
+    .sort(([a], [b]) => (a < b ? -1 : 1))
+    .map(([date, v]) => ({
+      date,
+      cases: v.cases,
+      hoursSaved: (v.succeeded * minutesPerCase) / 60,
+    }));
+}

@@ -1,4 +1,4 @@
-import type { AgentContract, AgentRuntimeState } from "@/lib/domain/types";
+import type { AgentContract } from "@/lib/domain/types";
 import { WEB_AGENTS } from "@/lib/data/web-agents";
 
 /**
@@ -720,108 +720,6 @@ export const AGENT_CONTRACTS: AgentContract[] = [
     confidenceThreshold: 0.6,
     owner: "自分",
     maturity: "契約だけ",
-  },
-];
-
-export const AGENT_RUNTIME: AgentRuntimeState[] = [
-  {
-    agentId: "marketing-research",
-    health: "正常",
-    active: true,
-    processedToday: 352,
-    successRate: 0.982,
-    lastRunAt: "5分前",
-    assignee: "自分",
-  },
-  {
-    agentId: "data-analyst",
-    health: "正常",
-    active: true,
-    processedToday: 298,
-    successRate: 0.967,
-    lastRunAt: "3分前",
-    assignee: "自分",
-  },
-  {
-    agentId: "executor",
-    health: "注意",
-    active: true,
-    processedToday: 412,
-    successRate: 0.921,
-    lastRunAt: "7分前",
-    assignee: "自分",
-  },
-  {
-    agentId: "qa",
-    health: "正常",
-    active: true,
-    processedToday: 222,
-    successRate: 0.973,
-    lastRunAt: "2分前",
-    assignee: "自分",
-  },
-  {
-    agentId: "report-generator",
-    health: "正常",
-    active: true,
-    processedToday: 96,
-    successRate: 0.99,
-    lastRunAt: "11分前",
-    assignee: "自分",
-  },
-  {
-    agentId: "notification",
-    health: "正常",
-    active: true,
-    processedToday: 184,
-    successRate: 0.995,
-    lastRunAt: "1分前",
-    assignee: "自分",
-  },
-  {
-    agentId: "intake",
-    health: "正常",
-    active: true,
-    processedToday: 141,
-    successRate: 0.998,
-    lastRunAt: "1分前",
-    assignee: "自分",
-  },
-  {
-    agentId: "approval",
-    health: "正常",
-    active: true,
-    processedToday: 63,
-    successRate: 1.0,
-    lastRunAt: "4分前",
-    assignee: "自分",
-  },
-  {
-    agentId: "document-reader",
-    health: "正常",
-    active: true,
-    processedToday: 486,
-    successRate: 0.943,
-    lastRunAt: "1分前",
-    assignee: "自分",
-  },
-  {
-    agentId: "classifier",
-    health: "正常",
-    active: true,
-    processedToday: 174,
-    successRate: 0.958,
-    lastRunAt: "2分前",
-    assignee: "自分",
-  },
-  {
-    agentId: "validator",
-    health: "注意",
-    active: true,
-    processedToday: 391,
-    successRate: 0.934,
-    lastRunAt: "3分前",
-    assignee: "自分",
   },
 ];
 

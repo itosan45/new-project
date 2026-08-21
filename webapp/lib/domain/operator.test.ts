@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { SOLO_LIMITS, checkCapacity, isTooDeep } from "@/lib/domain/operator";
-import { AGENT_CONTRACTS, AGENT_RUNTIME } from "@/lib/data/agents";
+import { AGENT_CONTRACTS } from "@/lib/data/agents";
 import { INVASION_LEVELS } from "@/lib/domain/engagement";
 
 /**
@@ -47,12 +47,6 @@ test("架空の担当者を置かない", () => {
     assert.ok(
       allowed.has(a.owner),
       `${a.agentId}: 存在しない担当者が設定されている（${a.owner}）`,
-    );
-  }
-  for (const r of AGENT_RUNTIME) {
-    assert.ok(
-      allowed.has(r.assignee),
-      `${r.agentId}: 存在しない担当者が設定されている（${r.assignee}）`,
     );
   }
 });
