@@ -24,7 +24,13 @@ jobs:
 
       - name: Build debug APK
         working-directory: companion-android
-        run: ./gradlew assembleDebug --no-daemon
+        env:
+          COMPANION_API_BASE_URL: ${{ secrets.COMPANION_API_BASE_URL }}
+          COMPANION_SHARED_SECRET: ${{ secrets.COMPANION_SHARED_SECRET }}
+        run: |
+          ./gradlew assembleDebug --no-daemon \
+            -PcompanionApiBaseUrl="$COMPANION_API_BASE_URL" \
+            -PcompanionSharedSecret="$COMPANION_SHARED_SECRET"
 
       - uses: actions/upload-artifact@v4
         with:

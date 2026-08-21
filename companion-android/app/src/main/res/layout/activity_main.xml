@@ -38,7 +38,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="話しかける内容(仮。あとでGoogleドライブ連携に置き換え予定)"
+        android:text="システムプロンプト(ヨビへの指示。習慣・目標・気にしてほしいことなど自由に)"
         android:textSize="16sp"
         android:paddingTop="16dp"
         android:paddingBottom="8dp" />

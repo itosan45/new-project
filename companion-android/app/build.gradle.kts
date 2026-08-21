@@ -13,6 +13,11 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "0.1"
+
+        val companionApiBaseUrl = (project.findProperty("companionApiBaseUrl") as String?) ?: ""
+        val companionSharedSecret = (project.findProperty("companionSharedSecret") as String?) ?: ""
+        buildConfigField("String", "COMPANION_API_BASE_URL", "\"$companionApiBaseUrl\"")
+        buildConfigField("String", "COMPANION_SHARED_SECRET", "\"$companionSharedSecret\"")
     }
 
     buildTypes {
@@ -28,6 +33,10 @@ android {
 
     kotlinOptions {
         jvmTarget = "17"
+    }
+
+    buildFeatures {
+        buildConfig = true
     }
 }
 
