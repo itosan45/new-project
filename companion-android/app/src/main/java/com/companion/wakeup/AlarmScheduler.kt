@@ -12,6 +12,7 @@ object AlarmScheduler {
     const val KEY_MINUTE = "alarm_minute"
     const val KEY_MESSAGE = "message"
     const val KEY_ENABLED = "enabled"
+    const val KEY_USER_NAME = "user_name"
 
     private fun pendingIntent(context: Context): PendingIntent {
         val intent = Intent(context, AlarmReceiver::class.java)

@@ -6,6 +6,23 @@
     android:padding="24dp">
 
     <TextView
+        android:id="@+id/userNameLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:textColor="#888888"
+        android:paddingBottom="4dp" />
+
+    <TextView
+        android:id="@+id/changeNameLink"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="呼び名を変更する"
+        android:textSize="13sp"
+        android:textColor="#3F51B5"
+        android:paddingBottom="16dp" />
+
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="毎日、この時間に話しかけます"

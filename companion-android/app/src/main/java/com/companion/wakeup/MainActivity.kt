@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.provider.Settings
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.TimePicker
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -34,6 +35,14 @@ class MainActivity : AppCompatActivity() {
         messageInput.setText(
             prefs.getString(AlarmScheduler.KEY_MESSAGE, "起きろー！遅刻しちゃうよ！")
         )
+
+        val userName = prefs.getString(AlarmScheduler.KEY_USER_NAME, "") ?: ""
+        findViewById<TextView>(R.id.userNameLabel).text = "呼び名: $userName"
+        findViewById<TextView>(R.id.changeNameLink).setOnClickListener {
+            prefs.edit().remove(AlarmScheduler.KEY_USER_NAME).apply()
+            startActivity(Intent(this, OnboardingActivity::class.java))
+            finish()
+        }
 
         requestPermissionsIfNeeded()
 
